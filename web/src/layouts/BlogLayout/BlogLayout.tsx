@@ -1,6 +1,7 @@
-import { useAuth } from '@redwoodjs/auth'
 import { navigate, Link, routes } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
+
+import { useAuth } from 'src/auth'
 
 const BlogLayout = ({ children }) => {
   const { logOut, isAuthenticated, currentUser, loading } = useAuth()

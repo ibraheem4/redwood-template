@@ -1,7 +1,7 @@
-import { AuthProvider } from '@redwoodjs/auth'
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web'
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
+import { AuthProvider, useAuth } from 'src/auth'
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 import Routes from 'src/Routes'
 
@@ -12,12 +12,12 @@ import './i18n'
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <AuthProvider
-        type="dbAuth"
-        config={{ fetchConfig: { credentials: 'include' } }}
-      >
+      <AuthProvider>
         <RedwoodApolloProvider
-          graphQLClientConfig={{ httpLinkConfig: { credentials: 'include' } }}
+          useAuth={useAuth}
+          graphQLClientConfig={{
+            httpLinkConfig: { credentials: 'include' },
+          }}
         >
           <Routes />
         </RedwoodApolloProvider>

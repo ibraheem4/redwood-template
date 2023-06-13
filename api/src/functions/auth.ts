@@ -1,7 +1,6 @@
 import type { APIGatewayProxyEvent, Context } from 'aws-lambda'
 
-import { DbAuthHandler } from '@redwoodjs/api'
-import type { DbAuthHandlerOptions } from '@redwoodjs/api'
+import { DbAuthHandler, DbAuthHandlerOptions } from '@redwoodjs/auth-dbauth-api'
 
 import { db } from 'src/lib/db'
 
@@ -93,6 +92,7 @@ export const handler = async (
   }
 
   const signupOptions: DbAuthHandlerOptions['signup'] = {
+    enabled: process.env.DISABLE_SIGNUP !== 'true',
     // Whatever you want to happen to your data on new user signup. Redwood will
     // check for duplicate usernames before calling this handler. At a minimum
     // you need to save the `username`, `hashedPassword` and `salt` to your
@@ -108,13 +108,13 @@ export const handler = async (
     //
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
-    handler: ({ username, hashedPassword, salt, userAttributes }) => {
+    handler: ({ username, hashedPassword, salt /* userAttributes */ }) => {
       return db.user.create({
         data: {
           email: username,
           hashedPassword: hashedPassword,
           salt: salt,
-          name: userAttributes.name,
+          // name: userAttributes.name
         },
       })
     },
@@ -159,7 +159,7 @@ export const handler = async (
     cookie: {
       HttpOnly: true,
       Path: '/',
-      SameSite: 'None',
+      SameSite: process.env.NODE_ENV === 'development' ? 'Strict' : 'None',
       Secure: process.env.NODE_ENV !== 'development',
 
       // If you need to allow other domains (besides the api side) access to

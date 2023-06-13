@@ -13,17 +13,17 @@
     ]
   },
   "dependencies": {
-    "@redwoodjs/auth": "3.8.0",
-    "@redwoodjs/forms": "3.8.0",
-    "@redwoodjs/router": "3.8.0",
-    "@redwoodjs/web": "3.8.0",
+    "@redwoodjs/auth-dbauth-web": "5.3.0",
+    "@redwoodjs/forms": "5.3.0",
+    "@redwoodjs/router": "5.3.0",
+    "@redwoodjs/web": "5.3.0",
     "humanize-string": "2.1.0",
     "i18n": "^0.15.1",
     "i18next": "^22.4.8",
     "i18next-browser-languagedetector": "^7.0.1",
     "prop-types": "15.8.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-i18next": "^12.1.4"
   },
   "devDependencies": {

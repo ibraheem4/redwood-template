@@ -1,8 +1,8 @@
 import type { Comment as IComment } from 'types/graphql'
 
-import { useAuth } from '@redwoodjs/auth'
 import { useMutation } from '@redwoodjs/web'
 
+import { useAuth } from 'src/auth'
 import { QUERY as CommentsQuery } from 'src/components/CommentsCell'
 
 const DELETE = gql`
