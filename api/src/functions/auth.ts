@@ -134,9 +134,10 @@ export const handler = async (
   }
 
   const authHandler = new DbAuthHandler(event, context, {
-    cors: { origin: process.env.REDWOOD_WEB_URL, credentials: true },
     // Provide prisma db client
     db: db,
+
+    cors: { origin: process.env.REDWOOD_WEB_URL, credentials: true },
 
     // The name of the property you'd call on `db` to access your user table.
     // i.e. if your Prisma model is named `User` this value would be `user`, as in `db.user`

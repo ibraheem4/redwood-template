@@ -2,8 +2,6 @@
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7d492ca8-654f-4b57-a321-49795d3fd8ea/deploy-status)](https://app.netlify.com/sites/serene-meringue-cb8436/deploys)
-
 > **Prerequisites**
 >
 > - Redwood requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x) and [Yarn](https://yarnpkg.com/) (>=1.15)
@@ -139,8 +137,6 @@ yarn rw dev
  - Pre-push test
  - Add commitlint
  - Add missing tests and storybook from Redwood tutorial intermission
- - Configure Netlify
- - Configure Flightcontrol
  - Setup Postgres
  - Setup i18n including RTL support
  - Use UUID instead of Int
