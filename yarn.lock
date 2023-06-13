@@ -22188,7 +22188,7 @@ __metadata:
     husky: ^8.0.2
     lint-staged: ^13.2.2
     prettier-plugin-tailwindcss: ^0.3.0
-    storybook-tailwind-dark-mode: ^1.0.15
+    storybook-tailwind-dark-mode: 1.0.15
   languageName: unknown
   linkType: soft
 
@@ -23221,7 +23221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook-tailwind-dark-mode@npm:^1.0.15":
+"storybook-tailwind-dark-mode@npm:1.0.15":
   version: 1.0.15
   resolution: "storybook-tailwind-dark-mode@npm:1.0.15"
   peerDependencies:

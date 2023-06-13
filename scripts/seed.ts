@@ -5,138 +5,18 @@ import {
   randEmail,
 } from '@ngneat/falso'
 import { PrismaClient } from '@prisma/client'
-import type { Prisma } from '@prisma/client'
-import { db } from 'api/src/lib/db'
 import CryptoJS from 'crypto-js'
 
 const prisma = new PrismaClient()
 
 const ADMIN_PASSWORD = 'AdminPassword'
-const MODERATOR_PASSWORD = 'ModeratorPassword'
 const USER_PASSWORD = 'UserPassword'
+const MODERATOR_PASSWORD = 'ModeratorPassword'
 
 const USER_COUNT = 50
+const POST_COUNT = 200
+const COMMENT_COUNT = 500
 const CONTACT_COUNT = 50
-const MIN_COMMENT_COUNT = 0
-const MAX_COMMENT_COUNT = 100
-const MIN_POST_COUNT = 10
-const MAX_POST_COUNT = 100
-
-const _generatePosts = () => {
-  const n = _randomInteger(MIN_POST_COUNT, MAX_POST_COUNT)
-  return Array(n)
-    .fill(null)
-    .map(() => {
-      return {
-        title: randSentence(),
-        body: randParagraph(),
-        comments: {
-          create: _generateComments(),
-        },
-      }
-    })
-}
-
-const _generateComments = () => {
-  const n = _randomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)
-  return Array(n)
-    .fill(null)
-    .map(() => {
-      return {
-        name: randFullName(),
-        body: randSentence(),
-      }
-    })
-}
-
-const seedAdminUsers = async () => {
-  const users = [
-    {
-      name: 'admin',
-      email: 'admin@admin.com',
-      password: ADMIN_PASSWORD,
-      roles: ['admin'],
-    },
-    {
-      name: 'moderator',
-      email: 'moderator@moderator.com',
-      password: MODERATOR_PASSWORD,
-      roles: ['moderator'],
-    },
-  ]
-
-  for (const user of users) {
-    const [hashedPassword, salt] = _hashPassword(user.password)
-    await db.user
-      .create({
-        data: {
-          name: user.name,
-          email: user.email,
-          hashedPassword,
-          salt,
-          roles: user.roles,
-          posts: {
-            create: _generatePosts(),
-          },
-        },
-      })
-      .then(console.log)
-      .catch(console.error)
-    console.info(`- Created user: ${user.name} with password: ${user.password}`)
-    console.info(`- Please don't use this login in a production environment`)
-  }
-}
-
-const seedUsers = async (n: number = USER_COUNT) => {
-  const [hashedPassword, salt] = _hashPassword(USER_PASSWORD)
-  const users: Prisma.UserCreateManyInput[] = Array(n)
-    .fill(null)
-    .map(() => {
-      return {
-        email: randEmail(),
-        name: randFullName(),
-        hashedPassword: hashedPassword,
-        salt: salt,
-      }
-    })
-  await prisma.user
-    .createMany({
-      skipDuplicates: true,
-      data: users,
-    })
-    .then(console.log)
-    .catch(console.error)
-}
-
-const seedContacts = async (n: number = CONTACT_COUNT) => {
-  const contacts: Prisma.ContactCreateManyInput[] = Array(n)
-    .fill(null)
-    .map(() => {
-      return {
-        name: randFullName(),
-        email: randEmail(),
-        message: randSentence(),
-      }
-    })
-  await prisma.contact
-    .createMany({
-      skipDuplicates: true,
-      data: contacts,
-    })
-    .then(console.log)
-    .catch(console.error)
-}
-
-export default async () => {
-  try {
-    seedAdminUsers()
-    seedUsers()
-    seedContacts()
-  } catch (error) {
-    console.warn('Please define your seed data.')
-    console.error(error)
-  }
-}
 
 // https://github.com/redwoodjs/redwood/issues/5793
 // https://github.com/redwoodjs/redwood/blob/main/packages/api/src/functions/dbAuth/DbAuthHandler.ts#L1288
@@ -149,7 +29,172 @@ const _hashPassword = (text: string, salt?: string) => {
   ]
 }
 
-// Returns an integer random number between min (included) and max (included)
-const _randomInteger = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+const seedAdminUser = async () => {
+  const [hashedPassword, salt] = _hashPassword(ADMIN_PASSWORD)
+
+  // Check if the admin user already exists
+  const adminUser = await prisma.user.findUnique({
+    where: { email: 'admin@admin.com' },
+  })
+
+  if (adminUser) {
+    // Delete the admin user.
+    await prisma.user.delete({ where: { id: adminUser.id } })
+  }
+
+  // Create a new admin user
+  await prisma.user.create({
+    data: {
+      email: 'admin@admin.com',
+      name: 'Admin',
+      hashedPassword,
+      salt,
+      roles: ['admin'],
+    },
+  })
+  console.info(`- Created admin user with email: admin@admin.com`)
+}
+
+const seedModeratorUser = async () => {
+  const [hashedPassword, salt] = _hashPassword(MODERATOR_PASSWORD)
+
+  // Check if the moderator user already exists
+  const moderatorUser = await prisma.user.findUnique({
+    where: { email: 'moderator@moderator.com' },
+  })
+
+  if (moderatorUser) {
+    // Delete the moderator user.
+    await prisma.user.delete({ where: { id: moderatorUser.id } })
+  }
+
+  // Create a new admin user
+  await prisma.user.create({
+    data: {
+      email: 'moderator@moderator.com',
+      name: 'Moderator',
+      hashedPassword,
+      salt,
+      roles: ['moderator'],
+    },
+  })
+  console.info(`- Created moderator user with email: moderator@moderator.com`)
+}
+
+const seedRegularUser = async () => {
+  const [hashedPassword, salt] = _hashPassword(USER_PASSWORD)
+
+  // Check if the moderator user already exists
+  const regularUser = await prisma.user.findUnique({
+    where: { email: 'regular@regular.com' },
+  })
+
+  if (regularUser) {
+    // Delete the regular user.
+    await prisma.user.delete({ where: { id: regularUser.id } })
+  }
+
+  // Create a new admin user
+  await prisma.user.create({
+    data: {
+      email: 'user@user.com',
+      name: 'Regular User',
+      hashedPassword,
+      salt,
+      roles: ['user'],
+    },
+  })
+  console.info(`- Created regular user with email: user@user.com`)
+}
+
+const seedUsers = async (n = USER_COUNT) => {
+  const [hashedPassword, salt] = _hashPassword(USER_PASSWORD)
+
+  for (let i = 0; i < n; i++) {
+    const name = randFullName()
+    const email = randEmail()
+
+    await prisma.user.create({
+      data: {
+        email,
+        name,
+        hashedPassword,
+        salt,
+        roles: ['user'],
+      },
+    })
+  }
+  console.info(`- Created ${n} users`)
+}
+
+const seedPosts = async (n = POST_COUNT) => {
+  // Fetch all users.
+  const users = await prisma.user.findMany()
+
+  for (let i = 0; i < n; i++) {
+    const title = randSentence()
+    const body = randParagraph()
+    const userId = users[i % users.length].id // Get a user id in a round-robin fashion.
+
+    await prisma.post.create({
+      data: {
+        title,
+        body,
+        userId,
+      },
+    })
+  }
+  console.info(`- Created ${n} posts`)
+}
+
+const seedComments = async (n = COMMENT_COUNT) => {
+  const users = await prisma.user.findMany()
+  const posts = await prisma.post.findMany()
+
+  for (let i = 0; i < n; i++) {
+    const name = users[i % users.length].name || 'Anonymous'
+    const body = randSentence()
+    const postId = posts[i % posts.length].id
+
+    await prisma.comment.create({
+      data: {
+        name,
+        body,
+        postId,
+      },
+    })
+  }
+  console.info(`- Created ${n} comments`)
+}
+
+const seedContacts = async (n = CONTACT_COUNT) => {
+  for (let i = 0; i < n; i++) {
+    const name = randFullName()
+    const email = randEmail()
+    const message = randParagraph()
+
+    await prisma.contact.create({
+      data: {
+        name,
+        email,
+        message,
+      },
+    })
+  }
+  console.info(`- Created ${n} contacts`)
+}
+
+export default async () => {
+  try {
+    await seedAdminUser()
+    await seedModeratorUser()
+    await seedRegularUser()
+    await seedUsers()
+    await seedPosts()
+    await seedComments()
+    await seedContacts()
+  } catch (error) {
+    console.warn('Please define your seed data.')
+    console.error(error)
+  }
 }

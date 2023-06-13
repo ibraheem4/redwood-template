@@ -14,7 +14,7 @@
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
     "prettier-plugin-tailwindcss": "^0.3.0",
-    "storybook-tailwind-dark-mode": "^1.0.15"
+    "storybook-tailwind-dark-mode": "1.0.15"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
