@@ -2,9 +2,9 @@ name: Redwood CI for Pull Requests
 
 on:
   push:
-    branches: ['dev']
+    branches: ['main']
   pull_request:
-    branches: ['main', 'staging']
+    branches: ['main']
 
 env:
   DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
