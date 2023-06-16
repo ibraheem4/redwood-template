@@ -14,9 +14,9 @@ const USER_PASSWORD = 'UserPassword'
 const MODERATOR_PASSWORD = 'ModeratorPassword'
 
 const USER_COUNT = 50
-const POST_COUNT = 200
-const COMMENT_COUNT = 500
-const CONTACT_COUNT = 50
+const POST_COUNT = 20
+const COMMENT_COUNT = 50
+const CONTACT_COUNT = 8
 
 // https://github.com/redwoodjs/redwood/issues/5793
 // https://github.com/redwoodjs/redwood/blob/main/packages/api/src/functions/dbAuth/DbAuthHandler.ts#L1288
@@ -129,7 +129,10 @@ const seedUsers = async (n = USER_COUNT) => {
 
 const seedPosts = async (n = POST_COUNT) => {
   // Fetch all users.
-  const users = await prisma.user.findMany()
+  const allUsers = await prisma.user.findMany()
+
+  // Filter out only admins.
+  const users = allUsers.filter((user) => user.roles.includes('admin'))
 
   for (let i = 0; i < n; i++) {
     const title = randSentence()
