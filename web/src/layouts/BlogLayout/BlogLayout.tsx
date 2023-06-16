@@ -3,7 +3,11 @@ import { Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 
-const BlogLayout = ({ children }) => {
+type BlogLayoutProps = {
+  children?: React.ReactNode
+}
+
+const BlogLayout = ({ children }: BlogLayoutProps) => {
   const { logOut, isAuthenticated, currentUser, loading } = useAuth()
 
   const logoutHandler = () => {
@@ -29,7 +33,7 @@ const BlogLayout = ({ children }) => {
         <button type="button" onClick={logoutHandler} className="px-4 py-2">
           Logout
         </button>
-        <div className="right-0 bottom-1 mr-12 text-xs text-blue-300">
+        <div className="bottom-1 right-0 mr-12 text-xs text-blue-300">
           <span>Logged in as {currentUser.email}</span>{' '}
         </div>
       </>
