@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
-import ArticlesCell from 'src/components/ArticlesCell'
+import BlogPostsCell from 'src/components/BlogPostsCell'
 
 const HomePage = () => {
   const { t, i18n } = useTranslation()
@@ -54,7 +54,7 @@ const HomePage = () => {
         description={t('HomePage.header')}
         locale={i18n.language}
       />
-      <ArticlesCell />
+      <BlogPostsCell />
       {displayLanguageSwitcher()}
     </>
   )

@@ -1,7 +1,7 @@
 // Define your own mock data here:
 export const standard = () => {
   return {
-    articles: [
+    blogPosts: [
       {
         id: '5e1923f3-e84c-4603-90a6-18302f95a6f8',
         title: 'First Post',
