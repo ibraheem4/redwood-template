@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'web/src/i18n'
+
+import { languageCodes } from '../src/utils/languageCodes'
 /** @type { import("@storybook/csf").GlobalTypes } */
 export const globalTypes = {
   locale: {
@@ -10,23 +12,11 @@ export const globalTypes = {
     defaultValue: 'en',
     toolbar: {
       icon: 'globe',
-      items: [
-        {
-          value: 'en',
-          right: '🇺🇸',
-          title: 'English',
-        },
-        {
-          value: 'fr',
-          right: '🇫🇷',
-          title: 'Français',
-        },
-        {
-          value: 'ar',
-          right: '🇸🇦',
-          title: 'عربي',
-        },
-      ],
+      items: Object.keys(languageCodes).map((languageCode) => ({
+        value: languageCode,
+        right: languageCodes[languageCode].emoji,
+        title: languageCodes[languageCode].title,
+      })),
     },
   },
 }
