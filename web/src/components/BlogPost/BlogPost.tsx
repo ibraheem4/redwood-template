@@ -16,7 +16,7 @@ interface Props {
 
 const BlogPost = ({ blogPost, summary = false }: Props) => {
   return (
-    <blogPost className="mt-10">
+    <article className="mt-10">
       <header>
         <h2 className="text-xl font-semibold text-blue-700">
           <Link to={routes.blogPost({ id: blogPost.id })}>
@@ -38,7 +38,7 @@ const BlogPost = ({ blogPost, summary = false }: Props) => {
           </div>
         </div>
       )}
-    </blogPost>
+    </article>
   )
 }
 
