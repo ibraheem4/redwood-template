@@ -10,29 +10,31 @@ const truncate = (text: string, length: number) => {
 }
 
 interface Props {
-  article: Omit<Post, 'createdAt'>
+  blogPost: Omit<Post, 'createdAt'>
   summary?: boolean
 }
 
-const Article = ({ article, summary = false }: Props) => {
+const BlogPost = ({ blogPost, summary = false }: Props) => {
   return (
     <article className="mt-10">
       <header>
         <h2 className="text-xl font-semibold text-blue-700">
-          <Link to={routes.article({ id: article.id })}>{article.title}</Link>
+          <Link to={routes.blogPost({ id: blogPost.id })}>
+            {blogPost.title}
+          </Link>
           <span className="ml-2 font-normal text-gray-400">
-            by {article.user.name}
+            by {blogPost.user.name}
           </span>
         </h2>
       </header>
       <div className="mt-2 font-light text-gray-900">
-        {summary ? truncate(article.body, 100) : article.body}
+        {summary ? truncate(blogPost.body, 100) : blogPost.body}
       </div>
       {!summary && (
         <div className="mt-12">
-          <CommentForm postId={article.id} />
+          <CommentForm postId={blogPost.id} />
           <div className="mt-12">
-            <CommentsCell postId={article.id} />
+            <CommentsCell postId={blogPost.id} />
           </div>
         </div>
       )}
@@ -40,4 +42,4 @@ const Article = ({ article, summary = false }: Props) => {
   )
 }
 
-export default Article
+export default BlogPost

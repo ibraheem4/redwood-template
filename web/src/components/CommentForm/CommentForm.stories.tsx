@@ -5,7 +5,7 @@ import type {
 
 import CommentForm from './CommentForm'
 
-const ARTICLE = {
+const BLOG_POST = {
   id: '5e1923f3-e84c-4603-90a6-18302f95a6f8',
 }
 
@@ -27,7 +27,7 @@ export const generated = () => {
     }
   )
 
-  return <CommentForm postId={ARTICLE.id} />
+  return <CommentForm postId={BLOG_POST.id} />
 }
 
 export default { title: 'Components/CommentForm' }

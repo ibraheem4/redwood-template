@@ -1,9 +1,9 @@
 import { render, screen } from '@redwoodjs/testing'
 
-import { Loading, Empty, Failure, Success } from './ArticleCell'
-import { standard } from './ArticleCell.mock'
+import { Loading, Empty, Failure, Success } from './BlogPostCell'
+import { standard } from './BlogPostCell.mock'
 
-describe('ArticleCell', () => {
+describe('BlogPostCell', () => {
   test('Loading renders successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -23,10 +23,10 @@ describe('ArticleCell', () => {
   })
 
   test('Success renders successfully', async () => {
-    const article = standard().article
-    render(<Success article={article} />)
+    const blogPost = standard().blogPost
+    render(<Success blogPost={blogPost} />)
 
-    expect(screen.getByText(article.title)).toBeInTheDocument()
-    expect(screen.getByText(article.body)).toBeInTheDocument()
+    expect(screen.getByText(blogPost.title)).toBeInTheDocument()
+    expect(screen.getByText(blogPost.body)).toBeInTheDocument()
   })
 })
