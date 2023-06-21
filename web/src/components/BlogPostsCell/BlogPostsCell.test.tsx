@@ -23,10 +23,12 @@ describe('BlogPostsCell', () => {
   })
 
   it('renders Success successfully', async () => {
-    const blogPosts = standard().blogPosts
-    render(<Success blogPosts={blogPosts} />)
+    const { postPage } = standard()
+    const { posts } = postPage
 
-    blogPosts.forEach((blogPost) => {
+    render(<Success postPage={postPage} />)
+
+    posts.forEach((blogPost) => {
       const truncatedBody = blogPost.body.substring(0, 10)
       const matchedBody = screen.getByText(truncatedBody, { exact: false })
       const ellipsis = within(matchedBody).getByText('...', { exact: false })

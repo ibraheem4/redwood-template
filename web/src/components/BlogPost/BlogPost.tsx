@@ -1,4 +1,4 @@
-import type { Post } from 'types/graphql'
+import type { Post, User } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
 
@@ -10,7 +10,7 @@ const truncate = (text: string, length: number) => {
 }
 
 interface Props {
-  blogPost: Omit<Post, 'createdAt'>
+  blogPost: Omit<Post, 'createdAt'> & { user: User }
   summary?: boolean
 }
 

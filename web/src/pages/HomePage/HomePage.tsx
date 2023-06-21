@@ -34,7 +34,7 @@ const displayLanguageSwitcher = ({ t, i18n, directionValue, changeLang }) => {
   )
 }
 
-const HomePage = () => {
+const HomePage = ({ page }) => {
   const { t, i18n, directionValue, changeLang } = useLanguageDirection()
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const HomePage = () => {
         description={t('HomePage.header')}
         locale={i18n.language}
       />
-      <BlogPostsCell />
+      <BlogPostsCell page={page ? parseInt(page, 10) : 1} />
       {displayLanguageSwitcher({ t, i18n, directionValue, changeLang })}
     </>
   )
