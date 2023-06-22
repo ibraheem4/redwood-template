@@ -143,3 +143,4 @@ yarn rw dev
  - Add i18n support for Storybook
  - Add Dark mode support for Storybook
  - Add padding in Storybook
+ - Add Pagination
