@@ -1,34 +1,48 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@redwoodjs/testing'
 
 import Pagination from './Pagination'
 
-jest.mock('@redwoodjs/router', () => ({
-  Link: ({ to, children }: { to: string; children: React.ReactNode }) => (
-    <a href={to}>{children}</a>
-  ),
-  routes: {
-    home: (params: { page: number }) => `/home/${params.page}`,
-  },
-}))
-
 describe('Pagination', () => {
-  it('renders the correct number of pages', () => {
-    const count = 20
+  it('renders the correct number of pagination items', () => {
+    const count = 10
     const postsPerPage = 5
-    const totalPages = count / postsPerPage
-    render(<Pagination count={count} postsPerPage={postsPerPage} />)
 
-    const paginationItems = screen.getAllByRole('listitem')
-    expect(paginationItems).toHaveLength(totalPages)
+    const { getAllByRole } = render(
+      <Pagination count={count} postsPerPage={postsPerPage} />
+    )
 
-    const links = screen.getAllByRole('link')
-    expect(links).toHaveLength(totalPages)
+    const paginationItems = getAllByRole('link')
+    expect(paginationItems).toHaveLength(2) // Since count is 10 and postsPerPage is 5, there should be 2 pagination items
 
-    // Verify each link
-    for (let i = 0; i < totalPages; i++) {
-      const linkElement = links[i] as HTMLAnchorElement
-      expect(linkElement.href).toContain(`/home/${i + 1}`)
-      expect(linkElement).toHaveTextContent(`${i + 1}`)
-    }
+    // Verify the text content and href of each pagination item
+    paginationItems.forEach((item, index) => {
+      const pageNumber = index + 1
+      expect(item).toHaveTextContent(String(pageNumber))
+      expect(item).toHaveAttribute('href', `/?page=${pageNumber}`)
+    })
+  })
+
+  it('renders the current page with the correct styling', () => {
+    const count = 10
+    const postsPerPage = 5
+
+    const { getByText } = render(
+      <Pagination count={count} postsPerPage={postsPerPage} />
+    )
+
+    const currentPage = getByText('1')
+    expect(currentPage).toHaveClass('bg-blue-500 text-white') // The first page should have the active styling
+  })
+
+  it('renders the non-current pages with the correct styling', () => {
+    const count = 10
+    const postsPerPage = 5
+
+    const { getByText } = render(
+      <Pagination count={count} postsPerPage={postsPerPage} />
+    )
+
+    const nonCurrentPage = getByText('2')
+    expect(nonCurrentPage).toHaveClass('bg-blue-100 text-blue-700') // The second page should have the non-active styling
   })
 })
