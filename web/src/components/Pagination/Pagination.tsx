@@ -1,6 +1,6 @@
 import { Link, routes } from '@redwoodjs/router'
 
-const DEFAULT_POSTS_PER_PAGE = 5
+import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
 
 const Pagination = ({ count, postsPerPage = DEFAULT_POSTS_PER_PAGE }) => {
   const items = []
