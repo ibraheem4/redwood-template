@@ -10,11 +10,12 @@ export const schema = gql`
   type PostPage {
     posts: [Post!]!
     count: Int!
+    postsPerPage: Int!
   }
 
   type Query {
     posts: [Post!]! @skipAuth
     post(id: String!): Post @skipAuth
-    postPage(page: Int): PostPage! @skipAuth
+    postPage(page: Int, postsPerPage: Int): PostPage! @skipAuth
   }
 `

@@ -4,6 +4,7 @@ import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 
 import BlogPostsCell from 'src/components/BlogPostsCell'
+import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
 import { languageCodes } from 'src/utils/languageCodes'
 import { useLanguageDirection } from 'src/utils/translations'
 
@@ -34,13 +35,19 @@ const displayLanguageSwitcher = ({ t, i18n, directionValue, changeLang }) => {
   )
 }
 
-const HomePage = ({ page }) => {
+const HomePage = ({ page, postsPerPage = DEFAULT_POSTS_PER_PAGE }) => {
   const { t, i18n, directionValue, changeLang } = useLanguageDirection()
 
   useEffect(() => {
     document.documentElement.setAttribute('dir', directionValue)
     document.documentElement.lang = i18n.language
   }, [directionValue, i18n.language])
+
+  // Ensure page and postsPerPage are numbers
+  page = isNaN(page) ? 1 : Number(page)
+  postsPerPage = isNaN(postsPerPage)
+    ? DEFAULT_POSTS_PER_PAGE
+    : Number(postsPerPage)
 
   return (
     <>
@@ -49,7 +56,7 @@ const HomePage = ({ page }) => {
         description={t('HomePage.header')}
         locale={i18n.language}
       />
-      <BlogPostsCell page={page ? parseInt(page, 10) : 1} />
+      <BlogPostsCell page={page} postsPerPage={postsPerPage} />
       {displayLanguageSwitcher({ t, i18n, directionValue, changeLang })}
     </>
   )

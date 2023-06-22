@@ -4,10 +4,11 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import BlogPost from 'src/components/BlogPost'
 import Pagination from 'src/components/Pagination'
+import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
 
 export const QUERY = gql`
-  query BlogPostsQuery($page: Int) {
-    postPage(page: $page) {
+  query BlogPostsQuery($page: Int, $postsPerPage: Int) {
+    postPage(page: $page, postsPerPage: $postsPerPage) {
       posts {
         id
         title
@@ -18,14 +19,18 @@ export const QUERY = gql`
         }
       }
       count
+      postsPerPage
     }
   }
 `
 
-export const beforeQuery = ({ page }) => {
+export const beforeQuery = ({
+  page,
+  postsPerPage = DEFAULT_POSTS_PER_PAGE,
+}) => {
   page = page ? parseInt(page, 10) : 1
 
-  return { variables: { page } }
+  return { variables: { page, postsPerPage } }
 }
 
 export const Loading = () => <div>Loading...</div>
@@ -37,13 +42,13 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ postPage }: CellSuccessProps<BlogPostsQuery>) => {
-  const { posts, count } = postPage
+  const { posts, count, postsPerPage } = postPage
   return (
     <div className="space-y-10">
       {posts.map((blogPost) => (
         <BlogPost blogPost={blogPost} key={blogPost.id} summary={true} />
       ))}
-      <Pagination count={count} />
+      <Pagination count={count} postsPerPage={postsPerPage} />
     </div>
   )
 }
