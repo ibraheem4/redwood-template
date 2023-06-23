@@ -15,7 +15,7 @@ export const postPage = ({
       skip: offset,
       orderBy: { createdAt: 'desc' },
     }),
-    count: db.post.count(),
+    postsCount: db.post.count(),
     postsPerPage,
   }
 }
@@ -32,5 +32,5 @@ export const post: QueryResolvers['post'] = ({ id }) => {
 
 export const Post: PostRelationResolvers = {
   user: (_obj, { root }) =>
-    db.post.findFirst({ where: { id: root.id } }).user(),
+    db.post.findUnique({ where: { id: root.id } }).user(),
 }
