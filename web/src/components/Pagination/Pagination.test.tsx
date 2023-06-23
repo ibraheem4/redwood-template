@@ -1,4 +1,4 @@
-import { useLocation } from '@redwoodjs/router'
+import { useLocation, routes } from '@redwoodjs/router'
 import { render } from '@redwoodjs/testing'
 
 import Pagination from './Pagination'
@@ -10,16 +10,20 @@ jest.mock('@redwoodjs/router', () => ({
 
 const mockUseLocation = useLocation as jest.Mock
 
+// Helper function
+function makePageUrl(base, pageNumber) {
+  return `${base}?page=${pageNumber}`
+}
+
 describe('Pagination', () => {
+  const count = 10
+  const itemsPerPage = 5
   const homeRouteName = 'home'
   beforeEach(() => {
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
   })
 
   it('renders the correct number of pagination items', () => {
-    const count = 10
-    const itemsPerPage = 5
-
     const { getAllByRole } = render(
       <Pagination
         count={count}
@@ -33,15 +37,13 @@ describe('Pagination', () => {
 
     paginationItems.forEach((item, index) => {
       const pageNumber = index + 1
+      const href = makePageUrl(routes[homeRouteName](), pageNumber)
       expect(item).toHaveTextContent(String(pageNumber))
-      expect(item).toHaveAttribute('href', `/?page=${pageNumber}`)
+      expect(item).toHaveAttribute('href', href)
     })
   })
 
   it('renders the current page with the correct styling', () => {
-    const count = 10
-    const itemsPerPage = 5
-
     const { getByText } = render(
       <Pagination
         count={count}
@@ -55,9 +57,6 @@ describe('Pagination', () => {
   })
 
   it('renders the non-current pages with the correct styling', () => {
-    const count = 10
-    const itemsPerPage = 5
-
     const { getByText } = render(
       <Pagination
         count={count}
@@ -71,9 +70,6 @@ describe('Pagination', () => {
   })
 
   it('renders with just enough posts to create a new page', () => {
-    const count = 10
-    const itemsPerPage = 5
-
     mockUseLocation.mockImplementation(() => ({ search: '?page=2' }))
 
     const { getByText } = render(
@@ -90,7 +86,6 @@ describe('Pagination', () => {
 
   it('renders correctly with no posts', () => {
     const count = 0
-    const itemsPerPage = 5
 
     const { queryByRole } = render(
       <Pagination
@@ -105,7 +100,6 @@ describe('Pagination', () => {
 
   it('renders the correct number of pagination items when count is not evenly divisible by itemsPerPage', () => {
     const count = 17
-    const itemsPerPage = 5
 
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
 
@@ -122,8 +116,9 @@ describe('Pagination', () => {
 
     paginationItems.forEach((item, index) => {
       const pageNumber = index + 1
+      const href = makePageUrl(routes[homeRouteName](), pageNumber)
       expect(item).toHaveTextContent(String(pageNumber))
-      expect(item).toHaveAttribute('href', `/?page=${pageNumber}`)
+      expect(item).toHaveAttribute('href', href)
     })
   })
 
@@ -147,9 +142,10 @@ describe('Pagination', () => {
 
     paginationItems.forEach((item, index) => {
       const pageNumber = index + 1
+      const href = makePageUrl(routes[homeRouteName](), pageNumber)
       expect(item).toBeInTheDocument()
       expect(item).toHaveTextContent(String(pageNumber))
-      expect(item).toHaveAttribute('href', `/?page=${pageNumber}`)
+      expect(item).toHaveAttribute('href', href)
     })
   })
 })
