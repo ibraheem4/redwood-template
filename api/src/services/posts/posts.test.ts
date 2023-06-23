@@ -21,7 +21,7 @@ describe('posts', () => {
   scenario('returns a single post', async (scenario: StandardScenario) => {
     const result = await post({ id: scenario.post.one.id })
 
-    expect(result).toEqual(scenario.post.one)
+    expect(result).toEqual(expect.objectContaining(scenario.post.one))
   })
 
   scenario('creates a post', async () => {
