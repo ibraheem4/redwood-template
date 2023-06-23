@@ -73,6 +73,7 @@ Did we just create a post in the database? Yup! With `yarn rw g scaffold <model>
 
 Don't know what your data models look like?
 That's more than ok—Redwood integrates Storybook so that you can work on design without worrying about data.
+
 Mockup, build, and verify your React components, even in complete isolation from the backend:
 
 ```
@@ -120,6 +121,53 @@ The best way to learn Redwood is by going through the comprehensive [tutorial](h
 
 - Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
 - [Learn how to contribute](https://redwoodjs.com/docs/contributing)
+
+## Using GraphQL in RedwoodJS
+
+RedwoodJS offers a built-in GraphQL server that allows you to run queries and mutations on your API. During development, you can interact with your GraphQL server using the GraphQL Playground.
+
+To start, run your RedwoodJS development server:
+
+```bash
+yarn rw dev
+```
+
+This will start your development server. By default, your API server runs at http://localhost:8911.
+
+You can access the GraphQL Playground by navigating to http://localhost:8911/graphql in your web browser. Here, you can write and execute your GraphQL queries and mutations.
+
+For example, given a posts query in your GraphQL schema, you could run:
+
+```graphql
+query {
+  posts {
+    id
+    title
+    body
+  }
+}
+```
+Click the "Play" button or press `Ctrl-Enter` to execute the query. The results will appear in the right-hand panel.
+
+Remember that the queries and mutations you can run are dictated by your GraphQL schema, which is defined in the `api/src/graphql` directory of your RedwoodJS project.
+
+Please note that the GraphQL Playground is disabled in production by default for security reasons. It can be enabled by setting api.proxy.playground to true in your `redwood.toml` file, but be aware that this could expose your API to potential security risks.
+
+## Using Prisma Studio with RedwoodJS
+
+Prisma Studio is a powerful database tool that lets you visually interact with your database. You can view data, run queries, and make changes.
+
+Start Prisma Studio by running:
+
+```bash
+yarn rw prisma studio
+```
+
+This command opens Prisma Studio in a new browser tab.
+
+Each table in your database is displayed as a separate tab in Prisma Studio. Click on a tab to view the data in that table. You can run queries by clicking the "Filter" button and entering a query to filter the data in the table. To edit a record, click on it to open the editing panel, and click "Save" when you're done.
+
+Keep your Prisma schema in sync with your RedwoodJS schema, and run database migrations when you change your schema. This ensures Prisma Studio has the latest structure of your database.
 
 ## Restarting
 
