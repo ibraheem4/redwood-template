@@ -1,8 +1,6 @@
 import { Link, routes, useLocation } from '@redwoodjs/router'
 
-import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
-
-const Pagination = ({ count, postsPerPage = DEFAULT_POSTS_PER_PAGE }) => {
+const Pagination = ({ count, itemsPerPage, routeName }) => {
   const location = useLocation()
   const currentPage = location.search
     ? new URLSearchParams(location.search).get('page')
@@ -10,11 +8,11 @@ const Pagination = ({ count, postsPerPage = DEFAULT_POSTS_PER_PAGE }) => {
 
   const items = []
 
-  for (let i = 0; i < Math.ceil(count / postsPerPage); i++) {
+  for (let i = 0; i < Math.ceil(count / itemsPerPage); i++) {
     items.push(
       <li key={i} className={`inline-block ${i > 0 ? 'ml-2' : ''}`}>
         <Link
-          to={routes.home({ page: i + 1 })}
+          to={routes[routeName]({ page: i + 1 })}
           className={`${
             i + 1 === parseInt(currentPage)
               ? 'bg-blue-500 text-white'

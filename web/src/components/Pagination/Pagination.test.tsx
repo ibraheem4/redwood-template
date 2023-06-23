@@ -8,7 +8,6 @@ jest.mock('@redwoodjs/router', () => ({
   useLocation: jest.fn(),
 }))
 
-// Cast 'useLocation' as a jest mock function
 const mockUseLocation = useLocation as jest.Mock
 
 describe('Pagination', () => {
@@ -18,10 +17,10 @@ describe('Pagination', () => {
 
   it('renders the correct number of pagination items', () => {
     const count = 10
-    const postsPerPage = 5
+    const itemsPerPage = 5
 
     const { getAllByRole } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     const paginationItems = getAllByRole('link')
@@ -36,10 +35,10 @@ describe('Pagination', () => {
 
   it('renders the current page with the correct styling', () => {
     const count = 10
-    const postsPerPage = 5
+    const itemsPerPage = 5
 
     const { getByText } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     const currentPage = getByText('1')
@@ -48,10 +47,10 @@ describe('Pagination', () => {
 
   it('renders the non-current pages with the correct styling', () => {
     const count = 10
-    const postsPerPage = 5
+    const itemsPerPage = 5
 
     const { getByText } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     const nonCurrentPage = getByText('2')
@@ -60,12 +59,12 @@ describe('Pagination', () => {
 
   it('renders with just enough posts to create a new page', () => {
     const count = 10
-    const postsPerPage = 5
+    const itemsPerPage = 5
 
     mockUseLocation.mockImplementation(() => ({ search: '?page=2' }))
 
     const { getByText } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     const currentPage = getByText('2')
@@ -74,23 +73,23 @@ describe('Pagination', () => {
 
   it('renders correctly with no posts', () => {
     const count = 0
-    const postsPerPage = 5
+    const itemsPerPage = 5
 
     const { queryByRole } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     expect(queryByRole('link')).not.toBeInTheDocument()
   })
 
-  it('renders the correct number of pagination items when count is not evenly divisible by postsPerPage', () => {
+  it('renders the correct number of pagination items when count is not evenly divisible by itemsPerPage', () => {
     const count = 17
-    const postsPerPage = 5
+    const itemsPerPage = 5
 
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
 
     const { getAllByRole } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     const paginationItems = getAllByRole('link')
@@ -103,14 +102,14 @@ describe('Pagination', () => {
     })
   })
 
-  it('renders the correct number of pagination items when postsPerPage is greater than count', () => {
+  it('renders the correct number of pagination items when itemsPerPage is greater than count', () => {
     const count = 5
-    const postsPerPage = 10
+    const itemsPerPage = 10
 
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
 
     const { getAllByRole } = render(
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
     )
 
     const paginationItems = getAllByRole('link')
@@ -119,7 +118,7 @@ describe('Pagination', () => {
 
     paginationItems.forEach((item, index) => {
       const pageNumber = index + 1
-      expect(item).toBeInTheDocument() // use .toBeInTheDocument() to assert the existence of each item
+      expect(item).toBeInTheDocument()
       expect(item).toHaveTextContent(String(pageNumber))
       expect(item).toHaveAttribute('href', `/?page=${pageNumber}`)
     })

@@ -8,7 +8,8 @@ export const Default: ComponentStory<typeof Pagination> = (args) => {
 
 Default.args = {
   count: 30,
-  postsPerPage: 5,
+  itemsPerPage: 5,
+  routeName: 'home',
 }
 
 export const MorePages: ComponentStory<typeof Pagination> = (args) => {
@@ -17,7 +18,8 @@ export const MorePages: ComponentStory<typeof Pagination> = (args) => {
 
 MorePages.args = {
   count: 100,
-  postsPerPage: 5,
+  itemsPerPage: 5,
+  routeName: 'home',
 }
 
 export default {
