@@ -9,7 +9,7 @@ export const schema = gql`
 
   type PostPage {
     posts: [Post!]!
-    count: Int!
+    postsCount: Int!
     postsPerPage: Int!
   }
 

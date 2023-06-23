@@ -11,6 +11,7 @@ jest.mock('@redwoodjs/router', () => ({
 const mockUseLocation = useLocation as jest.Mock
 
 describe('Pagination', () => {
+  const homeRouteName = 'home'
   beforeEach(() => {
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
   })
@@ -20,7 +21,11 @@ describe('Pagination', () => {
     const itemsPerPage = 5
 
     const { getAllByRole } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     const paginationItems = getAllByRole('link')
@@ -38,7 +43,11 @@ describe('Pagination', () => {
     const itemsPerPage = 5
 
     const { getByText } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     const currentPage = getByText('1')
@@ -50,7 +59,11 @@ describe('Pagination', () => {
     const itemsPerPage = 5
 
     const { getByText } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     const nonCurrentPage = getByText('2')
@@ -64,7 +77,11 @@ describe('Pagination', () => {
     mockUseLocation.mockImplementation(() => ({ search: '?page=2' }))
 
     const { getByText } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     const currentPage = getByText('2')
@@ -76,7 +93,11 @@ describe('Pagination', () => {
     const itemsPerPage = 5
 
     const { queryByRole } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     expect(queryByRole('link')).not.toBeInTheDocument()
@@ -89,7 +110,11 @@ describe('Pagination', () => {
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
 
     const { getAllByRole } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     const paginationItems = getAllByRole('link')
@@ -109,7 +134,11 @@ describe('Pagination', () => {
     mockUseLocation.mockImplementation(() => ({ search: '?page=1' }))
 
     const { getAllByRole } = render(
-      <Pagination count={count} itemsPerPage={itemsPerPage} routeName="home" />
+      <Pagination
+        count={count}
+        itemsPerPage={itemsPerPage}
+        routeName={homeRouteName}
+      />
     )
 
     const paginationItems = getAllByRole('link')

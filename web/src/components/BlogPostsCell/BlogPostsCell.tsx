@@ -18,7 +18,7 @@ export const QUERY = gql`
           name
         }
       }
-      count
+      postsCount
       postsPerPage
     }
   }
@@ -42,13 +42,17 @@ export const Failure = ({ error }: CellFailureProps) => (
 )
 
 export const Success = ({ postPage }: CellSuccessProps<BlogPostsQuery>) => {
-  const { posts, count, postsPerPage } = postPage
+  const { posts, postsCount, postsPerPage } = postPage
   return (
     <div className="space-y-10">
       {posts.map((blogPost) => (
         <BlogPost blogPost={blogPost} key={blogPost.id} summary={true} />
       ))}
-      <Pagination count={count} postsPerPage={postsPerPage} />
+      <Pagination
+        count={postsCount}
+        itemsPerPage={postsPerPage}
+        routeName="home"
+      />
     </div>
   )
 }
