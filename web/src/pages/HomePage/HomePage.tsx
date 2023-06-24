@@ -1,31 +1,23 @@
-import React, { useEffect } from 'react'
-
-import { MetaTags } from '@redwoodjs/web'
+import React from 'react'
 
 import BlogPostsCell from 'src/components/BlogPostsCell'
+import TranslatedMetaTags from 'src/components/TranslatedMetaTags'
 import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
-import { useLanguageDirection } from 'src/utils/translations'
 
-const HomePage = ({ page, postsPerPage = DEFAULT_POSTS_PER_PAGE }) => {
-  const { t, i18n, directionValue } = useLanguageDirection()
+interface HomePageProps {
+  page?: number
+  postsPerPage?: number
+}
 
-  useEffect(() => {
-    document.documentElement.setAttribute('dir', directionValue)
-    document.documentElement.lang = i18n.language
-  }, [directionValue, i18n.language])
-
-  // Ensure page and postsPerPage are numbers
-  page = isNaN(page) ? 1 : Number(page)
-  postsPerPage = isNaN(postsPerPage)
-    ? DEFAULT_POSTS_PER_PAGE
-    : Number(postsPerPage)
-
+const HomePage: React.FC<HomePageProps> = ({
+  page = 1,
+  postsPerPage = DEFAULT_POSTS_PER_PAGE,
+}) => {
   return (
     <>
-      <MetaTags
-        title={t('HomePage.title')}
-        description={t('HomePage.header')}
-        locale={i18n.language}
+      <TranslatedMetaTags
+        titleKey="HomePage.title"
+        descriptionKey="HomePage.header"
       />
       <BlogPostsCell page={page} postsPerPage={postsPerPage} />
     </>
