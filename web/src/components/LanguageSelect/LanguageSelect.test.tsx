@@ -1,11 +1,12 @@
-import { render, fireEvent, getByText } from '@redwoodjs/testing'
+import userEvent from '@testing-library/user-event'
+
+import { render, getByText } from '@redwoodjs/testing'
 
 import { languageCodes } from 'src/utils/languageCodes'
 import { useLanguageDirection } from 'src/utils/translations'
 
 import LanguageSelect from './LanguageSelect'
 
-// Mock the hook and cast to jest.Mock
 jest.mock('src/utils/translations')
 const mockUseLanguageDirection = useLanguageDirection as jest.Mock
 
@@ -13,7 +14,6 @@ describe('LanguageSelect', () => {
   const changeLangMock = jest.fn()
 
   beforeEach(() => {
-    // Provide mock implementation
     mockUseLanguageDirection.mockImplementation(() => ({
       t: (key: string) => key.split('.').pop(),
       i18n: { language: 'en' },
@@ -25,7 +25,7 @@ describe('LanguageSelect', () => {
     changeLangMock.mockClear()
   })
 
-  it('renders a button for each language code', () => {
+  it('renders an option for each language code', () => {
     const { container } = render(<LanguageSelect />)
     Object.keys(languageCodes).forEach((languageCode) => {
       const { title, emoji } =
@@ -34,13 +34,17 @@ describe('LanguageSelect', () => {
     })
   })
 
-  it('changes language when button is clicked', () => {
+  it('changes language when a new option is selected', async () => {
     const { container } = render(<LanguageSelect />)
-    Object.keys(languageCodes).forEach((languageCode) => {
-      const { title, emoji } =
-        languageCodes[languageCode as keyof typeof languageCodes]
-      fireEvent.click(getByText(container, `${title} ${emoji}`))
-      expect(changeLangMock).toHaveBeenCalledWith(languageCode)
-    })
+    const select = container.querySelector('select')
+
+    if (select) {
+      // Handle possibility of select being null
+      // Use userEvent to change the select value
+      await userEvent.selectOptions(select, ['fr'])
+      expect(changeLangMock).toHaveBeenCalledWith('fr')
+    } else {
+      throw new Error('Select element not found')
+    }
   })
 })
