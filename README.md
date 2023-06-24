@@ -2,6 +2,32 @@
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 
+## Deployment on [Render.com](https://render.com)
+
+The application is currently deployed on Render.com with the following services:
+
+### Frontend
+**redwood-tutorial-web-ovfn**
+- Service: Static Site
+- Environment: Static
+- Location: Automatic
+
+URL: [redwood-tutorial-web-ovfn.onrender.com](https://redwood-tutorial-web-ovfn.onrender.com)
+
+### Backend
+**redwood-tutorial-api-lvvq**
+- Service: Web Service
+- Environment: Node.js
+- Location: Automatic
+
+URL: [redwood-tutorial-api-lvvq.onrender.com](https://redwood-tutorial-api-lvvq.onrender.com)
+
+### Database
+- No explicit information was provided about the database service in the given README. Please refer to the Render.com dashboard for information on the deployed database.
+
+Please note that the URLs provided above are subject to availability and may change depending on the Render.com deployment.
+
+
 > **Prerequisites**
 >
 > - Redwood requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x) and [Yarn](https://yarnpkg.com/) (>=1.15)
