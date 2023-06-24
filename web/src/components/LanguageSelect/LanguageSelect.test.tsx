@@ -12,11 +12,12 @@ const mockUseLanguageDirection = useLanguageDirection as jest.Mock
 
 describe('LanguageSelect', () => {
   const changeLangMock = jest.fn()
+  const language = 'en'
 
   beforeEach(() => {
     mockUseLanguageDirection.mockImplementation(() => ({
       t: (key: string) => key.split('.').pop(),
-      i18n: { language: 'en' },
+      i18n: { language },
       changeLang: changeLangMock,
     }))
   })
@@ -34,13 +35,20 @@ describe('LanguageSelect', () => {
     })
   })
 
+  it('has the initial language selected', () => {
+    const { container } = render(<LanguageSelect />)
+    const select = container.querySelector('select')
+    const option = select?.querySelector(
+      `option[value='${language}']`
+    ) as HTMLOptionElement
+    expect(option?.selected).toBeTruthy()
+  })
+
   it('changes language when a new option is selected', async () => {
     const { container } = render(<LanguageSelect />)
     const select = container.querySelector('select')
 
     if (select) {
-      // Handle possibility of select being null
-      // Use userEvent to change the select value
       await userEvent.selectOptions(select, ['fr'])
       expect(changeLangMock).toHaveBeenCalledWith('fr')
     } else {

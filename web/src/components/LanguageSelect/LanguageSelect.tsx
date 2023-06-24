@@ -20,8 +20,7 @@ const LanguageSelect = () => {
 
   return (
     <>
-      <div>Current language: {t(`languageCodes.${i18n.language}`)}</div>
-      <select onChange={handleLanguageChange}>
+      <select value={i18n.language} onChange={handleLanguageChange}>
         {Object.keys(languageCodes).map((key) => {
           const { title, emoji }: LanguageCode =
             languageCodes[key as keyof typeof languageCodes]
