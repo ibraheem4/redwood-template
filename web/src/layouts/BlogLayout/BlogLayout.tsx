@@ -80,7 +80,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           </ul>
         </nav>
       </header>
-      <main className="mx-auto max-w-4xl rounded-b bg-white p-12 shadow">
+      <main className="mx-auto max-w-4xl flex-grow rounded-b bg-white p-12 shadow dark:bg-black">
         {children}
       </main>
       <Footer />

@@ -16,7 +16,7 @@ const Footer = () => {
   }
 
   return (
-    <footer>
+    <footer className="dark:bg-black">
       <div>Current language: {t(`languageCodes.${i18n.language}`)}</div>
       <div>Direction value: {directionValue}</div>
       {Object.keys(languageCodes).map(renderLanguageButton)}
