@@ -1,3 +1,5 @@
+import { Link, routes } from '@redwoodjs/router'
+
 import LanguageSelect from 'src/components/LanguageSelect'
 
 type AuthLayoutProps = {
@@ -7,6 +9,7 @@ type AuthLayoutProps = {
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <>
+      <Link to={routes.home()}>Back to Home</Link>
       {children}
       <LanguageSelect />
     </>
