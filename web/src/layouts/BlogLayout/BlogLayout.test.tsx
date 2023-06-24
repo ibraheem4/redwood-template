@@ -20,6 +20,7 @@ describe('BlogLayout', () => {
     render(<BlogLayout>Children</BlogLayout>)
 
     await waitFor(() => expect(screen.getByText('Login')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText('Signup')).toBeInTheDocument())
   })
 
   it('displays a Logout link when logged in', async () => {
@@ -34,7 +35,7 @@ describe('BlogLayout', () => {
     render(<BlogLayout>Children</BlogLayout>)
 
     await waitFor(() =>
-      expect(screen.getByText(`Logged in as ` + EMAIL)).toBeInTheDocument()
+      expect(screen.getByText(`Logged in as ${EMAIL}`)).toBeInTheDocument()
     )
   })
 })

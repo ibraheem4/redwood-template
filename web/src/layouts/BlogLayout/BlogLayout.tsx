@@ -23,9 +23,14 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
 
     if (!isAuthenticated) {
       return (
-        <Link to={routes.login()} className="px-4 py-2">
-          Login
-        </Link>
+        <>
+          <Link to={routes.login()} className="px-4 py-2">
+            Login
+          </Link>
+          <Link to={routes.signup()} className="px-4 py-2">
+            Signup
+          </Link>
+        </>
       )
     }
 
