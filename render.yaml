@@ -23,7 +23,7 @@ services:
         # example:
         #   destination: https://myredwoodproject-api.onrender.com/*
         #####
-        destination: https://redwood-tutorial-api.onrender.com/*
+        destination: https://redwood-tutorial-api-lvvq.onrender.com/*
       - type: rewrite
         source: /*
         destination: /index.html
