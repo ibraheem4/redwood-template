@@ -13,6 +13,10 @@
     "title": "حول",
     "description": "صفحة حول"
   },
+  "ContactPage": {
+    "title": "اتصل",
+    "description": "صفحة الاتصال"
+  },
   "languageCodes": {
     "en": "Anglais",
     "fr": "Francais",

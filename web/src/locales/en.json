@@ -13,6 +13,10 @@
     "title": "About",
     "description": "About Page"
   },
+  "ContactPage": {
+    "title": "Contact",
+    "description": "Contact Page"
+  },
   "languageCodes": {
     "en": "English",
     "fr": "French",

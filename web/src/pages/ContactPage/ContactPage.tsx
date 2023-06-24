@@ -11,6 +11,8 @@ import {
 import { MetaTags, useMutation } from '@redwoodjs/web'
 import { Toaster, toast } from '@redwoodjs/web/toast'
 
+import TranslatedMetaTags from 'src/components/TranslatedMetaTags'
+
 const CREATE_CONTACT = gql`
   mutation CreateContactMutation($input: CreateContactInput!) {
     createContact(input: $input) {
@@ -39,7 +41,10 @@ const ContactPage = () => {
 
   return (
     <>
-      <MetaTags title="Contact" description="Contact page" />
+      <TranslatedMetaTags
+        titleKey="ContactPage.title"
+        descriptionKey="ContactPage.description"
+      />
 
       <Toaster />
       <Form
