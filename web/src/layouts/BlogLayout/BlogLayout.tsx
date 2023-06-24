@@ -2,7 +2,7 @@ import { navigate, Link, routes } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
-import Footer from 'src/components/Footer'
+import LanguageSelect from 'src/components/LanguageSelect/LanguageSelect'
 
 type BlogLayoutProps = {
   children?: React.ReactNode
@@ -39,7 +39,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         <button type="button" onClick={logoutHandler} className="px-4 py-2">
           Logout
         </button>
-        <div className="right-0 bottom-1 mr-12 text-xs text-blue-300">
+        <div className="right-0 mr-12 text-xs text-blue-300 bottom-1">
           <span>Logged in as {currentUser.email}</span>{' '}
         </div>
       </>
@@ -49,7 +49,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
   return (
     <>
       <Toaster />
-      <header className="relative flex items-center justify-between bg-blue-700 px-8 py-4 text-white dark:bg-black">
+      <header className="relative flex items-center justify-between px-8 py-4 text-white bg-blue-700 dark:bg-black">
         <h1 className="text-5xl font-semibold tracking-tight">
           <Link
             className="text-blue-400 transition duration-100 hover:text-blue-100"
@@ -62,7 +62,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           <ul className="relative flex items-center font-light">
             <li>
               <Link
-                className="rounded px-4 py-2 transition duration-100 hover:bg-blue-600"
+                className="px-4 py-2 transition duration-100 rounded hover:bg-blue-600"
                 to={routes.about()}
               >
                 About
@@ -70,7 +70,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
             </li>
             <li>
               <Link
-                className="rounded px-4 py-2 transition duration-100 hover:bg-blue-600"
+                className="px-4 py-2 transition duration-100 rounded hover:bg-blue-600"
                 to={routes.contact()}
               >
                 Contact
@@ -80,10 +80,12 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           </ul>
         </nav>
       </header>
-      <main className="mx-auto max-w-4xl flex-grow rounded-b bg-white p-12 shadow dark:bg-black">
+      <main className="flex-grow max-w-4xl p-12 mx-auto bg-white rounded-b shadow dark:bg-black">
         {children}
       </main>
-      <Footer />
+      <footer className="dark:bg-black">
+        <LanguageSelect />
+      </footer>
     </>
   )
 }

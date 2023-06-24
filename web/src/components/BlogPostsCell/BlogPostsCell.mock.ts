@@ -28,7 +28,8 @@ export const standard = () => {
           },
         },
       ],
-      count: 2,
+      postsCount: 2,
+      postsPerPage: 5,
     },
   }
 }

@@ -16,7 +16,15 @@ export const failure: ComponentStory<typeof Failure> = (args) => {
 }
 
 export const success: ComponentStory<typeof Success> = () => {
-  return Success ? <Success blogPosts={standard().blogPosts} /> : null
+  return Success ? (
+    <Success
+      postPage={{
+        posts: standard().postPage.posts,
+        postsCount: standard().postPage.postsCount,
+        postsPerPage: standard().postPage.postsPerPage,
+      }}
+    />
+  ) : null
 }
 
 export default { title: 'Cells/BlogPostsCell' }

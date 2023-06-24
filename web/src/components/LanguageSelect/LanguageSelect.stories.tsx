@@ -4,8 +4,8 @@
 // ```tsx
 // import type { ComponentStory } from '@storybook/react'
 //
-// export const generated: ComponentStory<typeof Footer> = (args) => {
-//   return <Footer {...args} />
+// export const generated: ComponentStory<typeof LanguageSelect> = (args) => {
+//   return <LanguageSelect {...args} />
 // }
 // ```
 //
@@ -13,13 +13,13 @@
 
 import type { ComponentMeta } from '@storybook/react'
 
-import Footer from './Footer'
+import LanguageSelect from './LanguageSelect'
 
 export const generated = () => {
-  return <Footer />
+  return <LanguageSelect />
 }
 
 export default {
-  title: 'Components/Footer',
-  component: Footer,
-} as ComponentMeta<typeof Footer>
+  title: 'Components/LanguageSelect',
+  component: LanguageSelect,
+} as ComponentMeta<typeof LanguageSelect>
