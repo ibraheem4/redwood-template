@@ -23,7 +23,7 @@ URL: [redwood-tutorial-web-ovfn.onrender.com](https://redwood-tutorial-web-ovfn.
 URL: [redwood-tutorial-api-lvvq.onrender.com](https://redwood-tutorial-api-lvvq.onrender.com)
 
 ### Database
-- No explicit information was provided about the database service in the given README. Please refer to the Render.com dashboard for information on the deployed database.
+- Please refer to the Render.com dashboard for information on the deployed database.
 
 Please note that the URLs provided above are subject to availability and may change depending on the Render.com deployment.
 
