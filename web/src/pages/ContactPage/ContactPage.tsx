@@ -8,7 +8,7 @@ import {
   useForm,
   FormError,
 } from '@redwoodjs/forms'
-import { MetaTags, useMutation } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
 import { Toaster, toast } from '@redwoodjs/web/toast'
 
 import TranslatedMetaTags from 'src/components/TranslatedMetaTags'
