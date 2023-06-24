@@ -1,24 +1,27 @@
-import { render, screen } from '@redwoodjs/testing'
+import React from 'react'
+
+import { render, waitFor } from '@testing-library/react'
+
+import '@testing-library/jest-dom/extend-expect'
+import { MetaTags as RedwoodMetaTags } from '@redwoodjs/web'
 
 import { useLanguageDirection } from 'src/utils/translations'
 
 import TranslatedMetaTags from './TranslatedMetaTags'
 
-// Mock the useLanguageDirection hook
-jest.mock('src/utils/translations', () => ({
-  useLanguageDirection: jest.fn(),
+jest.mock('src/utils/translations')
+jest.mock('@redwoodjs/web', () => ({
+  MetaTags: jest.fn(() => null),
 }))
 
 describe('TranslatedMetaTags', () => {
-  beforeEach(() => {
+  it('renders correctly and updates the document direction and language', async () => {
     ;(useLanguageDirection as jest.Mock).mockImplementation(() => ({
-      t: (key: string) => key,
+      t: (key) => `Translated: ${key}`,
       i18n: { language: 'en' },
       directionValue: 'ltr',
     }))
-  })
 
-  it('renders meta tags with translated title and description', () => {
     render(
       <TranslatedMetaTags
         titleKey="HomePage.title"
@@ -26,13 +29,20 @@ describe('TranslatedMetaTags', () => {
       />
     )
 
-    const titleElement = screen.getByText('HomePage.title')
-    expect(titleElement).toBeInTheDocument()
+    // Wait for useEffect to run
+    await waitFor(() => {
+      expect(document.documentElement).toHaveAttribute('dir', 'ltr')
+      expect(document.documentElement.lang).toBe('en')
+    })
 
-    const descriptionElement = screen.getByText('HomePage.header')
-    expect(descriptionElement).toBeInTheDocument()
-
-    const localeElement = screen.getByText('en')
-    expect(localeElement).toBeInTheDocument()
+    // Check the title and description passed to RedwoodMetaTags
+    expect(RedwoodMetaTags).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Translated: HomePage.title',
+        description: 'Translated: HomePage.header',
+        locale: 'en',
+      }),
+      expect.anything()
+    )
   })
 })
