@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { MetaTags } from '@redwoodjs/web'
 
 import BlogPostsCell from 'src/components/BlogPostsCell'
-import Footer from 'src/components/Footer'
 import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
 import { useLanguageDirection } from 'src/utils/translations'
 
@@ -29,7 +28,6 @@ const HomePage = ({ page, postsPerPage = DEFAULT_POSTS_PER_PAGE }) => {
         locale={i18n.language}
       />
       <BlogPostsCell page={page} postsPerPage={postsPerPage} />
-      <Footer />
     </>
   )
 }

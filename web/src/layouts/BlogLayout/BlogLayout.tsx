@@ -2,6 +2,7 @@ import { navigate, Link, routes } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import Footer from 'src/components/Footer'
 
 type BlogLayoutProps = {
   children?: React.ReactNode
@@ -33,7 +34,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         <button type="button" onClick={logoutHandler} className="px-4 py-2">
           Logout
         </button>
-        <div className="bottom-1 right-0 mr-12 text-xs text-blue-300">
+        <div className="right-0 bottom-1 mr-12 text-xs text-blue-300">
           <span>Logged in as {currentUser.email}</span>{' '}
         </div>
       </>
@@ -77,6 +78,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
       <main className="mx-auto max-w-4xl rounded-b bg-white p-12 shadow">
         {children}
       </main>
+      <Footer />
     </>
   )
 }
