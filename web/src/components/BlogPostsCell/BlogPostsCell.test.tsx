@@ -23,10 +23,10 @@ describe('BlogPostsCell', () => {
   })
 
   it('renders Success successfully', async () => {
-    const { postPage } = standard()
-    const { posts } = postPage
+    const { postsPage } = standard()
+    const { posts } = postsPage
 
-    render(<Success postPage={postPage} />)
+    render(<Success postsPage={postsPage} />)
 
     posts.forEach((blogPost) => {
       const truncatedBody = blogPost.body.substring(0, 10)

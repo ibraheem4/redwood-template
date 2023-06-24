@@ -8,7 +8,7 @@ import { DEFAULT_POSTS_PER_PAGE } from 'src/utils/constants'
 
 export const QUERY = gql`
   query BlogPostsQuery($page: Int, $postsPerPage: Int) {
-    postPage(page: $page, postsPerPage: $postsPerPage) {
+    postsPage(page: $page, postsPerPage: $postsPerPage) {
       posts {
         id
         title
@@ -41,8 +41,8 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div>Error: {error.message}</div>
 )
 
-export const Success = ({ postPage }: CellSuccessProps<BlogPostsQuery>) => {
-  const { posts, postsCount, postsPerPage } = postPage
+export const Success = ({ postsPage }: CellSuccessProps<BlogPostsQuery>) => {
+  const { posts, postsCount, postsPerPage } = postsPage
   return (
     <div className="space-y-10">
       {posts.map((blogPost) => (

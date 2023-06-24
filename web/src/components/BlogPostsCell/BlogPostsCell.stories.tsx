@@ -18,10 +18,10 @@ export const failure: ComponentStory<typeof Failure> = (args) => {
 export const success: ComponentStory<typeof Success> = () => {
   return Success ? (
     <Success
-      postPage={{
-        posts: standard().postPage.posts,
-        postsCount: standard().postPage.postsCount,
-        postsPerPage: standard().postPage.postsPerPage,
+      postsPage={{
+        posts: standard().postsPage.posts,
+        postsCount: standard().postsPage.postsCount,
+        postsPerPage: standard().postsPage.postsPerPage,
       }}
     />
   ) : null
