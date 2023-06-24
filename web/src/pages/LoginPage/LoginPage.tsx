@@ -10,10 +10,10 @@ import {
   FieldError,
 } from '@redwoodjs/forms'
 import { Link, navigate, routes } from '@redwoodjs/router'
-import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import TranslatedMetaTags from 'src/components/TranslatedMetaTags'
 
 const LoginPage = () => {
   const { isAuthenticated, logIn } = useAuth()
@@ -46,7 +46,10 @@ const LoginPage = () => {
 
   return (
     <>
-      <MetaTags title="Login" />
+      <TranslatedMetaTags
+        titleKey="LoginPage.title"
+        descriptionKey="LoginPage.description"
+      />
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />

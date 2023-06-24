@@ -17,6 +17,10 @@
     "title": "Contact",
     "description": "Contact Page"
   },
+  "LoginPage": {
+    "title": "Login",
+    "description": "Login Page"
+  },
   "languageCodes": {
     "en": "English",
     "fr": "French",

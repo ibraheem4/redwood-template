@@ -1,6 +1,7 @@
 import { Router, Route, Private, Set } from '@redwoodjs/router'
 
 import AdminLayout from 'src/layouts/AdminLayout'
+import AuthLayout from 'src/layouts/AuthLayout'
 import BlogLayout from 'src/layouts/BlogLayout'
 
 import { useAuth } from './auth'
@@ -8,10 +9,12 @@ import { useAuth } from './auth'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
-      <Route path="/login" page={LoginPage} name="login" />
-      <Route path="/signup" page={SignupPage} name="signup" />
-      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
-      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+      <Set wrap={AuthLayout}>
+        <Route path="/login" page={LoginPage} name="login" />
+        <Route path="/signup" page={SignupPage} name="signup" />
+        <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+        <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+      </Set>
       <Set wrap={BlogLayout}>
         <Route path="/blog-post/{id:String}" page={BlogPostPage} name="blogPost" />
         <Route path="/contact" page={ContactPage} name="contact" />

@@ -17,6 +17,10 @@
     "title": "اتصل",
     "description": "صفحة الاتصال"
   },
+  "LoginPage": {
+    "title": "تسجيل الدخول",
+    "description": "صفحة تسجيل الدخول"
+  },
   "languageCodes": {
     "en": "Anglais",
     "fr": "Francais",
