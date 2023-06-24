@@ -9,7 +9,7 @@ interface LanguageCode {
 }
 
 const LanguageSelect = () => {
-  const { t, i18n, changeLang } = useLanguageDirection()
+  const { i18n, changeLang } = useLanguageDirection()
 
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
