@@ -1,9 +1,12 @@
-import { MetaTags } from '@redwoodjs/web'
+import TranslatedMetaTags from 'src/components/TranslatedMetaTags'
 
 const AboutPage = () => {
   return (
     <>
-      <MetaTags title="About" description="About page" />
+      <TranslatedMetaTags
+        titleKey="AboutPage.title"
+        descriptionKey="AboutPage.description"
+      />
 
       <p className="font-light">
         This site was created to demonstrate my mastery of Redwood: Look on my

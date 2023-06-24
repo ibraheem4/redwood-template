@@ -9,6 +9,10 @@
     "route": "Ma route par default se nomme",
     "link": "le lien vers moi avec"
   },
+  "AboutPage": {
+    "title": "À propos",
+    "description": "Page À propos"
+  },
   "languageCodes": {
     "en": "Anglais",
     "fr": "Francais",

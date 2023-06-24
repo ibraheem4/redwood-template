@@ -9,6 +9,10 @@
     "route": "تم تسمية طريقي الافتراضي",
     "link": "ربط لي مع"
   },
+  "AboutPage": {
+    "title": "حول",
+    "description": "صفحة حول"
+  },
   "languageCodes": {
     "en": "Anglais",
     "fr": "Francais",
