@@ -2,8 +2,17 @@ import { render } from '@redwoodjs/testing/web'
 
 import AuthLayout from './AuthLayout'
 
-//   Improve this test with help from the Redwood Testing Doc:
-//   https://redwoodjs.com/docs/testing#testing-pages-layouts
+jest.mock('@redwoodjs/router', () => ({
+  ...jest.requireActual('@redwoodjs/router'),
+  useLocation: jest.fn().mockReturnValue({ search: '' }),
+}))
+
+jest.mock('src/utils/translations', () => ({
+  useLanguageDirection: jest.fn(() => ({
+    i18n: { changeLanguage: jest.fn(), language: 'en' },
+    changeLang: jest.fn(),
+  })),
+}))
 
 describe('AuthLayout', () => {
   it('renders successfully', () => {

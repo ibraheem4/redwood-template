@@ -1,6 +1,19 @@
+import { useLocation } from '@redwoodjs/router'
 import { render, screen, waitFor } from '@redwoodjs/testing'
 
 import BlogLayout from './BlogLayout'
+
+jest.mock('@redwoodjs/router', () => ({
+  ...jest.requireActual('@redwoodjs/router'),
+  useLocation: jest.fn(),
+}))
+
+jest.mock('src/utils/translations', () => ({
+  useLanguageDirection: jest.fn(() => ({
+    i18n: { changeLanguage: jest.fn(), language: 'en' },
+    changeLang: jest.fn(),
+  })),
+}))
 
 const EMAIL = 'rob@redwoodjs.com'
 const loggedIn = () => {
@@ -15,6 +28,10 @@ const loggedOut = () => {
 }
 
 describe('BlogLayout', () => {
+  beforeEach(() => {
+    useLocation.mockReturnValue({ search: '' })
+  })
+
   it('displays a Login link when not logged in', async () => {
     loggedOut()
     render(<BlogLayout>Children</BlogLayout>)
