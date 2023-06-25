@@ -2,6 +2,7 @@ import userEvent from '@testing-library/user-event'
 
 import { render, getByText } from '@redwoodjs/testing'
 
+import { DEFAULT_LANGUAGE } from 'src/utils/constants'
 import { languageCodes } from 'src/utils/languageCodes'
 import { useLanguageDirection } from 'src/utils/translations'
 
@@ -12,7 +13,7 @@ const mockUseLanguageDirection = useLanguageDirection as jest.Mock
 
 describe('LanguageSelect', () => {
   const changeLangMock = jest.fn()
-  const language = 'en'
+  const language = DEFAULT_LANGUAGE
 
   beforeEach(() => {
     mockUseLanguageDirection.mockImplementation(() => ({

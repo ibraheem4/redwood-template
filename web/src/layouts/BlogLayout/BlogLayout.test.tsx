@@ -1,11 +1,10 @@
-import { useLocation } from '@redwoodjs/router'
 import { render, screen, waitFor } from '@redwoodjs/testing'
 
 import BlogLayout from './BlogLayout'
 
 jest.mock('@redwoodjs/router', () => ({
   ...jest.requireActual('@redwoodjs/router'),
-  useLocation: jest.fn(),
+  useLocation: jest.fn().mockImplementation(() => ({ search: '' })),
 }))
 
 jest.mock('src/utils/translations', () => ({
@@ -28,10 +27,6 @@ const loggedOut = () => {
 }
 
 describe('BlogLayout', () => {
-  beforeEach(() => {
-    useLocation.mockReturnValue({ search: '' })
-  })
-
   it('displays a Login link when not logged in', async () => {
     loggedOut()
     render(<BlogLayout>Children</BlogLayout>)

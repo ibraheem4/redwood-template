@@ -3,13 +3,15 @@ import * as React from 'react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from 'web/src/i18n'
 
+import { DEFAULT_LANGUAGE } from 'src/utils/constants'
+
 import { languageCodes } from '../src/utils/languageCodes'
 /** @type { import("@storybook/csf").GlobalTypes } */
 export const globalTypes = {
   locale: {
     name: 'Locale',
     description: 'Internationalization locale',
-    defaultValue: 'en',
+    defaultValue: DEFAULT_LANGUAGE,
     toolbar: {
       icon: 'globe',
       items: Object.keys(languageCodes).map((languageCode) => ({
