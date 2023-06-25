@@ -3,6 +3,7 @@ import { Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 import LanguageSelect from 'src/components/LanguageSelect/LanguageSelect'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 type BlogLayoutProps = {
   children?: React.ReactNode
@@ -24,10 +25,10 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
     if (!isAuthenticated) {
       return (
         <>
-          <Link to={routes.login()} className="px-4 py-2">
+          <Link to={appendLangToRoute(routes.login())} className="px-4 py-2">
             Login
           </Link>
-          <Link to={routes.signup()} className="px-4 py-2">
+          <Link to={appendLangToRoute(routes.signup())} className="px-4 py-2">
             Signup
           </Link>
         </>
@@ -53,7 +54,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         <h1 className="text-5xl font-semibold tracking-tight">
           <Link
             className="text-blue-400 transition duration-100 hover:text-blue-100"
-            to={routes.home()}
+            to={appendLangToRoute(routes.home())}
           >
             Redwood Blog
           </Link>
@@ -63,7 +64,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
             <li>
               <Link
                 className="rounded px-4 py-2 transition duration-100 hover:bg-blue-600"
-                to={routes.about()}
+                to={appendLangToRoute(routes.about())}
               >
                 About
               </Link>
@@ -71,7 +72,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
             <li>
               <Link
                 className="rounded px-4 py-2 transition duration-100 hover:bg-blue-600"
-                to={routes.contact()}
+                to={appendLangToRoute(routes.contact())}
               >
                 Contact
               </Link>
