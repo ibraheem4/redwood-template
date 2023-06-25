@@ -1,4 +1,4 @@
-import { Router, Route, Private, Set } from '@redwoodjs/router'
+import { Router, Route, Set } from '@redwoodjs/router'
 
 import AdminLayout from 'src/layouts/AdminLayout'
 import AuthLayout from 'src/layouts/AuthLayout'
@@ -21,7 +21,7 @@ const Routes = () => {
         <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
         <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
       </Set>
-      <Set wrap={AdminLayout} private unauthenticated="home" roles={['admin']}>
+      <Set wrap={AdminLayout} private unauthenticated="login" roles={['admin']}>
         <Route path="/admin/posts/new" page={PostNewPostPage} name="newPost" />
         <Route path="/admin/posts/{id:String}/edit" page={PostEditPostPage} name="editPost" />
         <Route path="/admin/posts/{id:String}" page={PostPostPage} name="post" />

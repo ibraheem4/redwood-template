@@ -6,13 +6,14 @@ import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 const ForgotPasswordPage = () => {
   const { isAuthenticated, forgotPassword } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.home())
+      navigate(appendLangToRoute(routes.home()))
     }
   }, [isAuthenticated])
 
