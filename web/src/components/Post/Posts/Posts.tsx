@@ -6,6 +6,7 @@ import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Post/PostsCell'
 import { timeTag, truncate } from 'src/lib/formatters'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 const DELETE_POST_MUTATION = gql`
   mutation DeletePostMutation($id: String!) {
@@ -58,14 +59,14 @@ const PostsList = ({ posts }: FindPosts) => {
               <td>
                 <nav className="rw-table-actions">
                   <Link
-                    to={routes.post({ id: post.id })}
+                    to={appendLangToRoute(routes.post({ id: post.id }))}
                     title={'Show post ' + post.id + ' detail'}
                     className="rw-button rw-button-small"
                   >
                     Show
                   </Link>
                   <Link
-                    to={routes.editPost({ id: post.id })}
+                    to={appendLangToRoute(routes.editPost({ id: post.id }))}
                     title={'Edit post ' + post.id}
                     className="rw-button rw-button-small rw-button-blue"
                   >

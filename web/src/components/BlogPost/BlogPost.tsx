@@ -4,6 +4,7 @@ import { Link, routes } from '@redwoodjs/router'
 
 import CommentForm from 'src/components/CommentForm'
 import CommentsCell from 'src/components/CommentsCell'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 const truncate = (text: string, length: number) => {
   return text.substring(0, length) + '...'
@@ -19,7 +20,7 @@ const BlogPost = ({ blogPost, summary = false }: Props) => {
     <article className="mt-10">
       <header>
         <h2 className="text-xl font-semibold text-blue-700">
-          <Link to={routes.blogPost({ id: blogPost.id })}>
+          <Link to={appendLangToRoute(routes.blogPost({ id: blogPost.id }))}>
             {blogPost.title}
           </Link>
           <span className="ml-2 font-normal text-gray-400">

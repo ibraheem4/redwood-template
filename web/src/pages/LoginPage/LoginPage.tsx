@@ -14,6 +14,7 @@ import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 import TranslatedMetaTags from 'src/components/TranslatedMetaTags'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 const LoginPage = () => {
   const { isAuthenticated, logIn } = useAuth()
@@ -106,7 +107,7 @@ const LoginPage = () => {
 
                   <div className="rw-forgot-link">
                     <Link
-                      to={routes.forgotPassword()}
+                      to={appendLangToRoute(routes.forgotPassword())}
                       className="rw-forgot-link"
                     >
                       Forgot Password?
@@ -124,7 +125,7 @@ const LoginPage = () => {
           </div>
           <div className="rw-login-link">
             <span>Don&apos;t have an account?</span>{' '}
-            <Link to={routes.signup()} className="rw-link">
+            <Link to={appendLangToRoute(routes.signup())} className="rw-link">
               Sign up!
             </Link>
           </div>

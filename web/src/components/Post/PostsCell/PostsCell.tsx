@@ -4,6 +4,7 @@ import { Link, routes } from '@redwoodjs/router'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import Posts from 'src/components/Post/Posts'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 export const QUERY = gql`
   query FindPosts {
@@ -22,7 +23,7 @@ export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No posts yet. '}
-      <Link to={routes.newPost()} className="rw-link">
+      <Link to={appendLangToRoute(routes.newPost())} className="rw-link">
         {'Create one?'}
       </Link>
     </div>

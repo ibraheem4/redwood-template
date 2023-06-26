@@ -5,6 +5,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { timeTag } from 'src/lib/formatters'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 const DELETE_POST_MUTATION = gql`
   mutation DeletePostMutation($id: String!) {
@@ -66,7 +67,7 @@ const Post = ({ post }: Props) => {
       </div>
       <nav className="rw-button-group">
         <Link
-          to={routes.editPost({ id: post.id })}
+          to={appendLangToRoute(routes.editPost({ id: post.id }))}
           className="rw-button rw-button-blue"
         >
           Edit

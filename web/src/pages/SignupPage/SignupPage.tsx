@@ -14,6 +14,7 @@ import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import { appendLangToRoute } from 'src/utils/routeUtils'
 
 const SignupPage = () => {
   const { isAuthenticated, signUp } = useAuth()
@@ -114,7 +115,7 @@ const SignupPage = () => {
           </div>
           <div className="rw-login-link">
             <span>Already have an account?</span>{' '}
-            <Link to={routes.login()} className="rw-link">
+            <Link to={appendLangToRoute(routes.login())} className="rw-link">
               Log in!
             </Link>
           </div>
