@@ -1,5 +1,7 @@
 import { Link, routes, useLocation } from '@redwoodjs/router'
 
+import { appendLangToRoute } from 'src/utils/routeUtils'
+
 const Pagination = ({ count, itemsPerPage, routeName }) => {
   const location = useLocation()
   const currentPage = location.search
@@ -12,7 +14,7 @@ const Pagination = ({ count, itemsPerPage, routeName }) => {
     items.push(
       <li key={i} className={`inline-block ${i > 0 ? 'ml-2' : ''}`}>
         <Link
-          to={routes[routeName]({ page: i + 1 })}
+          to={appendLangToRoute(routes[routeName]({ page: i + 1 }))}
           className={`${
             i + 1 === parseInt(currentPage)
               ? 'bg-blue-500 text-white'
