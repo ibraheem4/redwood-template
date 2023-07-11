@@ -195,6 +195,38 @@ Each table in your database is displayed as a separate tab in Prisma Studio. Cli
 
 Keep your Prisma schema in sync with your RedwoodJS schema, and run database migrations when you change your schema. This ensures Prisma Studio has the latest structure of your database.
 
+## Creating the PostgreSQL User
+
+To set up the PostgreSQL user for your application, follow these steps:
+
+1. Ensure that PostgreSQL is installed on your system. If not, refer to the official PostgreSQL documentation for installation instructions.
+
+2. Open your terminal or command prompt and run the following command to create the "postgres" user:
+
+   ```bash
+   createuser --interactive --pwprompt
+   ```
+
+   This command will prompt you to enter a name for the role (use "postgres"), a password, and confirm the password. By default, the "postgres" user is often used as the administrative user for PostgreSQL.
+
+   When asked for superuser privileges, select "n" (no) since the "postgres" user does not need to be a superuser for a typical RedwoodJS application.
+
+   Additionally, when asked about the ability to create more new roles, you can select "n" (no) if you don't require the "postgres" user to create additional roles.
+
+3. Once you've completed the prompts, the "postgres" user will be created with the specified password and privileges.
+
+4. Update the database connection URL in your application's configuration file (e.g., `.env` file) to use the newly created "postgres" user. Here's an example of a connection URL:
+
+    ```plaintext
+    DATABASE_URL=postgres://postgres:<password>@localhost:5432/your_database
+    ```
+
+    Replace `<password>` with the actual password you set during the user creation process, and `your_database` with the name of your PostgreSQL database.
+
+5. Save the configuration changes and start or restart your RedwoodJS application. It should now use the "postgres" user for database connections.
+
+Remember to exercise caution and protect the credentials of the "postgres" user, as it grants administrative privileges within the PostgreSQL database. If you need to modify or delete the "postgres" user in the future, refer to the appropriate documentation or consult with a PostgreSQL administrator.
+
 ## Restarting
 
 ```
