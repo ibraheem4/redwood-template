@@ -232,7 +232,8 @@ Remember to exercise caution and protect the credentials of the "postgres" user,
 ```
 yarn
 yarn rw g secret # add SESSION_SECRET to .env
-yarn rw prisma migrate dev # runs yarn rw prisma db seed
+yarn rw prisma db seed
+yarn rw prisma migrate dev
 yarn rw dev
 ```
 
