@@ -25,18 +25,22 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
     if (!isAuthenticated) {
       return (
         <>
-          <Link
-            to={appendLangToRoute(routes.login())}
-            className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
-          >
-            Login
-          </Link>
-          <Link
-            to={appendLangToRoute(routes.signup())}
-            className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
-          >
-            Signup
-          </Link>
+          <li>
+            <Link
+              to={appendLangToRoute(routes.login())}
+              className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+            >
+              Login
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={appendLangToRoute(routes.signup())}
+              className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+            >
+              Signup
+            </Link>
+          </li>
         </>
       )
     }
@@ -104,11 +108,11 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           </div>
         </div>
         <nav
-          className="mx-auto max-w-6xl bg-white px-4 dark:bg-neutral-800 dark:text-white sm:px-6 lg:px-8"
+          className="mx-auto flex max-w-6xl justify-between bg-white px-4 dark:bg-neutral-800 dark:text-white sm:px-6 lg:px-8"
           aria-label="Bottom"
         >
           <LanguageSelect />
-          <small className="block text-right text-xs rtl:text-left rtl:text-sm dark:text-white">
+          <small className="text-center text-xs rtl:text-left rtl:text-sm dark:text-white">
             Copyright © 2022 Ibraheem Corporation
           </small>
         </nav>
