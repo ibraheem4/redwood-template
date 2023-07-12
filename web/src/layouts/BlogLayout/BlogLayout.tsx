@@ -51,7 +51,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           Logout
         </button>
         <div className="right-0 bottom-1 mr-12 text-xs">
-          <span>Logged in as {currentUser.email}</span>{' '}
+          <span>Logged in as {currentUser.email}</span>
         </div>
       </>
     )
@@ -60,41 +60,60 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
   return (
     <>
       <Toaster />
-      <header className="relative flex items-center justify-between px-8 py-4 dark:bg-black dark:text-white">
-        <h1 className="text-5xl font-semibold tracking-tight">
-          <Link
-            className="dark:text-white"
-            to={appendLangToRoute(routes.home())}
-          >
-            Redwood Blog
-          </Link>
-        </h1>
-        <nav>
-          <ul className="relative flex items-center font-light">
-            <li>
+      <header className="dark:bg-neutral-900"></header>
+      <main className="flex-grow bg-zinc-100 dark:bg-black">
+        <nav
+          className="mx-auto max-w-6xl bg-white px-4 dark:bg-neutral-800 dark:text-white sm:px-6 lg:px-8"
+          aria-label="Top"
+        >
+          <div className="flex w-full items-center justify-between border-b border-black py-2 dark:border-white">
+            <div className="flex items-center">
               <Link
-                className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
-                to={appendLangToRoute(routes.about())}
+                className="dark:text-white"
+                to={appendLangToRoute(routes.home())}
               >
-                About
+                Redwood Blog
               </Link>
-            </li>
-            <li>
-              <Link
-                className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
-                to={appendLangToRoute(routes.contact())}
-              >
-                Contact
-              </Link>
-            </li>
-            {displayCurrentUser()}
-          </ul>
+            </div>
+            <div className="ml-10 space-x-4">
+              <ul className="relative flex items-center font-light">
+                <li>
+                  <Link
+                    className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+                    to={appendLangToRoute(routes.about())}
+                  >
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+                    to={appendLangToRoute(routes.contact())}
+                  >
+                    Contact
+                  </Link>
+                </li>
+                {displayCurrentUser()}
+              </ul>
+            </div>
+          </div>
         </nav>
-      </header>
-      <main className="flex-grow dark:bg-black">{children}</main>
-      <footer className="dark:bg-black">
-        <LanguageSelect />
-      </footer>
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-6xl bg-white dark:bg-neutral-900 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </div>
+        <nav
+          className="mx-auto max-w-6xl bg-white px-4 dark:bg-neutral-800 dark:text-white sm:px-6 lg:px-8"
+          aria-label="Bottom"
+        >
+          <LanguageSelect />
+          <small className="block text-right text-xs rtl:text-left rtl:text-sm dark:text-white">
+            Copyright © 2022 Ibraheem Corporation
+          </small>
+        </nav>
+      </main>
+      <footer className="dark:bg-neutral-900"></footer>
     </>
   )
 }
