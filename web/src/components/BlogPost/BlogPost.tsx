@@ -19,7 +19,7 @@ const BlogPost = ({ blogPost, summary = false }: Props) => {
   return (
     <article className="mt-10">
       <header>
-        <h2 className="text-xl font-semibold text-blue-700">
+        <h2 className="text-xl font-semibold dark:text-white">
           <Link to={appendLangToRoute(routes.blogPost({ id: blogPost.id }))}>
             {blogPost.title}
           </Link>
@@ -28,7 +28,7 @@ const BlogPost = ({ blogPost, summary = false }: Props) => {
           </span>
         </h2>
       </header>
-      <div className="mt-2 font-light text-gray-900">
+      <div className="mt-2 font-light text-gray-900 dark:text-gray-500">
         {summary ? truncate(blogPost.body, 100) : blogPost.body}
       </div>
       {!summary && (

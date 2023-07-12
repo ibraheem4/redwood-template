@@ -42,7 +42,11 @@ const LanguageSelect = () => {
 
   return (
     <>
-      <select value={i18n.language} onChange={handleLanguageChange}>
+      <select
+        className="dark:bg-black dark:text-white"
+        value={i18n.language}
+        onChange={handleLanguageChange}
+      >
         {Object.keys(languageCodes).map((key) => {
           const { title, emoji }: LanguageCode =
             languageCodes[key as keyof typeof languageCodes]

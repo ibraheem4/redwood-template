@@ -8,7 +8,7 @@ const AboutPage = () => {
         descriptionKey="AboutPage.description"
       />
 
-      <p className="font-light">
+      <p className="font-light dark:text-gray-500">
         This site was created to demonstrate my mastery of Redwood: Look on my
         works, ye mighty, and despair!
       </p>

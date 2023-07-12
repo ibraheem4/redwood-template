@@ -83,7 +83,7 @@ const CommentForm = ({ postId }: Props) => {
 
         <Submit
           disabled={loading}
-          className="mt-4 block rounded bg-blue-500 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white disabled:opacity-50"
+          className="mt-4 block rounded bg-indigo-500 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white disabled:opacity-50"
         >
           Submit
         </Submit>
