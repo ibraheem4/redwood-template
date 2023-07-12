@@ -17,8 +17,8 @@ const Pagination = ({ count, itemsPerPage, routeName }) => {
           to={appendLangToRoute(routes[routeName]({ page: i + 1 }))}
           className={`${
             i + 1 === parseInt(currentPage)
-              ? 'bg-blue-500 text-white'
-              : 'bg-blue-100 text-blue-700'
+              ? 'bg-black text-white'
+              : 'bg-white text-black'
           } rounded-lg px-3 py-1`}
         >
           {i + 1}

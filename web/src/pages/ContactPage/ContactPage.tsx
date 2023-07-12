@@ -111,7 +111,7 @@ const ContactPage = () => {
         <FieldError name="message" className="block text-red-700" />
 
         <Submit
-          className="mt-8 block rounded bg-blue-700 px-4 py-2 text-white"
+          className="mt-8 block rounded bg-indigo-700 px-4 py-2 text-white"
           disabled={loading}
         >
           Save

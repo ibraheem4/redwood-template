@@ -53,7 +53,7 @@ describe('Pagination', () => {
     )
 
     const currentPage = getByText('1')
-    expect(currentPage).toHaveClass('bg-blue-500 text-white')
+    expect(currentPage).toHaveClass('bg-black text-white rounded-lg px-3 py-1')
   })
 
   it('renders the non-current pages with the correct styling', () => {
@@ -66,7 +66,9 @@ describe('Pagination', () => {
     )
 
     const nonCurrentPage = getByText('2')
-    expect(nonCurrentPage).toHaveClass('bg-blue-100 text-blue-700')
+    expect(nonCurrentPage).toHaveClass(
+      'bg-white text-black rounded-lg px-3 py-1'
+    )
   })
 
   it('renders with just enough posts to create a new page', () => {
@@ -81,7 +83,7 @@ describe('Pagination', () => {
     )
 
     const currentPage = getByText('2')
-    expect(currentPage).toHaveClass('bg-blue-500 text-white')
+    expect(currentPage).toHaveClass('bg-black text-white rounded-lg px-3 py-1')
   })
 
   it('renders correctly with no posts', () => {

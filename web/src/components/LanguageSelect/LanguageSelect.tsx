@@ -43,7 +43,7 @@ const LanguageSelect = () => {
   return (
     <>
       <select
-        className="dark:bg-black dark:text-white"
+        className="dark:bg-neutral-900 dark:text-white"
         value={i18n.language}
         onChange={handleLanguageChange}
       >
