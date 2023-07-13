@@ -1,9 +1,6 @@
-import { useLocation } from '@redwoodjs/router'
-
 import { DEFAULT_LANGUAGE } from 'src/utils/constants'
 
-export const appendLangToRoute = (route: string): string => {
-  const { search } = useLocation()
+export const appendLangToRoute = (route: string, search: string): string => {
   const params = new URLSearchParams(search)
   const langParam = params.get('lang')
 
