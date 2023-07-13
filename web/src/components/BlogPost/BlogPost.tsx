@@ -28,7 +28,7 @@ const BlogPost = ({ blogPost, summary = false }: Props) => {
           </span>
         </h2>
       </header>
-      <div className="mt-2 font-light text-gray-900 dark:text-gray-500">
+      <div className="mt-2 text-gray-900 dark:text-gray-500">
         {summary ? truncate(blogPost.body, 100) : blogPost.body}
       </div>
       {!summary && (

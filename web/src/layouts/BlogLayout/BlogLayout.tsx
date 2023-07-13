@@ -47,16 +47,18 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
 
     return (
       <>
-        <button
-          type="button"
-          onClick={logoutHandler}
-          className="hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
-        >
-          Logout
-        </button>
-        <div className="right-0 bottom-1 mr-12 text-xs">
-          <span>Logged in as {currentUser.email}</span>
-        </div>
+        <li>
+          <a
+            href="#"
+            onClick={logoutHandler}
+            className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
+          >
+            Logout
+          </a>
+        </li>
+        <li>
+          <div className="right-0 px-4 py-2">Logged in as {currentUser.email}</div>
+        </li>
       </>
     )
   }
@@ -67,13 +69,13 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
       <header className="dark:bg-neutral-900"></header>
       <main className="flex-grow bg-zinc-100 dark:bg-black">
         <nav
-          className="mx-auto max-w-6xl bg-white px-4 dark:bg-neutral-900 dark:text-white sm:px-6 lg:px-8"
+          className="max-w-6xl px-4 py-2 mx-auto bg-white dark:bg-neutral-900 dark:text-white sm:px-6 lg:px-8"
           aria-label="Top"
         >
-          <div className="flex w-full items-center justify-between border-b border-black py-2 dark:border-white">
+          <div className="flex items-center justify-between w-full h-16 py-2 border-b border-black dark:border-white">
             <div className="flex items-center">
               <Link
-                className="dark:text-white"
+                className="text-2xl font-bold text-black uppercase dark:text-white"
                 to={appendLangToRoute(routes.home())}
               >
                 Redwood Blog
@@ -102,18 +104,18 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
             </div>
           </div>
         </nav>
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-6xl bg-white dark:bg-neutral-900 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="max-w-6xl p-4 mx-auto bg-white dark:bg-neutral-900 sm:px-6 lg:px-8">
             {children}
           </div>
         </div>
         <nav
-          className="mx-auto flex max-w-6xl justify-between bg-white px-4 dark:bg-neutral-900 dark:text-white sm:px-6 lg:px-8"
+          className="flex justify-between max-w-6xl px-4 py-2 mx-auto bg-white dark:bg-neutral-900 dark:text-white sm:px-6 lg:px-8"
           aria-label="Bottom"
         >
           <LanguageSelect />
-          <small className="text-center text-xs rtl:text-left rtl:text-sm dark:text-white">
-            Copyright © 2022 Ibraheem Corporation
+          <small className="text-xs text-center rtl:text-left rtl:text-sm dark:text-white">
+            Copyright © 2023 Redwood Blog
           </small>
         </nav>
       </main>

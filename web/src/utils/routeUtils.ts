@@ -1,6 +1,9 @@
 import { DEFAULT_LANGUAGE } from 'src/utils/constants'
 
-export const appendLangToRoute = (route: string, search: string): string => {
+export const appendLangToRoute = (
+  route: string,
+  search: string = window.location.search
+): string => {
   const params = new URLSearchParams(search)
   const langParam = params.get('lang')
 
