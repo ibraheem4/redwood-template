@@ -28,7 +28,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           <li>
             <Link
               to={appendLangToRoute(routes.login())}
-              className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+              className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
             >
               Login
             </Link>
@@ -36,7 +36,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           <li>
             <Link
               to={appendLangToRoute(routes.signup())}
-              className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+              className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
             >
               Signup
             </Link>
@@ -50,7 +50,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         <button
           type="button"
           onClick={logoutHandler}
-          className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+          className="hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
         >
           Logout
         </button>
@@ -83,7 +83,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
               <ul className="relative flex items-center font-light">
                 <li>
                   <Link
-                    className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+                    className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
                     to={appendLangToRoute(routes.about())}
                   >
                     About
@@ -91,7 +91,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
                 </li>
                 <li>
                   <Link
-                    className="rounded px-4 py-2 transition duration-100 hover:bg-gray-100"
+                    className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
                     to={appendLangToRoute(routes.contact())}
                   >
                     Contact

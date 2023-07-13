@@ -15,7 +15,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <div className="dark:text-white">Loading...</div>
 
 export const Empty = () => <div>Post not found</div>
 

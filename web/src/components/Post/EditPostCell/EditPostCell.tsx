@@ -28,7 +28,7 @@ const UPDATE_POST_MUTATION = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <div className="dark:text-white">Loading...</div>
 
 export const Failure = ({ error }: CellFailureProps) => (
   <div className="rw-cell-error">{error?.message}</div>

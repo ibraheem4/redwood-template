@@ -16,7 +16,7 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <div className="dark:text-white">Loading...</div>
 
 export const Empty = () => {
   return <div className="text-center text-gray-500">No comments yet</div>

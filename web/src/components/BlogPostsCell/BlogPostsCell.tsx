@@ -33,7 +33,7 @@ export const beforeQuery = ({
   return { variables: { page, postsPerPage } }
 }
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => <div className="dark:text-white">Loading...</div>
 
 export const Empty = () => <div>Empty</div>
 

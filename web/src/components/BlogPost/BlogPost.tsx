@@ -17,7 +17,7 @@ interface Props {
 
 const BlogPost = ({ blogPost, summary = false }: Props) => {
   return (
-    <article className="mt-10">
+    <article>
       <header>
         <h2 className="text-xl font-semibold dark:text-white">
           <Link to={appendLangToRoute(routes.blogPost({ id: blogPost.id }))}>
