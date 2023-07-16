@@ -33,25 +33,33 @@ const seedAdminUser = async () => {
   const [hashedPassword, salt] = _hashPassword(ADMIN_PASSWORD)
 
   // Check if the admin user already exists
-  const adminUser = await prisma.user.findUnique({
+  const existingAdminUser = await prisma.user.findUnique({
     where: { email: 'admin@admin.com' },
   })
 
-  if (adminUser) {
-    // Delete the admin user.
-    await prisma.user.delete({ where: { id: adminUser.id } })
+  if (existingAdminUser) {
+    // Update the existing admin user
+    await prisma.user.update({
+      where: { id: existingAdminUser.id },
+      data: {
+        hashedPassword,
+        salt,
+        roles: ['admin'],
+      },
+    })
+  } else {
+    // Create a new admin user
+    await prisma.user.create({
+      data: {
+        email: 'admin@admin.com',
+        name: 'Admin',
+        hashedPassword,
+        salt,
+        roles: ['admin'],
+      },
+    })
   }
 
-  // Create a new admin user
-  await prisma.user.create({
-    data: {
-      email: 'admin@admin.com',
-      name: 'Admin',
-      hashedPassword,
-      salt,
-      roles: ['admin'],
-    },
-  })
   console.info(`- Created admin user with email: admin@admin.com`)
 }
 
@@ -59,52 +67,67 @@ const seedModeratorUser = async () => {
   const [hashedPassword, salt] = _hashPassword(MODERATOR_PASSWORD)
 
   // Check if the moderator user already exists
-  const moderatorUser = await prisma.user.findUnique({
+  const existingModeratorUser = await prisma.user.findUnique({
     where: { email: 'moderator@moderator.com' },
   })
 
-  if (moderatorUser) {
-    // Delete the moderator user.
-    await prisma.user.delete({ where: { id: moderatorUser.id } })
+  if (existingModeratorUser) {
+    // Update the existing moderator user
+    await prisma.user.update({
+      where: { id: existingModeratorUser.id },
+      data: {
+        hashedPassword,
+        salt,
+        roles: ['moderator'],
+      },
+    })
+  } else {
+    // Create a new moderator user
+    await prisma.user.create({
+      data: {
+        email: 'moderator@moderator.com',
+        name: 'Moderator',
+        hashedPassword,
+        salt,
+        roles: ['moderator'],
+      },
+    })
   }
 
-  // Create a new admin user
-  await prisma.user.create({
-    data: {
-      email: 'moderator@moderator.com',
-      name: 'Moderator',
-      hashedPassword,
-      salt,
-      roles: ['moderator'],
-    },
-  })
   console.info(`- Created moderator user with email: moderator@moderator.com`)
 }
 
 const seedRegularUser = async () => {
   const [hashedPassword, salt] = _hashPassword(USER_PASSWORD)
+  const email = 'user@user.com'
 
-  // Check if the moderator user already exists
-  const regularUser = await prisma.user.findUnique({
-    where: { email: 'regular@regular.com' },
-  })
+  // Check if the regular user already exists
+  const existingRegularUser = await prisma.user.findUnique({ where: { email } })
 
-  if (regularUser) {
-    // Delete the regular user.
-    await prisma.user.delete({ where: { id: regularUser.id } })
+  if (existingRegularUser) {
+    // Update the existing regular user
+    await prisma.user.update({
+      where: { id: existingRegularUser.id },
+      data: {
+        hashedPassword,
+        salt,
+        roles: ['user'],
+      },
+    })
+  } else {
+    // Create a new regular user
+    await prisma.user.create({
+      data: {
+        email,
+        name: 'Regular User',
+        hashedPassword,
+        salt,
+        roles: ['user'],
+      },
+    })
   }
 
-  // Create a new admin user
-  await prisma.user.create({
-    data: {
-      email: 'user@user.com',
-      name: 'Regular User',
-      hashedPassword,
-      salt,
-      roles: ['user'],
-    },
-  })
-  console.info(`- Created regular user with email: user@user.com`)
+  console.info(`- Created regular user with email: ${email}`)
 }
 
 const seedUsers = async (n = USER_COUNT) => {
@@ -114,16 +137,34 @@ const seedUsers = async (n = USER_COUNT) => {
     const name = randFullName()
     const email = randEmail()
 
-    await prisma.user.create({
-      data: {
-        email,
-        name,
-        hashedPassword,
-        salt,
-        roles: ['user'],
-      },
-    })
+    // Check if the user already exists
+    const existingUser = await prisma.user.findUnique({ where: { email } })
+
+    if (existingUser) {
+      // Update the existing user
+      await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          name,
+          hashedPassword,
+          salt,
+          roles: ['user'],
+        },
+      })
+    } else {
+      // Create a new user
+      await prisma.user.create({
+        data: {
+          email,
+          name,
+          hashedPassword,
+          salt,
+          roles: ['user'],
+        },
+      })
+    }
   }
+
   console.info(`- Created ${n} users`)
 }
 
@@ -147,6 +188,7 @@ const seedPosts = async (n = POST_COUNT) => {
       },
     })
   }
+
   console.info(`- Created ${n} posts`)
 }
 
@@ -167,6 +209,7 @@ const seedComments = async (n = COMMENT_COUNT) => {
       },
     })
   }
+
   console.info(`- Created ${n} comments`)
 }
 
@@ -184,6 +227,7 @@ const seedContacts = async (n = CONTACT_COUNT) => {
       },
     })
   }
+
   console.info(`- Created ${n} contacts`)
 }
 
