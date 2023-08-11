@@ -10,7 +10,7 @@
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@ngneat/falso": "^6.4.0",
-    "@redwoodjs/core": "5.4.3",
+    "@redwoodjs/core": "6.0.6",
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
     "prettier-plugin-tailwindcss": "^0.3.0",

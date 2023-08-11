@@ -13,10 +13,10 @@
     ]
   },
   "dependencies": {
-    "@redwoodjs/auth-dbauth-web": "5.4.3",
-    "@redwoodjs/forms": "5.4.3",
-    "@redwoodjs/router": "5.4.3",
-    "@redwoodjs/web": "5.4.3",
+    "@redwoodjs/auth-dbauth-web": "6.0.6",
+    "@redwoodjs/forms": "6.0.6",
+    "@redwoodjs/router": "6.0.6",
+    "@redwoodjs/web": "6.0.6",
     "humanize-string": "2.1.0",
     "i18n": "^0.15.1",
     "i18next": "^22.4.8",
