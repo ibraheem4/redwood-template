@@ -8,10 +8,6 @@ on:
     branches:
       - main
 
-env:
-  DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
-  TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,11 +21,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "yarnCacheDir=$(yarn cache dir)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ env.yarnCacheDir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - run: yarn install
       - run: yarn rw build
 
@@ -37,16 +37,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          node-version: 18.x
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "yarnCacheDir=$(yarn cache dir)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.yarnCacheDir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - run: yarn install
       - run: yarn rw lint
 
   test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
+      TEST_DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
     services:
       postgres:
         image: postgres
@@ -62,11 +73,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Cache dependencies
-        uses: actions/cache@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          node-version: 18.x
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "yarnCacheDir=$(yarn cache dir)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.yarnCacheDir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - run: yarn install
       - run: yarn rw prisma migrate deploy
       - run: yarn rw test api --no-watch
