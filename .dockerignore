@@ -1,5 +1,30 @@
+# Node modules (can be installed inside the container)
 node_modules
+
+# Git and version control
+.git
+
+# OS-specific files
 .DS_Store
+
+# Docker files
 .dockerignore
-Dockerfile
+Dockerfile*
+
+# Documentation and READMEs
 *.md
+
+# Other unnecessary files and directories
+.editorconfig
+.env.defaults
+.env.example
+.husky
+.nvmrc
+.redwood
+.vscode
+.yarn
+.yarnrc.yml
+commitlint.config.js
+prettier.config.js
+render.yaml
+scripts
