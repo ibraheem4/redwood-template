@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "8910:8910"
+    volumes:
+      - ./web:/usr/src/app
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8911:8911"
+    volumes:
+      - ./api:/usr/src/app

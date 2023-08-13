@@ -1,0 +1,16 @@
+FROM node:18
+
+WORKDIR /usr/src/app
+
+# Copy the root package.json, yarn.lock, and web folder
+COPY package.json yarn.lock ./
+COPY web/package.json web/
+
+# Install dependencies at the root level
+RUN yarn install
+
+# Copy the rest of the web files
+COPY web ./web
+
+# Run Redwood CLI command for the web
+CMD ["yarn", "workspace", "web", "rw", "dev", "web"]
