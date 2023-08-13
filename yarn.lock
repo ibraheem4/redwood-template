@@ -20901,6 +20901,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "prettier@npm:3.0.1"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 7231768b6e0f0f17cbaa83a4f7cdb100df0229ef1910b0b2cf72ce5ed8ee25ae7ec0d30cde20dcd898a002c6d1fcdb8a6ab0f8f5d8fc1275b7c29ea9e56305f2
+  languageName: node
+  linkType: hard
+
 "pretty-bytes@npm:5.6.0":
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
@@ -22273,6 +22282,7 @@ __metadata:
     "@redwoodjs/core": 5.4.3
     husky: ^8.0.2
     lint-staged: ^13.2.2
+    prettier: ^3.0.1
     prettier-plugin-tailwindcss: ^0.3.0
     storybook-tailwind-dark-mode: 1.0.15
   languageName: unknown
