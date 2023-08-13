@@ -28,3 +28,8 @@ commitlint.config.js
 prettier.config.js
 render.yaml
 scripts
+
+.github
+.gitignore
+
+tests/

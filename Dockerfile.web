@@ -1,13 +1,14 @@
-FROM node:18
+# Use a slim version of Node
+FROM node:18-slim
 
 WORKDIR /usr/src/app
 
-# Copy the root package.json, yarn.lock, and web folder
+# Copy only package.json and yarn.lock at first
 COPY package.json yarn.lock ./
 COPY web/package.json web/
 
-# Install dependencies at the root level
-RUN yarn install
+# Install only production dependencies
+RUN yarn install --production
 
 # Copy the rest of the web files
 COPY web ./web
