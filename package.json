@@ -13,7 +13,6 @@
     "@redwoodjs/core": "5.4.3",
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
-    "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "storybook-tailwind-dark-mode": "1.0.15"
   },
@@ -35,5 +34,8 @@
   "scripts": {
     "prepare": "husky install",
     "storybook": "IS_STORYBOOK=true yarn rw storybook"
+  },
+  "dependencies": {
+    "typescript": "4.3.5"
   }
 }
