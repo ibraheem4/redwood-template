@@ -1,14 +1,12 @@
 ###########################################################################################
 # Base
 ###########################################################################################
-FROM node:18-slim as base
+FROM node:18-alpine as base
 
 WORKDIR /app
 
 # Install OpenSSL and other required dependencies
-RUN apt-get update && \
-    apt-get install -y openssl libssl-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk --no-cache add openssl libssl1.1
 
 # Copy package files and install dependencies
 COPY api/package.json ./api/package.json
@@ -57,7 +55,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 # Runner for the API server
-FROM node:18-slim AS api
+FROM node:18-alpine AS api
 
 WORKDIR /app
 
