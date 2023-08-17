@@ -1,5 +1,5 @@
 # Base Builder
-FROM node:18 AS builder
+FROM node:18-slim AS builder
 
 WORKDIR /app
 
@@ -35,9 +35,14 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 # Stage 3: Run the API server
-FROM node:18 AS api
+FROM node:18-slim AS api
 
 WORKDIR /app
+
+# Install OpenSSL
+RUN apt-get update && \
+    apt-get install -y openssl && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy everything from the builder stage
 COPY --from=builder /app ./
