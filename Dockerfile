@@ -1,5 +1,7 @@
-# Base Builder
-FROM node:18-slim AS builder
+###########################################################################################
+# Base
+###########################################################################################
+FROM node:18-slim as base
 
 WORKDIR /app
 
@@ -8,17 +10,22 @@ RUN apt-get update && \
     apt-get install -y openssl libssl-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy root package.json, yarn.lock, and redwood.toml
-COPY package.json yarn.lock redwood.toml ./
+# Copy package files and install dependencies
 COPY api/package.json ./api/package.json
 COPY web/package.json ./web/package.json
-
+COPY package.json .
+COPY yarn.lock .
+COPY redwood.toml .
+COPY graphql.config.js .
 ENV HUSKY=0
+RUN yarn install
 
-# Install dependencies for all workspaces
-RUN yarn install --network-timeout 1000000
+###########################################################################################
+# Build
+###########################################################################################
+FROM base as builder
 
-# Copy rest of the files
+# Copy the rest of the files
 COPY api ./api
 COPY web ./web
 
@@ -26,7 +33,11 @@ COPY web ./web
 RUN yarn rw prisma generate
 RUN yarn rw build
 
-# Stage 2: Run the Nginx web server
+###########################################################################################
+# Runner
+###########################################################################################
+
+# Runner for the Nginx web server
 FROM nginx:alpine AS web
 
 # Set working directory to nginx asset directory
@@ -45,7 +56,7 @@ EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
 
-# Stage 3: Run the API server
+# Runner for the API server
 FROM node:18-slim AS api
 
 WORKDIR /app
