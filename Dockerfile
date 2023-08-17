@@ -1,12 +1,9 @@
 ###########################################################################################
 # Base
 ###########################################################################################
-FROM node:18-alpine as base
+FROM node:18 as base
 
 WORKDIR /app
-
-# Install OpenSSL and other required dependencies
-RUN apk --no-cache add openssl libssl1.1
 
 # Copy package files and install dependencies
 COPY api/package.json ./api/package.json
@@ -55,7 +52,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 # Runner for the API server
-FROM node:18-alpine AS api
+FROM node:18 AS api
 
 WORKDIR /app
 
