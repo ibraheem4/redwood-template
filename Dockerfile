@@ -3,6 +3,11 @@ FROM node:18-slim AS builder
 
 WORKDIR /app
 
+# Install OpenSSL and other required dependencies
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy root package.json, yarn.lock, and redwood.toml
 COPY package.json yarn.lock redwood.toml ./
 COPY api/package.json ./api/package.json
@@ -44,11 +49,6 @@ CMD ["nginx", "-g", "daemon off;"]
 FROM node:18-slim AS api
 
 WORKDIR /app
-
-# Install OpenSSL
-RUN apt-get update && \
-    apt-get install -y openssl && \
-    rm -rf /var/lib/apt/lists/*
 
 # Copy everything from the builder stage
 COPY --from=builder /app ./
