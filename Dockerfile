@@ -24,11 +24,17 @@ RUN yarn rw build
 # Stage 2: Run the Nginx web server
 FROM nginx:alpine AS web
 
+# Set working directory to nginx asset directory
+WORKDIR /usr/share/nginx/html
+
+# Remove default nginx static assets
+RUN rm -rf ./*
+
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built web from the builder stage
-COPY --from=builder /app/web/dist /usr/share/nginx/html
+COPY --from=builder /app/web/dist .
 
 EXPOSE 80
 
