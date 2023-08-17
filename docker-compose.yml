@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       target: web
     ports:
-      - "8910:8910"
+      - "8910:80"
 
   api:
     build:

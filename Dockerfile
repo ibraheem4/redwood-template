@@ -21,17 +21,18 @@ COPY web ./web
 RUN yarn rw prisma generate
 RUN yarn rw build
 
-# Stage 2: Run the Redwood web server
-FROM node:18 AS web
+# Stage 2: Run the Nginx web server
+FROM nginx:alpine AS web
 
-WORKDIR /app
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy everything from the builder stage
-COPY --from=builder /app ./
+# Copy built web from the builder stage
+COPY --from=builder /app/web/dist /usr/share/nginx/html
 
-EXPOSE 8910
+EXPOSE 80
 
-CMD ["yarn", "rw", "serve", "web"]
+CMD ["nginx", "-g", "daemon off;"]
 
 # Stage 3: Run the API server
 FROM node:18 AS api
