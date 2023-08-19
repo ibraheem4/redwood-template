@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: web
+    image: docker-ibraheem4-nginx-web-dev:latest
     ports:
       - "8910:80"
 
@@ -13,6 +14,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: api
+    image: docker-ibraheem4-redwood-api-dev:latest
     ports:
       - "8911:8911"
     env_file:

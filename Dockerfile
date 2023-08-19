@@ -62,6 +62,9 @@ WORKDIR /app
 # Copy everything from the builder stage
 COPY --from=builder /app ./
 
+# Copy the scripts
+COPY scripts scripts
+
 # Copy the entry script
 COPY entrypoint.sh /app/entrypoint.sh
 
