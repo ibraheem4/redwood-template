@@ -17,6 +17,7 @@ services:
     image: docker-ibraheem4-redwood-api-dev:latest
     ports:
       - "8911:8911"
+      - "7910:7910"
     env_file:
       - .env
     environment:

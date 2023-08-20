@@ -39,42 +39,36 @@ Before running this application, ensure that you have the following installed:
 
 ### Development Commands
 
-These commands must be run within the appropriate Docker container. Replace `web` with the name of the container running your RedwoodJS application.
-
-- **Start the development server**:
-
-  ```bash
-  docker-compose exec web yarn redwood dev
-  ```
+These commands must be run within the appropriate Docker container. Replace `api` with the name of the container running your RedwoodJS application.
 
 - **Generate a scaffold for a model**:
 
   ```bash
-  docker-compose exec web yarn redwood g scaffold post
+  docker-compose exec api yarn redwood g scaffold post
   ```
 
 - **Run Storybook for component design**:
 
   ```bash
-  docker-compose exec web yarn rw storybook
+  docker-compose exec api yarn rw storybook
   ```
 
 - **Test your application with Jest**:
 
   ```bash
-  docker-compose exec web yarn rw test
+  docker-compose exec api yarn rw test
   ```
 
 - **Linting**:
 
   ```bash
-  docker-compose exec web yarn rw lint
+  docker-compose exec api yarn rw lint
   ```
 
 - **Automatically fix most linting errors**:
 
   ```bash
-  docker-compose exec web yarn rw lint --fix
+  docker-compose exec api yarn rw lint --fix
   ```
 
 ## Using Prisma Studio with RedwoodJS
@@ -84,7 +78,7 @@ Prisma Studio is a powerful database tool that lets you visually interact with y
 1. **Start Prisma Studio by running**:
 
    ```bash
-   docker-compose exec web yarn rw prisma studio
+   docker-compose exec api yarn rw prisma studio
    ```
 
 ## Database Migrations with Prisma
