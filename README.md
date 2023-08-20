@@ -1,265 +1,158 @@
-# README
+# RedwoodJS App README
 
-Welcome to [RedwoodJS](https://redwoodjs.com)!
+This is a RedwoodJS application with full-stack capabilities, including a frontend, backend, and database, containerized using Docker.
+
+## Prerequisites
+
+Before running this application, ensure that you have the following installed:
+
+- **Docker**: The project uses Docker to containerize the application. [Install Docker](https://docs.docker.com/get-docker/)
+- **Node.js**: Redwood requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x).
+- **Yarn**: Redwood requires [Yarn](https://yarnpkg.com/) (>=1.15).
+
+## Installation
+
+1. Clone the repository or download the source code.
+2. Open a terminal or command prompt and navigate to the project directory.
+3. Run the following command to install dependencies:
+
+   ```bash
+   yarn install
+   ```
+
+## Running the Application with Docker
+
+1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
+
+   ```bash
+   docker-compose build
+   ```
+
+2. **Starting the Dockerized RedwoodJS application**:
+
+   ```bash
+   docker-compose up
+   ```
+
+   > Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
+
+3. **Stopping the Dockerized RedwoodJS application**:
+
+   ```bash
+   docker-compose down
+   ```
+
+### Development Commands
+
+- **Start the development server**:
+
+  ```bash
+  yarn redwood dev
+  ```
+
+- **Generate a scaffold for a model**:
+
+  ```bash
+  yarn redwood g scaffold post
+  ```
+
+- **Run Storybook for component design**:
+
+  ```bash
+  yarn rw storybook
+  ```
+
+- **Test your application with Jest**:
+
+  ```bash
+  yarn rw test
+  ```
+
+- **Set up deployment with various targets**:
+
+  ```bash
+  yarn rw setup deploy --help
+  ```
 
 ## Deployment with Docker
 
-This application is containerized using Docker and can be run locally or deployed using a container orchestration service.
+Deploying the RedwoodJS application using Docker can be done with various container orchestration services. Below are the general steps to deploy the Dockerized application:
 
-### Running Locally with Docker
+1. **Push the Docker images to a container registry**:
 
-To build and run the application using Docker, you'll need to have [Docker](https://docs.docker.com/get-docker/) installed on your system.
+   ```bash
+   docker-compose push
+   ```
 
-First, build the Docker images for the web and API services:
+2. **Use an orchestration tool like Kubernetes or Docker Swarm to deploy the services**.
 
-```bash
-docker-compose build
-```
+   Detailed instructions will vary depending on the platform and orchestration tool used.
 
-Then, start the application:
+## Testing
 
-```bash
-docker-compose up
-```
+RedwoodJS integrates Jest for testing both the frontend and backend:
 
-Your web service will be accessible at [http://localhost:8910](http://localhost:8910), and your API service will be accessible at [http://localhost:8911](http://localhost:8911).
+- **Run tests across the whole application**:
 
-To stop the application, use:
+  ```bash
+  yarn rw test
+  ```
 
-```bash
-docker-compose down
-```
+- **Generate test files for new components and services**:
 
-## Restarting with Docker
+  ```bash
+  yarn rw g test <component-or-service-name>
+  ```
 
-If you need to restart the application while using Docker, you can use the following commands:
+> Open the test results in your terminal or configure a continuous integration (CI) system to run the tests automatically.
 
-```bash
-docker-compose down
-docker-compose up --build
-```
+## Linting
 
-> **Prerequisites**
->
-> - Docker (>=20.10)
-> - Redwood requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x) and [Yarn](https://yarnpkg.com/) (>=1.15)
-> - Are you on Windows? For best results, follow our [Windows development setup](https://redwoodjs.com/docs/how-to/windows-development-setup) guide
+RedwoodJS follows standard linting rules, and you can run the linter to check for code style issues:
 
-Start by installing dependencies:
+- **Run the ESLint linter across the whole project**:
 
-```
-yarn install
-```
+  ```bash
+  yarn rw lint
+  ```
 
-Then change into that directory and start the development server:
+- **Automatically fix most linting errors**:
 
-```
-cd my-redwood-project
-yarn redwood dev
-```
-
-Your browser should automatically open to http://localhost:8910 where you'll see the Welcome Page, which links out to a ton of great resources.
-
-> **The Redwood CLI**
->
-> Congratulations on running your first Redwood CLI command!
-> From dev to deploy, the CLI is with you the whole way.
-> And there's quite a few commands at your disposal:
-> ```
-> yarn redwood --help
-> ```
-> For all the details, see the [CLI reference](https://redwoodjs.com/docs/cli-commands).
-
-## Prisma and the database
-
-Redwood wouldn't be a full-stack framework without a database. It all starts with the schema. Open the [`schema.prisma`](api/db/schema.prisma) file in `api/db` and replace the `UserExample` model with the following `Post` model:
-
-```
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      String
-  createdAt DateTime @default(now())
-}
-```
-
-Redwood uses [Prisma](https://www.prisma.io/), a next-gen Node.js and TypeScript ORM, to talk to the database. Prisma's schema offers a declarative way of defining your app's data models. And Prisma [Migrate](https://www.prisma.io/migrate) uses that schema to make database migrations hassle-free:
-
-```
-yarn rw prisma migrate dev
-
-# ...
-
-? Enter a name for the new migration: › create posts
-```
-
-> `rw` is short for `redwood`
-
-You'll be prompted for the name of your migration. `create posts` will do.
-
-Now let's generate everything we need to perform all the CRUD (Create, Retrieve, Update, Delete) actions on our `Post` model:
-
-```
-yarn redwood g scaffold post
-```
-
-Navigate to http://localhost:8910/posts/new, fill in the title and body, and click "Save":
-
-Did we just create a post in the database? Yup! With `yarn rw g scaffold <model>`, Redwood created all the pages, components, and services necessary to perform all CRUD actions on our posts table.
-
-## Frontend first with Storybook
-
-Don't know what your data models look like?
-That's more than ok—Redwood integrates Storybook so that you can work on design without worrying about data.
-
-Mockup, build, and verify your React components, even in complete isolation from the backend:
-
-```
-yarn rw storybook
-yarn storybook (supports dark mode)
-```
-
-Before you start, see if the CLI's `setup ui` command has your favorite styling library:
-
-```
-yarn rw setup ui --help
-```
-
-## Testing with Jest
-
-It'd be hard to scale from side project to startup without a few tests.
-Redwood fully integrates Jest with the front and the backends and makes it easy to keep your whole app covered by generating test files with all your components and services:
-
-```
-yarn rw test
-```
-
-To make the integration even more seamless, Redwood augments Jest with database [scenarios](https://redwoodjs.com/docs/testing.md#scenarios)  and [GraphQL mocking](https://redwoodjs.com/docs/testing.md#mocking-graphql-calls).
-
-## Ship it
-
-Redwood is designed for both serverless deploy targets like Netlify and Vercel and serverful deploy targets like Render and AWS:
-
-```
-yarn rw setup deploy --help
-```
-
-Don't go live without auth!
-Lock down your front and backends with Redwood's built-in, database-backed authentication system ([dbAuth](https://redwoodjs.com/docs/authentication#self-hosted-auth-installation-and-setup)), or integrate with nearly a dozen third party auth providers:
-
-```
-yarn rw setup auth --help
-```
-
-## Next Steps
-
-The best way to learn Redwood is by going through the comprehensive [tutorial](https://redwoodjs.com/docs/tutorial/foreword) and joining the community (via the [Discourse forum](https://community.redwoodjs.com) or the [Discord server](https://discord.gg/redwoodjs)).
-
-## Quick Links
-
-- Stay updated: read [Forum announcements](https://community.redwoodjs.com/c/announcements/5), follow us on [Twitter](https://twitter.com/redwoodjs), and subscribe to the [newsletter](https://redwoodjs.com/newsletter)
-- [Learn how to contribute](https://redwoodjs.com/docs/contributing)
-
-## Using GraphQL in RedwoodJS
-
-RedwoodJS offers a built-in GraphQL server that allows you to run queries and mutations on your API. During development, you can interact with your GraphQL server using the GraphQL Playground.
-
-To start, run your RedwoodJS development server:
-
-```bash
-yarn rw dev
-```
-
-This will start your development server. By default, your API server runs at http://localhost:8911.
-
-You can access the GraphQL Playground by navigating to http://localhost:8911/graphql in your web browser. Here, you can write and execute your GraphQL queries and mutations.
-
-For example, given a posts query in your GraphQL schema, you could run:
-
-```graphql
-query {
-  posts {
-    id
-    title
-    body
-  }
-}
-```
-Click the "Play" button or press `Ctrl-Enter` to execute the query. The results will appear in the right-hand panel.
-
-Remember that the queries and mutations you can run are dictated by your GraphQL schema, which is defined in the `api/src/graphql` directory of your RedwoodJS project.
-
-Please note that the GraphQL Playground is disabled in production by default for security reasons. It can be enabled by setting api.proxy.playground to true in your `redwood.toml` file, but be aware that this could expose your API to potential security risks.
+  ```bash
+  yarn rw lint --fix
+  ```
 
 ## Using Prisma Studio with RedwoodJS
 
-Prisma Studio is a powerful database tool that lets you visually interact with your database. You can view data, run queries, and make changes.
+Prisma Studio is a powerful database tool that lets you visually interact with your database:
 
-Start Prisma Studio by running:
-
-```bash
-yarn rw prisma studio
-```
-
-This command opens Prisma Studio in a new browser tab.
-
-Each table in your database is displayed as a separate tab in Prisma Studio. Click on a tab to view the data in that table. You can run queries by clicking the "Filter" button and entering a query to filter the data in the table. To edit a record, click on it to open the editing panel, and click "Save" when you're done.
-
-Keep your Prisma schema in sync with your RedwoodJS schema, and run database migrations when you change your schema. This ensures Prisma Studio has the latest structure of your database.
-
-## Creating the PostgreSQL User
-
-To set up the PostgreSQL user for your application, follow these steps:
-
-1. Ensure that PostgreSQL is installed on your system. If not, refer to the official PostgreSQL documentation for installation instructions.
-
-2. Open your terminal or command prompt and run the following command to create the "postgres" user:
+1. **Start Prisma Studio by running**:
 
    ```bash
-   createuser --interactive --pwprompt
+   yarn rw prisma studio
    ```
 
-   This command will prompt you to enter a name for the role (use "postgres"), a password, and confirm the password. By default, the "postgres" user is often used as the administrative user for PostgreSQL.
+2. **Interact with your database**:
 
-   When asked for superuser privileges, select "n" (no) since the "postgres" user does not need to be a superuser for a typical RedwoodJS application.
+   This command opens Prisma Studio in a new browser tab, allowing you to view data, run queries, and make changes.
 
-   Additionally, when asked about the ability to create more new roles, you can select "n" (no) if you don't require the "postgres" user to create additional roles.
+> Keep your Prisma schema in sync with your RedwoodJS schema, and run database migrations when you change your schema.
 
-3. Once you've completed the prompts, the "postgres" user will be created with the specified password and privileges.
+## Database Migrations with Prisma
 
-4. Update the database connection URL in your application's configuration file (e.g., `.env` file) to use the newly created "postgres" user. Here's an example of a connection URL:
+If you need to make changes to the database schema, use Prisma for migrations:
 
-    ```plaintext
-    DATABASE_URL=postgres://postgres:<password>@localhost:5432/your_database
-    ```
+1. Modify the [`schema.prisma`](api/db/schema.prisma) file in `api/db`.
+2. Run the following command to apply the migration:
 
-    Replace `<password>` with the actual password you set during the user creation process, and `your_database` with the name of your PostgreSQL database.
+   ```bash
+   yarn rw prisma migrate dev
+   ```
 
-5. Save the configuration changes and start or restart your RedwoodJS application. It should now use the "postgres" user for database connections.
+## Resources
 
-Remember to exercise caution and protect the credentials of the "postgres" user, as it grants administrative privileges within the PostgreSQL database. If you need to modify or delete the "postgres" user in the future, refer to the appropriate documentation or consult with a PostgreSQL administrator.
-
-## Restarting
-
-```
-yarn
-yarn rw g secret # add SESSION_SECRET to .env
-yarn rw prisma db seed
-yarn rw prisma migrate dev
-yarn rw dev
-```
-
-## Enhancements
-
- - Use TypeScript
- - Pre-commit lint
- - Pre-push test
- - Add commitlint
- - Add missing tests and storybook from Redwood tutorial intermission
- - Setup Postgres
- - Setup i18n including RTL support
- - Use UUID instead of Int
- - Add i18n support for Storybook
- - Add Dark mode support for Storybook
- - Add padding in Storybook
- - Add Pagination
+- RedwoodJS Documentation: [https://redwoodjs.com](https://redwoodjs.com)
+- Prisma Documentation: [https://www.prisma.io](https://www.prisma.io)
+- Docker Documentation: [https://docs.docker.com](https://docs.docker.com)
+- Node.js Documentation: [https://nodejs.org/en/](https://nodejs.org/en/)
+- Yarn Documentation: [https://yarnpkg.com/](https://yarnpkg.com/)
