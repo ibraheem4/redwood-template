@@ -50,7 +50,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy built web from the builder stage
 COPY --from=builder /app/web/dist .
 
-EXPOSE 80
+EXPOSE 8910
 
 CMD ["nginx", "-g", "daemon off;"]
 

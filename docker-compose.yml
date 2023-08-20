@@ -7,7 +7,7 @@ services:
       target: web
     image: docker-ibraheem4-nginx-web-dev:latest
     ports:
-      - "8910:80"
+      - "8910:8910"
 
   api:
     build:
