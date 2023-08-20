@@ -2,34 +2,46 @@
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
 
-## Deployment on [Render.com](https://render.com)
+## Deployment with Docker
 
-The application is currently deployed on Render.com with the following services:
+This application is containerized using Docker and can be run locally or deployed using a container orchestration service.
 
-### Frontend
-**redwood-tutorial-web-ovfn**
-- Service: Static Site
-- Environment: Static
-- Location: Automatic
+### Running Locally with Docker
 
-URL: [redwood-tutorial-web-ovfn.onrender.com](https://redwood-tutorial-web-ovfn.onrender.com)
+To build and run the application using Docker, you'll need to have [Docker](https://docs.docker.com/get-docker/) installed on your system.
 
-### Backend
-**redwood-tutorial-api-lvvq**
-- Service: Web Service
-- Environment: Node.js
-- Location: Automatic
+First, build the Docker images for the web and API services:
 
-URL: [redwood-tutorial-api-lvvq.onrender.com](https://redwood-tutorial-api-lvvq.onrender.com)
+```bash
+docker-compose build
+```
 
-### Database
-- Please refer to the Render.com dashboard for information on the deployed database.
+Then, start the application:
 
-Please note that the URLs provided above are subject to availability and may change depending on the Render.com deployment.
+```bash
+docker-compose up
+```
 
+Your web service will be accessible at [http://localhost:8910](http://localhost:8910), and your API service will be accessible at [http://localhost:8911](http://localhost:8911).
+
+To stop the application, use:
+
+```bash
+docker-compose down
+```
+
+## Restarting with Docker
+
+If you need to restart the application while using Docker, you can use the following commands:
+
+```bash
+docker-compose down
+docker-compose up --build
+```
 
 > **Prerequisites**
 >
+> - Docker (>=20.10)
 > - Redwood requires [Node.js](https://nodejs.org/en/) (>=14.19.x <=16.x) and [Yarn](https://yarnpkg.com/) (>=1.15)
 > - Are you on Windows? For best results, follow our [Windows development setup](https://redwoodjs.com/docs/how-to/windows-development-setup) guide
 

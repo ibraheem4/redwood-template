@@ -26,7 +26,6 @@ Dockerfile*
 .yarnrc.yml
 commitlint.config.js
 prettier.config.js
-render.yaml
 
 .github
 .gitignore
