@@ -1,0 +1,47 @@
+# ==
+# Base
+# ==
+FROM node:18-alpine as base
+WORKDIR /app
+COPY package.json yarn.lock redwood.toml graphql.config.js .
+COPY api/package.json api/
+COPY web/package.json web/
+ENV HUSKY=0
+RUN apk add --update --no-cache openssl1.1-compat
+RUN yarn install --immutable --immutable-cache --production
+RUN yarn cache clean
+
+# ==
+# Build
+# ==
+FROM base as builder
+COPY api api
+COPY web web
+RUN find . -type f -name "*.test.tsx" -exec rm -f {} \;
+RUN find . -type f -name "*.test.ts" -exec rm -f {} \;
+RUN yarn rw build api web
+RUN yarn rw prisma generate
+
+# ==
+# Runners
+# ==
+# Runner for the Nginx web server
+FROM nginx:alpine AS web
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/web/dist .
+EXPOSE 8910
+CMD ["nginx", "-g", "daemon off;"]
+
+# Runner for the API server
+FROM node:18-alpine AS api
+WORKDIR /app
+COPY --from=builder /app/api api
+COPY --from=builder /app/web web
+COPY --from=builder /app/node_modules node_modules
+COPY scripts scripts
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+EXPOSE 8911
+CMD ["/app/entrypoint.sh"]

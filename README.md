@@ -14,30 +14,43 @@ Before running this application, ensure that you have the following installed:
 
 1. Clone the repository or download the source code.
 2. Open a terminal or command prompt and navigate to the project directory.
+3. Duplicate the .env.example file and create a new file named .env to customize your actual configuration details with:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Find and replace any instances of `FIXME`.
 
 ## Running the Application with Docker
+
+### Development
+
+    ```bash
+    docker-compose -f docker-compose.dev.yml up
+    ```
 
 1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
 
    ```bash
-   docker-compose build
+   docker-compose -f docker-compose.dev.yml build
    ```
 
 2. **Starting the Dockerized RedwoodJS application**:
 
    ```bash
-   docker-compose up
+   docker-compose -f docker-compose.dev.yml up
    ```
 
-   > Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
+   Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
 
 3. **Stopping the Dockerized RedwoodJS application**:
 
    ```bash
-   docker-compose down
+   docker-compose -f docker-compose.dev.yml down
    ```
 
-### Development Commands
+#### Development Commands
 
 These commands must be run within the appropriate Docker container. Replace `api` with the name of the container running your RedwoodJS application.
 
@@ -53,7 +66,7 @@ These commands must be run within the appropriate Docker container. Replace `api
   docker-compose exec api yarn storybook
   ```
 
-  > NOTE: Uses `yarn storybook` instead of `yarn rw storybook` in order to pass `IS_STORYBOOK=true` to the environment.
+> NOTE: Uses `yarn storybook` instead of `yarn rw storybook` in order to pass `IS_STORYBOOK=true` to the environment.
 
 - **Test your application with Jest**:
 
@@ -73,17 +86,17 @@ These commands must be run within the appropriate Docker container. Replace `api
   docker-compose exec api yarn rw lint --fix
   ```
 
-## Using Prisma Studio with RedwoodJS
+#### Using Prisma Studio with RedwoodJS
 
 Prisma Studio is a powerful database tool that lets you visually interact with your database:
 
 1. **Start Prisma Studio by running**:
 
-   ```bash
-   docker-compose exec api yarn rw prisma studio
-   ```
+  ```bash
+  docker-compose exec api yarn rw prisma studio
+  ```
 
-## Database Migrations with Prisma
+#### Database Migrations with Prisma
 
 If you need to make changes to the database schema, use Prisma for migrations:
 
@@ -92,6 +105,28 @@ If you need to make changes to the database schema, use Prisma for migrations:
 
    ```bash
    docker-compose exec api yarn rw prisma migrate dev
+   ```
+
+### Production
+
+    ```bash
+    docker-compose -f docker-compose.prod.yml up
+    ```
+
+1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
+
+   ```bash
+   docker-compose -f docker-compose.prod.yml build
+   ```
+
+2. **Starting the Dockerized RedwoodJS application**:
+
+   Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
+
+3. **Stopping the Dockerized RedwoodJS application**:
+
+   ```bash
+   docker-compose -f docker-compose.prod.yml down
    ```
 
 ## Resources

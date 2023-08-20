@@ -31,3 +31,5 @@ prettier.config.js
 .gitignore
 
 tests/
+
+*.log
