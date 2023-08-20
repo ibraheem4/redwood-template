@@ -50,8 +50,10 @@ These commands must be run within the appropriate Docker container. Replace `api
 - **Run Storybook for component design**:
 
   ```bash
-  docker-compose exec api yarn rw storybook
+  docker-compose exec api yarn storybook
   ```
+
+  > NOTE: Uses `yarn storybook` instead of `yarn rw storybook` in order to pass `IS_STORYBOOK=true` to the environment.
 
 - **Test your application with Jest**:
 
@@ -89,7 +91,7 @@ If you need to make changes to the database schema, use Prisma for migrations:
 2. Run the following command to apply the migration:
 
    ```bash
-   docker-compose exec web yarn rw prisma migrate dev
+   docker-compose exec api yarn rw prisma migrate dev
    ```
 
 ## Resources

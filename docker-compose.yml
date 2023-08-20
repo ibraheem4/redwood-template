@@ -17,7 +17,8 @@ services:
     image: docker-ibraheem4-redwood-api-dev:latest
     ports:
       - "8911:8911"
-      - "7910:7910"
+      - "7910:7910" # Storybook
+      - "5555:5555" # Prisma Studio
     env_file:
       - .env
     environment:
