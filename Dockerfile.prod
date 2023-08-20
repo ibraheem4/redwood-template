@@ -42,7 +42,7 @@ COPY --from=builder /app/api api
 COPY --from=builder /app/web web
 COPY --from=builder /app/node_modules node_modules
 COPY scripts scripts
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+COPY entrypoint.prod.sh /app/entrypoint.prod.sh
+RUN chmod +x /app/entrypoint.prod.sh
 EXPOSE 8911
-CMD ["/app/entrypoint.sh"]
+CMD ["/app/entrypoint.prod.sh"]
