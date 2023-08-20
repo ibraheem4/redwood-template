@@ -8,34 +8,35 @@ COPY api/package.json api/
 COPY web/package.json web/
 ENV HUSKY=0
 RUN apk add --update --no-cache openssl1.1-compat
-RUN yarn install --immutable --immutable-cache --production
-RUN yarn cache clean
 
 # ==
 # Build
 # ==
 FROM base as builder
+RUN yarn install --immutable --immutable-cache \
+    && find . -type f -name "*.test.tsx" -exec rm -f {} \; \
+    && find . -type f -name "*.test.ts" -exec rm -f {} \;
 COPY api api
 COPY web web
-RUN find . -type f -name "*.test.tsx" -exec rm -f {} \;
-RUN find . -type f -name "*.test.ts" -exec rm -f {} \;
-RUN yarn rw build api web
-RUN yarn rw prisma generate
+RUN yarn rw build api web && yarn rw prisma generate
+
+# Production Base
+FROM base as production-base
+RUN yarn install --immutable --immutable-cache --production \
+    && yarn cache clean
 
 # ==
 # Runners
 # ==
-# Runner for the Nginx web server
+# Nginx web server
 FROM nginx:alpine AS web
-WORKDIR /usr/share/nginx/html
-RUN rm -rf ./*
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/web/dist .
+COPY --from=builder /app/web/dist /usr/share/nginx/html
 EXPOSE 8910
 CMD ["nginx", "-g", "daemon off;"]
 
-# Runner for the API server
-FROM node:18-alpine AS api
+# API server
+FROM production-base AS api
 WORKDIR /app
 COPY --from=builder /app/api api
 COPY --from=builder /app/web web

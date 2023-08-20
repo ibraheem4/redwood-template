@@ -50,7 +50,7 @@ FROM node:18-alpine AS api
 WORKDIR /app
 COPY --from=builder /app .
 COPY scripts scripts
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+COPY entrypoint.dev.sh /app/entrypoint.dev.sh
+RUN chmod +x /app/entrypoint.dev.sh
 EXPOSE 8911
-CMD ["/app/entrypoint.sh"]
+CMD ["/app/entrypoint.dev.sh"]
