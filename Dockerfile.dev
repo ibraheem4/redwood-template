@@ -8,7 +8,8 @@ COPY api/package.json api/
 COPY web/package.json web/
 ENV HUSKY=0
 RUN apk add --update --no-cache openssl1.1-compat && \
-    yarn install --immutable --immutable-cache --network-timeout 100000
+    yarn install --immutable --immutable-cache --network-timeout 1000000 --parallel && \
+    yarn cache clean
 
 # ==
 # Build
@@ -16,6 +17,7 @@ RUN apk add --update --no-cache openssl1.1-compat && \
 FROM base as builder
 COPY api/ /app/api/
 COPY web/ /app/web/
+COPY scripts/ /app/scripts/
 RUN yarn global add @redwoodjs/cli && \
     yarn rw build api web && \
     yarn rw prisma generate
@@ -36,7 +38,7 @@ CMD ["nginx", "-g", "daemon off;"]
 FROM node:18-alpine AS api
 WORKDIR /app
 COPY --from=builder /app .
-COPY scripts entrypoint.dev.sh /app/
+COPY entrypoint.dev.sh /app/
 RUN chmod +x /app/entrypoint.dev.sh
 EXPOSE 8911
 CMD ["/app/entrypoint.dev.sh"]

@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package.json yarn.lock redwood.toml graphql.config.js api/package.json api/ web/package.json web/ .
 ENV HUSKY=0
 RUN apk add --update --no-cache openssl1.1-compat && \
-    yarn install --immutable --immutable-cache --network-timeout 100000
+    yarn install --immutable --immutable-cache
 
 # ==
 # Build
