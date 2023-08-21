@@ -13,17 +13,17 @@ RUN apk add --update --no-cache openssl1.1-compat
 # Build
 # ==
 FROM base as builder
-RUN yarn install --immutable --immutable-cache \
-    && find . -type f -name "*.test.tsx" -exec rm -f {} \; \
-    && find . -type f -name "*.test.ts" -exec rm -f {} \;
+RUN yarn install --immutable --immutable-cache --network-timeout 100000
+RUN find . -type f -name "*.test.tsx" -exec rm -f {} \;
+RUN find . -type f -name "*.test.ts" -exec rm -f {} \;
 COPY api api
 COPY web web
 RUN yarn rw build api web && yarn rw prisma generate
 
 # Production Base
 FROM base as production-base
-RUN yarn install --immutable --immutable-cache --production \
-    && yarn cache clean
+RUN yarn install --immutable --immutable-cache --network-timeout 100000 --production
+RUN yarn cache clean
 
 # ==
 # Runners
