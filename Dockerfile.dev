@@ -14,7 +14,8 @@ RUN apk add --update --no-cache openssl1.1-compat && \
 # Build
 # ==
 FROM base as builder
-COPY api web /app/
+COPY api/ /app/api/
+COPY web/ /app/web/
 RUN yarn global add @redwoodjs/cli && \
     yarn rw build api web && \
     yarn rw prisma generate
