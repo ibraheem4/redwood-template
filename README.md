@@ -26,10 +26,6 @@ Before running this application, ensure that you have the following installed:
 
 ### Development
 
-    ```bash
-    docker-compose -f docker-compose.dev.yml up
-    ```
-
 1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
 
    ```bash
