@@ -8,26 +8,8 @@ services:
     image: docker-ibraheem4-nginx-web-dev:latest
     ports:
       - "8910:8910"
-
-  storybook:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-      target: storybook
-    image: docker-ibraheem4-redwood-storybook-dev:latest
-    ports:
-      - "7910:7910"
-
-  prisma_studio:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-      target: prisma_studio
-    image: docker-ibraheem4-redwood-prisma-studio-dev:latest
-    ports:
-      - "5555:5555"
-    env_file:
-      - .env
+    networks:
+      - app-network
 
   api:
     build:
@@ -37,6 +19,8 @@ services:
     image: docker-ibraheem4-redwood-api-dev:latest
     ports:
       - "8911:8911"
+      - "7910:7910"
+      - "5555:5555"
     env_file:
       - .env
     environment:
@@ -46,6 +30,8 @@ services:
     depends_on:
       - db
       - test_db
+    networks:
+      - app-network
 
   db:
     image: postgres:15
@@ -55,6 +41,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB_DEV}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-network
 
   test_db:
     image: postgres:15
@@ -64,7 +52,13 @@ services:
       POSTGRES_DB: ${POSTGRES_DB_TEST}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-network
 
 volumes:
   redwood_db_data_dev:
   redwood_test_db_data_dev:
+
+networks:
+  app-network:
+    driver: bridge

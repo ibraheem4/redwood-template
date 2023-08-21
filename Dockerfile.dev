@@ -7,35 +7,21 @@ COPY package.json yarn.lock redwood.toml graphql.config.js .
 COPY api/package.json api/
 COPY web/package.json web/
 ENV HUSKY=0
-RUN apk add --update --no-cache openssl1.1-compat
-RUN yarn install --immutable --immutable-cache
+RUN apk add --update --no-cache openssl1.1-compat && \
+    yarn install --immutable --immutable-cache --network-timeout 100000
 
 # ==
 # Build
 # ==
 FROM base as builder
-COPY api api
-COPY web web
-RUN yarn rw build api web
-RUN yarn rw prisma generate
+COPY api web /app/
+RUN yarn global add @redwoodjs/cli && \
+    yarn rw build api web && \
+    yarn rw prisma generate
 
 # ==
 # Runners
 # ==
-# Runner for Storybook
-FROM base AS storybook
-WORKDIR /app
-COPY --from=builder /app .
-EXPOSE 7910
-CMD ["yarn", "storybook"]
-
-# Runner for Prisma Studio
-FROM base AS prisma_studio
-WORKDIR /app
-COPY --from=builder /app .
-EXPOSE 5555
-CMD ["yarn", "rw", "prisma", "studio"]
-
 # Runner for the Nginx web server
 FROM nginx:alpine AS web
 WORKDIR /usr/share/nginx/html
@@ -49,8 +35,7 @@ CMD ["nginx", "-g", "daemon off;"]
 FROM node:18-alpine AS api
 WORKDIR /app
 COPY --from=builder /app .
-COPY scripts scripts
-COPY entrypoint.dev.sh /app/entrypoint.dev.sh
+COPY scripts entrypoint.dev.sh /app/
 RUN chmod +x /app/entrypoint.dev.sh
 EXPOSE 8911
 CMD ["/app/entrypoint.dev.sh"]
