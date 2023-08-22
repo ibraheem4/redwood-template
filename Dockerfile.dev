@@ -8,7 +8,7 @@ COPY api/package.json api/
 COPY web/package.json web/
 ENV HUSKY=0
 RUN apk add --update --no-cache openssl1.1-compat && \
-    yarn install --immutable --immutable-cache --network-timeout 1000000 --parallel && \
+    yarn install --immutable --immutable-cache --parallel && \
     yarn cache clean
 
 # ==

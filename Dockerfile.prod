@@ -20,7 +20,7 @@ RUN yarn rw build api web && \
 
 # Production Base
 FROM base as production-base
-RUN yarn install --immutable --immutable-cache --network-timeout 100000 --production && \
+RUN yarn install --immutable --immutable-cache --production && \
     yarn cache clean
 
 # ==
