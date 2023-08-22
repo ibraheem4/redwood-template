@@ -109,10 +109,6 @@ If you need to make changes to the database schema, use Prisma for migrations:
 
 ### Production
 
-    ```bash
-    docker-compose -f docker-compose.prod.yml up
-    ```
-
 1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
 
    ```bash
@@ -120,6 +116,10 @@ If you need to make changes to the database schema, use Prisma for migrations:
    ```
 
 2. **Starting the Dockerized RedwoodJS application**:
+
+    ```bash
+    docker-compose -f docker-compose.prod.yml up
+    ```
 
    Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
 
@@ -129,6 +129,25 @@ If you need to make changes to the database schema, use Prisma for migrations:
    docker-compose -f docker-compose.prod.yml down
    ```
 
+## Publishing Images to Docker Hub
+
+   If you need to publish the updated Docker images to Docker Hub, you can use the following commands:
+
+   ### Web Image
+
+   ```bash
+   docker build --target web -f Dockerfile.dev -t ibraheem4/docker-ibraheem4-nginx-web-dev:latest .
+   docker push ibraheem4/docker-ibraheem4-nginx-web-dev:latest
+   ```
+
+   ### API Image
+
+   ```bash
+   docker build --target api -f Dockerfile.dev -t ibraheem4/docker-ibraheem4-redwood-api-dev:latest .
+   docker push ibraheem4/docker-ibraheem4-redwood-api-dev:latest
+   ```
+
+   Make sure you're logged in to Docker Hub before pushing the images.
 ## Resources
 
 - RedwoodJS Documentation: [https://redwoodjs.com](https://redwoodjs.com)
