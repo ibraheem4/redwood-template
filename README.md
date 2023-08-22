@@ -62,6 +62,8 @@ These commands must be run within the appropriate Docker container. Replace `api
   docker-compose -f docker-compose.dev.yml exec api yarn storybook
   ```
 
+   Access the prisma studio service at [http://localhost:7910](http://localhost:7910).
+
 > NOTE: Uses `yarn storybook` instead of `yarn rw storybook` in order to pass `IS_STORYBOOK=true` to the environment.
 
 - **Test your application with Jest**:
@@ -91,6 +93,8 @@ Prisma Studio is a powerful database tool that lets you visually interact with y
   ```bash
   docker-compose -f docker-compose.dev.yml exec api yarn rw prisma studio
   ```
+
+   Access the prisma studio service at [http://localhost:5555](http://localhost:5555).
 
 #### Database Migrations with Prisma
 
