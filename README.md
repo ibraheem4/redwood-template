@@ -53,13 +53,13 @@ These commands must be run within the appropriate Docker container. Replace `api
 - **Generate a scaffold for a model**:
 
   ```bash
-  docker-compose exec api yarn redwood g scaffold post
+  docker-compose -f docker-compose.dev.yml exec api yarn redwood g scaffold post
   ```
 
 - **Run Storybook for component design**:
 
   ```bash
-  docker-compose exec api yarn storybook
+  docker-compose -f docker-compose.dev.yml exec api yarn storybook
   ```
 
 > NOTE: Uses `yarn storybook` instead of `yarn rw storybook` in order to pass `IS_STORYBOOK=true` to the environment.
@@ -67,19 +67,19 @@ These commands must be run within the appropriate Docker container. Replace `api
 - **Test your application with Jest**:
 
   ```bash
-  docker-compose exec api yarn rw test
+  docker-compose -f docker-compose.dev.yml exec api yarn rw test
   ```
 
 - **Linting**:
 
   ```bash
-  docker-compose exec api yarn rw lint
+  docker-compose -f docker-compose.dev.yml exec api yarn rw lint
   ```
 
 - **Automatically fix most linting errors**:
 
   ```bash
-  docker-compose exec api yarn rw lint --fix
+  docker-compose -f docker-compose.dev.yml exec api yarn rw lint --fix
   ```
 
 #### Using Prisma Studio with RedwoodJS
@@ -89,7 +89,7 @@ Prisma Studio is a powerful database tool that lets you visually interact with y
 1. **Start Prisma Studio by running**:
 
   ```bash
-  docker-compose exec api yarn rw prisma studio
+  docker-compose -f docker-compose.dev.yml exec api yarn rw prisma studio
   ```
 
 #### Database Migrations with Prisma
@@ -100,7 +100,7 @@ If you need to make changes to the database schema, use Prisma for migrations:
 2. Run the following command to apply the migration:
 
    ```bash
-   docker-compose exec api yarn rw prisma migrate dev
+   docker-compose -f docker-compose.dev.yml exec api yarn rw prisma migrate dev
    ```
 
 ### Production
