@@ -148,6 +148,45 @@ If you need to make changes to the database schema, use Prisma for migrations:
    ```
 
    Make sure you're logged in to Docker Hub before pushing the images.
+
+### `ibraheem4-nginx`
+
+**Meta**
+| | |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name | `ibraheem4-nginx` |
+| Description | DESCRIPTION. |
+| Workflow | BADGE |
+| Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4) |
+
+**Packages**
+
+| Name | Runtime          |
+| ---- | ---------------- |
+| api  | `node:18-alpine`  |
+| web  | `nginx:alpine`   |
+
+**Benchmark**
+
+Benchmark on running averages
+
+| Package | Build time | Image size |
+| ------- | ---------- | ---------- |
+| api     | `~Xm XXs`  | `1.35GB`    |
+| web     | `~Xm XXs`  | `44.5MB`    |
+
+> Image size is the size of the image after being built. `Docker images | egrep '^.*SIZE|docker\-.*' `
+
+**Suitable for**
+
+| Scenario                    | Development | Production |
+| --------------------------- | ----------- | ---------- |
+| Basic installation          | ✅          | ✅         |
+| Preferably w/ LB/proxy      | ❌          | ❌         |
+| High Availability           | ❌          | ❌         |
+| Separation of concern       | ❌          | ❌         |
+| Handles db migration & seed | ✅          | ❌         |
+
 ## Resources
 
 - RedwoodJS Documentation: [https://redwoodjs.com](https://redwoodjs.com)
