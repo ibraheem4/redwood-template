@@ -4,6 +4,7 @@ services:
     build:
       context: .
       target: web
+      dockerfile: Dockerfile.dev
     image: docker-ibraheem4-nginx-web-dev:latest
     ports:
       - "8910:8910"
@@ -14,6 +15,7 @@ services:
     build:
       context: .
       target: api
+      dockerfile: Dockerfile.dev
     image: docker-ibraheem4-redwood-api-dev:latest
     ports:
       - "8911:8911"

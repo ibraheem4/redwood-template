@@ -1,13 +1,6 @@
 version: '3.8'
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
