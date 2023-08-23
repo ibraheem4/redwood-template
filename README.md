@@ -29,13 +29,13 @@ Before running this application, ensure that you have the following installed:
 1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
 
    ```bash
-   docker-compose -f docker-compose.dev.yml build
+   docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
    ```
 
 2. **Starting the Dockerized RedwoodJS application**:
 
    ```bash
-   docker-compose -f docker-compose.dev.yml up
+   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
    ```
 
    Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
@@ -43,7 +43,7 @@ Before running this application, ensure that you have the following installed:
 3. **Stopping the Dockerized RedwoodJS application**:
 
    ```bash
-   docker-compose -f docker-compose.dev.yml down
+   docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
    ```
 
 #### Development Commands
@@ -107,18 +107,19 @@ If you need to make changes to the database schema, use Prisma for migrations:
    docker-compose -f docker-compose.dev.yml exec api yarn rw prisma migrate dev
    ```
 
+
 ### Production
 
 1. **Building the Docker images** (only need to do this the first time or whenever there are changes):
 
    ```bash
-   docker-compose -f docker-compose.prod.yml build
+   docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
    ```
 
 2. **Starting the Dockerized RedwoodJS application**:
 
     ```bash
-    docker-compose -f docker-compose.prod.yml up
+    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
     ```
 
    Access the web service at [http://localhost:8910](http://localhost:8910) and the API service at [http://localhost:8911](http://localhost:8911).
@@ -126,7 +127,7 @@ If you need to make changes to the database schema, use Prisma for migrations:
 3. **Stopping the Dockerized RedwoodJS application**:
 
    ```bash
-   docker-compose -f docker-compose.prod.yml down
+   docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
    ```
 
 ## Publishing Images to Docker Hub

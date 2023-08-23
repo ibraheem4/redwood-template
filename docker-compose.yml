@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      target: web
+    image: docker-ibraheem4-nginx-web-dev:latest
+    ports:
+      - "8910:8910"
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: .
+      target: api
+    image: docker-ibraheem4-redwood-api-dev:latest
+    ports:
+      - "8911:8911"
+      - "7910:7910"
+      - "5555:5555"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-network
+
+volumes:
+  redwood_db_data_dev:
+  redwood_test_db_data_dev:
+
+networks:
+  app-network:
+    driver: bridge
