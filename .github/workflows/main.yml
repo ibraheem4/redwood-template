@@ -34,6 +34,6 @@ jobs:
       - name: Start the Dockerized RedwoodJS application
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
       - name: Run command
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec api ${{ matrix.command }}
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api ${{ matrix.command }}
       - name: Stopping the Dockerized RedwoodJS application
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
