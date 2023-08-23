@@ -181,7 +181,7 @@ Benchmark on running averages
 
 | Scenario                    | Development | Production |
 | --------------------------- | ----------- | ---------- |
-| Basic installation          | ✅          | ✅         |
+| Basic installation          | ✅          | ❌             |
 | Preferably w/ LB/proxy      | ❌          | ❌         |
 | High Availability           | ❌          | ❌         |
 | Separation of concern       | ❌          | ❌         |
