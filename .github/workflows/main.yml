@@ -11,6 +11,19 @@ on:
 jobs:
   common:
     runs-on: ubuntu-latest
+    env:
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
+      REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
+      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+      DATABASE_URL: postgresql://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@db:5432/${{secrets.POSTGRES_DB_DEV}}
+      TEST_DATABASE_URL: postgresql://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@test_db:5432/${{secrets.POSTGRES_DB_TEST}}
+      POSTGRES_DB_DEV: ${{ secrets.POSTGRES_DB_DEV }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB_PROD: ${{ secrets.POSTGRES_DB_PROD }}
+      POSTGRES_DB_TEST: ${{ secrets.POSTGRES_DB_TEST }}
     strategy:
       matrix:
         command: ['yarn rw build', 'yarn rw lint', 'yarn rw test api --no-watch', 'yarn rw test web --no-watch']
