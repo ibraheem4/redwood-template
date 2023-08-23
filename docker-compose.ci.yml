@@ -4,3 +4,7 @@ services:
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
