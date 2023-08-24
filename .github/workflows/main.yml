@@ -49,9 +49,6 @@ jobs:
       - name: Build and start containers
         run: docker-compose -f docker-compose.ci.yml up -d
 
-      - name: Wait for database
-        run: docker-compose -f docker-compose.ci.yml exec -T api /wait-for db:5432 -- echo "Database is up"
-
       - name: Run migrations (if applicable)
         run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw prisma migrate deploy
 
