@@ -69,8 +69,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build and start containers
-        run: docker-compose -f docker-compose.ci.yml build
+      - name: Build and Start Docker Containers
+        run: |
+          start_time=$(date +%s)
+          docker-compose -f docker-compose.ci.yml build
+          end_time=$(date +%s)
+          build_runtime=$((end_time - start_time))
+          echo "Build Runtime: $build_runtime seconds" >> $GITHUB_WORKSPACE/build.log
 
       - name: Tag Docker Images
         run: |
@@ -82,5 +87,17 @@ jobs:
 
       - name: Push Docker Images to Docker Hub
         run: |
+          start_time=$(date +%s)
           docker push ibraheem4/docker-ibraheem4-nginx-web-dev:latest
           docker push ibraheem4/docker-ibraheem4-redwood-api-dev:latest
+          end_time=$(date +%s)
+          publish_runtime=$((end_time - start_time))
+          echo "::warning file=publish.log,line=1,col=5::Publish Runtime: $publish_runtime seconds"
+
+      - name: Publish Build Information
+        run: |
+          cat $GITHUB_WORKSPACE/build.log
+          build_runtime=$(cat $GITHUB_WORKSPACE/build.log | grep 'Build Runtime' | awk '{print $3}')
+          web_image_size=$(docker images ibraheem4/docker-ibraheem4-nginx-web-dev:latest --format "{{.Size}}")
+          api_image_size=$(docker images ibraheem4/docker-ibraheem4-redwood-api-dev:latest --format "{{.Size}}")
+          echo "::warning file=build.log,line=1,col=5::Build Runtime: $build_runtime seconds | Web Image Size: $web_image_size | API Image Size: $api_image_size"
