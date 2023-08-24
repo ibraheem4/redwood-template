@@ -156,8 +156,8 @@ If you need to make changes to the database schema, use Prisma for migrations:
 | | |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Name | `ibraheem4-nginx` |
-| Description | DESCRIPTION. |
-| Workflow | BADGE |
+| Description | RedwoodJS application that provides web and API services. |
+| Workflow | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-tutorial/actions/workflows/main.yml/badge.svg) |
 | Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4) |
 
 **Packages**
