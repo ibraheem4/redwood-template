@@ -9,7 +9,7 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Name | `ibraheem4-nginx` |
 | Description | RedwoodJS application that provides web and API services. |
-| Workflow | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-tutorial/actions/workflows/main.yml/badge.svg) |
+| Workflow | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg) |
 | Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4) |
 
 **Packages**
