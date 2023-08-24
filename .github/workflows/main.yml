@@ -9,31 +9,35 @@ on:
       - main
 
 jobs:
-  common:
+  build:
     runs-on: ubuntu-latest
-    env:
-      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-      DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
-      REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
-      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
-      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-      POSTGRES_DB_DEV: ${{ secrets.POSTGRES_DB_DEV }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB_PROD: ${{ secrets.POSTGRES_DB_PROD }}
-      POSTGRES_DB_TEST: ${{ secrets.POSTGRES_DB_TEST }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
-    strategy:
-      matrix:
-        command: ['yarn rw build', 'yarn rw lint', 'yarn rw test api --no-watch', 'yarn rw test web --no-watch']
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker images
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
       - name: Start the Dockerized RedwoodJS application
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
-      - name: Run command
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api ${{ matrix.command }}
+      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw build
+      - name: Stopping the Dockerized RedwoodJS application
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn install
+      - run: yarn rw lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker images
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
+      - name: Start the Dockerized RedwoodJS application
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw prisma migrate deploy
+      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw test api --no-watch
+      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
       - name: Stopping the Dockerized RedwoodJS application
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
