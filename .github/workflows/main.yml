@@ -16,13 +16,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and start containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+        run: docker-compose -f docker-compose.ci.yml up -d
 
       - name: Install dependencies
-        run: docker-compose exec api yarn install
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn install
 
       - name: Build RedwoodJS project
-        run: docker-compose exec api yarn rw build
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
 
   lint:
     runs-on: ubuntu-latest
@@ -31,10 +31,10 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and start containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+        run: docker-compose -f docker-compose.ci.yml up -d
 
       - name: Lint RedwoodJS project
-        run: docker-compose exec api yarn rw lint
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
 
   test:
     runs-on: ubuntu-latest
@@ -47,13 +47,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and start containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+        run: docker-compose -f docker-compose.ci.yml up -d
 
       - name: Run migrations (if applicable)
-        run: docker-compose exec api yarn rw prisma migrate deploy
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw prisma migrate deploy
 
       - name: Run API tests
-        run: docker-compose exec api yarn rw test api --no-watch
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw test api --no-watch
 
       - name: Run Web tests
-        run: docker-compose exec api yarn rw test web --no-watch
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
