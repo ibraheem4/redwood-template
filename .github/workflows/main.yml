@@ -8,62 +8,52 @@ on:
     branches:
       - main
 
-env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
-  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
+
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker images
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
-      - name: Start the Dockerized RedwoodJS application
+
+      - name: Build and start containers
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
-      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw build
-      - name: Stopping the Dockerized RedwoodJS application
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
+
+      - name: Install dependencies
+        run: docker-compose exec api yarn install
+
+      - name: Build RedwoodJS project
+        run: docker-compose exec api yarn rw build
 
   lint:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
+
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker images
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
-      - name: Start the Dockerized RedwoodJS application
+
+      - name: Build and start containers
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
-      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw lint
-      - name: Stopping the Dockerized RedwoodJS application
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
+
+      - name: Lint RedwoodJS project
+        run: docker-compose exec api yarn rw lint
 
   test:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
+      REDWOOD_API_URL: ***
+      DATABASE_URL: postgresql://postgres:password@db:5432/redwood_dev
+      TEST_DATABASE_URL: postgresql://postgres:password@db:5432/redwood_test
+
     steps:
       - uses: actions/checkout@v3
-      - name: Build the Docker images
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
-      - name: Start the Dockerized RedwoodJS application
+
+      - name: Build and start containers
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
-      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw prisma migrate deploy
-      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw test api --no-watch
-      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
-      - name: Stopping the Dockerized RedwoodJS application
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
+
+      - name: Run migrations (if applicable)
+        run: docker-compose exec api yarn rw prisma migrate deploy
+
+      - name: Run API tests
+        run: docker-compose exec api yarn rw test api --no-watch
+
+      - name: Run Web tests
+        run: docker-compose exec api yarn rw test web --no-watch
