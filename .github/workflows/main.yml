@@ -45,8 +45,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build and start containers
-        run: docker-compose -f docker-compose.ci.yml up -d
+      - name: Build and Start Docker Containers
+        run: |
+          start_time=$(date +%s)
+          docker-compose -f docker-compose.ci.yml build
+          docker-compose -f docker-compose.ci.yml up -d
+          docker tag docker-ibraheem4-nginx-web-dev:latest docker-ibraheem4/nginx-web-dev:latest
+          docker tag docker-ibraheem4-redwood-api-dev:latest docker-ibraheem4/redwood-api-dev:latest
+          end_time=$(date +%s)
+          build_runtime=$((end_time - start_time))
+          echo "Build Runtime: $build_runtime seconds" >> $GITHUB_WORKSPACE/build.log
 
       - name: Run migrations (if applicable)
         run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw prisma migrate deploy
@@ -61,8 +69,8 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push docker-ibraheem4-nginx-web-dev:latest
-          docker push docker-ibraheem4-redwood-api-dev:latest
+          docker push docker-ibraheem4/nginx-web-dev:latest
+          docker push docker-ibraheem4/redwood-api-dev:latest
 
       - name: Publish Build Information
         run: |
