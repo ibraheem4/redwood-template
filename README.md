@@ -2,6 +2,42 @@
 
 This is a RedwoodJS application with full-stack capabilities, including a frontend, backend, and database, containerized using Docker.
 
+### `ibraheem4-nginx`
+
+**Meta**
+| | |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name | `ibraheem4-nginx` |
+| Description | RedwoodJS application that provides web and API services. |
+| Workflow | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-tutorial/actions/workflows/main.yml/badge.svg) |
+| Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4) |
+
+**Packages**
+
+| Name | Runtime          |
+| ---- | ---------------- |
+| api  | `node:18-alpine`  |
+| web  | `nginx:alpine`   |
+
+**Benchmark**
+
+Benchmark on running averages
+
+| Package | Build time | Image size |
+| ------- | ---------- | ---------- |
+| api     | `~Xm XXs`  | `1.32GB`    |
+| web     | `~Xm XXs`  | `43.6MB`    |
+
+**Suitable for**
+
+| Scenario                    | Development | Production |
+| --------------------------- | ----------- | ---------- |
+| Basic installation          | ✅          | ❌             |
+| Preferably w/ LB/proxy      | ❌          | ❌         |
+| High Availability           | ❌          | ❌         |
+| Separation of concern       | ❌          | ❌         |
+| Handles db migration & seed | ✅          | ❌         |
+
 ## Prerequisites
 
 Before running this application, ensure that you have the following installed:
@@ -149,44 +185,6 @@ If you need to make changes to the database schema, use Prisma for migrations:
    ```
 
    Make sure you're logged in to Docker Hub before pushing the images.
-
-### `ibraheem4-nginx`
-
-**Meta**
-| | |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Name | `ibraheem4-nginx` |
-| Description | RedwoodJS application that provides web and API services. |
-| Workflow | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-tutorial/actions/workflows/main.yml/badge.svg) |
-| Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4) |
-
-**Packages**
-
-| Name | Runtime          |
-| ---- | ---------------- |
-| api  | `node:18-alpine`  |
-| web  | `nginx:alpine`   |
-
-**Benchmark**
-
-Benchmark on running averages
-
-| Package | Build time | Image size |
-| ------- | ---------- | ---------- |
-| api     | `~Xm XXs`  | `1.35GB`    |
-| web     | `~Xm XXs`  | `44.5MB`    |
-
-> Image size is the size of the image after being built. `Docker images | egrep '^.*SIZE|docker\-.*' `
-
-**Suitable for**
-
-| Scenario                    | Development | Production |
-| --------------------------- | ----------- | ---------- |
-| Basic installation          | ✅          | ❌             |
-| Preferably w/ LB/proxy      | ❌          | ❌         |
-| High Availability           | ❌          | ❌         |
-| Separation of concern       | ❌          | ❌         |
-| Handles db migration & seed | ✅          | ❌         |
 
 ## Resources
 
