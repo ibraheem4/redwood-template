@@ -25,8 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install
-      - run: yarn rw lint
+      - name: Build the Docker images
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
+      - name: Start the Dockerized RedwoodJS application
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+      - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -T api yarn rw lint
+      - name: Stopping the Dockerized RedwoodJS application
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
 
   test:
     runs-on: ubuntu-latest
