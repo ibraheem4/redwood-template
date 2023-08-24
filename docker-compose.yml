@@ -16,6 +16,9 @@ services:
       context: .
       target: api
       dockerfile: Dockerfile.dev
+    environment:
+      REDWOOD_API_URL: ${REDWOOD_API_URL}
+      DATABASE_URL: ${DATABASE_URL}
     image: docker-ibraheem4-redwood-api-dev:latest
     ports:
       - "8911:8911"
