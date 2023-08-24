@@ -25,8 +25,8 @@ Benchmark on running averages
 
 | Package | Build time | Image size |
 | ------- | ---------- | ---------- |
-| api     | `~Xm XXs`  | `1.32GB`    |
-| web     | `~Xm XXs`  | `43.6MB`    |
+| api     | `~554s`  | `1.32GB`    |
+| web     | `~554s`  | `43.6MB`    |
 
 **Suitable for**
 
