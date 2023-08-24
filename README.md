@@ -173,15 +173,15 @@ If you need to make changes to the database schema, use Prisma for migrations:
    ### Web Image
 
    ```bash
-   docker build --target web -f Dockerfile.dev -t ibraheem4/docker-ibraheem4-nginx-web-dev:latest .
-   docker push ibraheem4/docker-ibraheem4-nginx-web-dev:latest
+   docker build --target web -f Dockerfile.dev -t ibraheem4/redwood-web-nginx-dev:latest .
+   docker push ibraheem4/redwood-web-nginx-dev:latest
    ```
 
    ### API Image
 
    ```bash
-   docker build --target api -f Dockerfile.dev -t ibraheem4/docker-ibraheem4-redwood-api-dev:latest .
-   docker push ibraheem4/docker-ibraheem4-redwood-api-dev:latest
+   docker build --target api -f Dockerfile.dev -t ibraheem4/redwood-api-dev:latest .
+   docker push ibraheem4/redwood-api-dev:latest
    ```
 
    Make sure you're logged in to Docker Hub before pushing the images.

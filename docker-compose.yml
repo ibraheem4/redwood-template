@@ -5,7 +5,7 @@ services:
       context: .
       target: web
       dockerfile: Dockerfile.dev
-    image: docker-ibraheem4-nginx-web-dev:latest
+    image: redwood-web-nginx-dev:latest
     ports:
       - "8910:8910"
     networks:
@@ -19,7 +19,7 @@ services:
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
-    image: docker-ibraheem4-redwood-api-dev:latest
+    image: redwood-api-dev:latest
     ports:
       - "8911:8911"
       - "7910:7910"

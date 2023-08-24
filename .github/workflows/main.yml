@@ -46,23 +46,23 @@ jobs:
       # Publish
       - name: Tag Docker Images
         run: |
-          docker tag docker-ibraheem4-nginx-web-dev:latest ibraheem4/docker-ibraheem4-nginx-web-dev:latest
-          docker tag docker-ibraheem4-redwood-api-dev:latest ibraheem4/docker-ibraheem4-redwood-api-dev:latest
+          docker tag redwood-web-nginx-dev:latest ibraheem4/redwood-web-nginx-dev:latest
+          docker tag redwood-api-dev:latest ibraheem4/redwood-api-dev:latest
 
       - name: Publish Docker Images
         if: github.ref == 'refs/heads/main'
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker push ibraheem4/docker-ibraheem4-nginx-web-dev:latest
-          docker push ibraheem4/docker-ibraheem4-redwood-api-dev:latest
+          docker push ibraheem4/redwood-web-nginx-dev:latest
+          docker push ibraheem4/redwood-api-dev:latest
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Publish Build Information
         run: |
-          web_image_size=$(docker images ibraheem4/docker-ibraheem4-nginx-web-dev:latest --format "{{.Size}}")
-          api_image_size=$(docker images ibraheem4/docker-ibraheem4-redwood-api-dev:latest --format "{{.Size}}")
+          web_image_size=$(docker images ibraheem4/redwood-web-nginx-dev:latest --format "{{.Size}}")
+          api_image_size=$(docker images ibraheem4/redwood-api-dev:latest --format "{{.Size}}")
           echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
 
       - name: Record build time
