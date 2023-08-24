@@ -9,48 +9,7 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build and start containers
-        run: docker-compose -f docker-compose.ci.yml up -d
-
-      - name: Install dependencies
-        run: docker-compose -f docker-compose.ci.yml exec -T api yarn install
-
-      - name: Build RedwoodJS project
-        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
-
-      - name: Save Docker images as artifact
-        run: |
-          docker save -o images.tar $(docker images -q)
-
-      - name: Upload Docker images as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: docker-images
-          path: images.tar
-
-  lint:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Download Docker images from artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: docker-images
-
-      - name: Lint RedwoodJS project
-        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
-
-  test:
-    needs: lint
+  build_test_lint_publish:
     runs-on: ubuntu-latest
     env:
       REDWOOD_API_URL: http://api:8911
@@ -64,43 +23,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Download Docker images
-        uses: actions/download-artifact@v2
-        with:
-          name: docker-images
+      - name: Build and start containers
+        run: docker-compose -f docker-compose.ci.yml up -d
 
-      - name: Load Docker images
-        run: docker load -i docker-images
+      - name: Install dependencies
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn install
 
+      - name: Build RedwoodJS project
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
+
+      # Lint
+      - name: Lint RedwoodJS project
+        run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
+
+      # Test
       - name: Run Web tests
         run: docker-compose -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
 
-  publish:
-    needs: [build, lint, test]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Download Docker images
-        uses: actions/download-artifact@v2
-        with:
-          name: docker-images
-
-      - name: Load Docker images
-        run: docker load -i docker-images
-
-      - name: Tag Docker Images
+      # Publish
+      - name: Publish Docker Images
+        if: github.ref == 'refs/heads/main'
         run: |
           docker tag docker-ibraheem4-nginx-web-dev:latest ibraheem4/docker-ibraheem4-nginx-web-dev:latest
           docker tag docker-ibraheem4-redwood-api-dev:latest ibraheem4/docker-ibraheem4-redwood-api-dev:latest
-
-      - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Push Docker Images to Docker Hub
-        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           docker push ibraheem4/docker-ibraheem4-nginx-web-dev:latest
           docker push ibraheem4/docker-ibraheem4-redwood-api-dev:latest
 
