@@ -78,6 +78,9 @@ jobs:
           build_runtime=$((end_time - start_time))
           echo "Build Runtime: $build_runtime seconds" >> $GITHUB_WORKSPACE/build.log
 
+      - name: List Docker Images
+        run: docker images
+
       - name: Tag Docker Images
         run: |
           docker tag docker-ibraheem4-nginx-web-dev:latest ibraheem4/docker-ibraheem4-nginx-web-dev:latest
