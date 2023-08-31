@@ -53,50 +53,72 @@ cp .env.example .env
 
 Replace any instances of `FIXME` in the `.env` file.
 
-## Using Makefile for Development and Production
+## Makefile Commands
 
-This project includes a Makefile that simplifies various Docker-related tasks.
+This project includes a Makefile for managing various Docker-related tasks and more.
 
-- **Build the Development Environment**:
+### Development Commands
 
-  ```bash
-  make build-dev
-  ```
-
-- **Start the Development Environment**:
+- **Build the App**:
 
   ```bash
-  make up-dev
+  make build
   ```
 
-- **Stop the Development Environment**:
+- **Start the App**:
 
   ```bash
-  make down-dev
+  make up
   ```
 
-- **Clean Up the Development Environment**:
+- **Start the App in Detached Mode**:
+
+  ```bash
+  make up-detached
+  ```
+
+- **Stop the App**:
+
+  ```bash
+  make down
+  ```
+
+- **Install Dependencies**:
+
+  ```bash
+  make install-deps
+  ```
+
+- **Run Storybook**:
+
+  ```bash
+  make storybook
+  ```
+
+### Database and Testing Commands
+
+- **Run Prisma Studio**:
+
+  ```bash
+  make prisma-studio
+  ```
+
+- **Run Tests**:
+
+  ```bash
+  make test
+  ```
+
+- **Lint the Code**:
+
+  ```bash
+  make lint
+  ```
+
+- **Clean Up the Environment**:
 
   ```bash
   make clean
-  ```
-
-- **Build the Production Environment**:
-
-  ```bash
-  make build-prod
-  ```
-
-- **Start the Production Environment**:
-
-  ```bash
-  make up-prod
-  ```
-
-- **Stop the Production Environment**:
-
-  ```bash
-  make down-prod
   ```
 
 For additional Makefile commands, refer to the Makefile in the repository.
@@ -116,6 +138,7 @@ Ensure you're logged into Docker Hub before pushing.
 
 - [RedwoodJS Documentation](https://redwoodjs.com)
 - [Prisma Documentation](https://www.prisma.io)
+- [Storybook Documentation](https://storybook.js.org)
 - [Docker Documentation](https://docs.docker.com)
 - [Node.js Documentation](https://nodejs.org/en/)
 - [Yarn Documentation](https://yarnpkg.com/)

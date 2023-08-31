@@ -21,34 +21,29 @@ jobs:
       TEST_DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@test_db:5432/${{ secrets.POSTGRES_DB_TEST }}
 
     steps:
-      - name: Record start time
+      - name: Capture start time
         run: echo "BUILD_START_TIME=$(date +%s)" >> $GITHUB_ENV
-
       - uses: actions/checkout@v3
-
+      - name: Install Make
+        run: sudo apt-get update -y && sudo apt-get install -y make
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
       - name: Build and start containers
         run: make up-detached
-
       - name: Install dependencies
         run: make install-deps
-
       - name: Build RedwoodJS project
         run: make build
-
-      # Lint
       - name: Lint RedwoodJS project
         run: make lint
-
-      # Test
       - name: Run Web tests
         run: make test
-
-      # Publish
       - name: Tag Docker Images
         run: |
           docker tag redwood-web-nginx-dev:latest ibraheem4/redwood-web-nginx-dev:latest
           docker tag redwood-api-dev:latest ibraheem4/redwood-api-dev:latest
-
       - name: Publish Docker Images
         if: github.ref == 'refs/heads/main'
         run: |
@@ -58,15 +53,12 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Publish Build Information
         run: |
           web_image_size=$(docker images ibraheem4/redwood-web-nginx-dev:latest --format "{{.Size}}")
           api_image_size=$(docker images ibraheem4/redwood-api-dev:latest --format "{{.Size}}")
           echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
-
       - name: Record build time
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
-
       - name: Cleanup
         run: make clean
