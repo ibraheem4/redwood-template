@@ -1,25 +1,19 @@
-.PHONY: docker-up install-deps start-dev generate-scaffold storybook test lint build docker-down clean
+.PHONY: up install-deps storybook test lint build down clean
 
 build:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
 
-docker-up:
+up:
 	docker-compose -f docker-compose.yml -f docker-compose.ci.yml up
 
-docker-up-detached:
+up-detached:
 	docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
 
-docker-down:
+down:
 	docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
 
 install-deps:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn install
-
-start-dev:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn rw dev
-
-generate-scaffold:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn rw generate scaffold
 
 storybook:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml exec -T api yarn storybook
@@ -31,4 +25,4 @@ lint:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
 
 clean:
-	docker-compose -f docker-compose.yml -f docker-compose.ci.yml down -v --remove-orphans
+	$(MAKE) down
