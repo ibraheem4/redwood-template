@@ -1,7 +1,7 @@
 .PHONY: docker-up install-deps start-dev generate-scaffold storybook test lint build docker-down clean
 
 build:
-  docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
+	docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
 
 docker-up:
 	docker-compose -f docker-compose.yml -f docker-compose.ci.yml up
