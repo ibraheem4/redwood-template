@@ -22,7 +22,7 @@ generate-scaffold:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw generate scaffold
 
 storybook:
-	docker-compose -f docker-compose.ci.yml exec -T web yarn rw storybook
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml exec -T api yarn storybook
 
 test:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
