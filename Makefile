@@ -25,7 +25,7 @@ storybook:
 	docker-compose -f docker-compose.ci.yml exec -T web yarn rw storybook
 
 test:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn rw test --no-watch
+	docker-compose -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
 
 lint:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
