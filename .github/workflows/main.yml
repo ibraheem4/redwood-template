@@ -40,10 +40,18 @@ jobs:
         run: make lint
       - name: Run Web tests
         run: make test
-      - name: Tag Docker Images
+      # Build, Tag, and Publish Docker Images
+      - name: Build and Tag Redwood Web and API Docker Images from Single Dockerfile
         run: |
+          # Build and tag the web image
+          docker build --target web -t redwood-web-nginx-dev:latest -f Dockerfile.dev .
           docker tag redwood-web-nginx-dev:latest ibraheem4/redwood-web-nginx-dev:latest
+
+          # Build and tag the API image
+          docker build --target api -t redwood-api-dev:latest -f Dockerfile.dev .
           docker tag redwood-api-dev:latest ibraheem4/redwood-api-dev:latest
+
+      # Publish Docker Images
       - name: Publish Docker Images
         if: github.ref == 'refs/heads/main'
         run: |
@@ -53,6 +61,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Publish Build Information
         run: |
           web_image_size=$(docker images ibraheem4/redwood-web-nginx-dev:latest --format "{{.Size}}")
