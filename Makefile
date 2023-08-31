@@ -18,6 +18,9 @@ install-deps:
 storybook:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml exec -T api yarn storybook
 
+prisma-studio:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml exec -T api yarn rw prisma studio
+
 test:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
 
