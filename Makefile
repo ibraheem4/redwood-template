@@ -1,4 +1,4 @@
-.PHONY: up install-deps storybook test lint build down clean
+.PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker
 
 build:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
@@ -26,6 +26,19 @@ test:
 
 lint:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
+
+build-docker:
+	docker build --target web -t redwood-web-nginx-dev:latest -f Dockerfile.dev .
+	docker build --target api -t redwood-api-dev:latest -f Dockerfile.dev .
+
+tag-docker:
+	docker tag redwood-web-nginx-dev:latest ibraheem4/redwood-web-nginx-dev:latest
+	docker tag redwood-api-dev:latest ibraheem4/redwood-api-dev:latest
+
+publish-docker:
+	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+	docker push ibraheem4/redwood-web-nginx-dev:latest
+	docker push ibraheem4/redwood-api-dev:latest
 
 clean:
 	$(MAKE) down
