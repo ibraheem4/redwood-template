@@ -4,7 +4,7 @@ setup-env:
 	cp .env.example .env
 
 build:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
 
 up:
 	docker-compose -f docker-compose.yml -f docker-compose.ci.yml up

@@ -9,16 +9,25 @@ services:
       TEST_DATABASE_URL: ${TEST_DATABASE_URL}
     depends_on:
       - test_db
+    volumes:
+      - redwood_api_data_dev:/var/www
 
   db:
     environment:
       POSTGRES_DB: ${POSTGRES_DB_DEV}
+    volumes:
+      - redwood_db_data_dev:/var/lib/postgresql/data
 
   test_db:
     image: postgres:15
-    volumes:
-      - redwood_test_db_data_dev:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB_TEST}
+    volumes:
+      - redwood_test_db_data_dev:/var/lib/postgresql/data
+
+volumes:
+  redwood_api_data_dev:
+  redwood_db_data_dev:
+  redwood_test_db_data_dev:

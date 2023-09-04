@@ -45,13 +45,15 @@ Benchmark on running averages
 
 ## Installation
 
-```bash
-git clone <repo_url>
-cd <project_name>
-make setup-env
-```
+1. Clone the repository or download the source code.
+2. Open a terminal or command prompt and navigate to the project directory.
+3. Duplicate the .env.example file and create a new file named .env to customize your actual configuration details with:
 
-Replace any instances of `FIXME` in the `.env` file.
+   ```bash
+   make setup-env
+   ```
+
+4. Find and replace any instances of `FIXME`.
 
 ## Makefile Commands
 

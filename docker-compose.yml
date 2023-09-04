@@ -10,6 +10,8 @@ services:
       - "8910:8910"
     networks:
       - app-network
+    volumes:
+      - redwood_web_data_dev:/var/www
 
   api:
     build:
@@ -19,6 +21,7 @@ services:
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
+      SESSION_SECRET: ${SESSION_SECRET}
     image: redwood-api-dev:latest
     ports:
       - "8911:8911"
@@ -28,6 +31,8 @@ services:
       - db
     networks:
       - app-network
+    volumes:
+      - redwood_api_data_dev:/var/www
 
   db:
     image: postgres:15
@@ -36,10 +41,13 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - app-network
+    volumes:
+      - redwood_db_data_dev:/var/lib/postgresql/data
 
 volumes:
+  redwood_web_data_dev:
+  redwood_api_data_dev:
   redwood_db_data_dev:
-  redwood_test_db_data_dev:
 
 networks:
   app-network:
