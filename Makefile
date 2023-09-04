@@ -1,54 +1,61 @@
 .PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker setup-env run-local
 
+# Variables
+DC_CI := docker-compose -f docker-compose.yml -f docker-compose.ci.yml
+DC_DEV := docker-compose -f docker-compose.yml -f docker-compose.dev.yml
+DOCKER_TAG_WEB := redwood-web-nginx-dev:latest
+DOCKER_TAG_API := redwood-api-dev:latest
+
+# Setup commands
 setup-env:
 	cp .env.example .env
 
 build-ci:
-	docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
-
-build:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
+	$(DC_CI) build
 
 up:
-	docker-compose -f docker-compose.yml -f docker-compose.ci.yml up
+	$(DC_CI) up
 
 up-detached:
-	docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d
+	$(DC_CI) up -d
 
 down:
-	docker-compose -f docker-compose.yml -f docker-compose.ci.yml down
+	$(DC_CI) down
 
 install-deps:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn install
-
-storybook:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml exec -T api yarn storybook
-
-prisma-studio:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml exec -T api yarn rw prisma studio
+	$(DC_CI) exec -T api yarn install
 
 test:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn rw test web --no-watch
+	$(DC_CI) exec -T api yarn rw test web --no-watch
 
 lint:
-	docker-compose -f docker-compose.ci.yml exec -T api yarn rw lint
+	$(DC_CI) exec -T api yarn rw lint
 
+# Docker commands
 build-docker:
-	docker build --target web -t redwood-web-nginx-dev:latest -f Dockerfile.dev .
-	docker build --target api -t redwood-api-dev:latest -f Dockerfile.dev .
+	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile.dev .
+	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile.dev .
 
 tag-docker:
-	docker tag redwood-web-nginx-dev:latest ibraheem4/redwood-web-nginx-dev:latest
-	docker tag redwood-api-dev:latest ibraheem4/redwood-api-dev:latest
+	docker tag $(DOCKER_TAG_WEB) ibraheem4/$(DOCKER_TAG_WEB)
+	docker tag $(DOCKER_TAG_API) ibraheem4/$(DOCKER_TAG_API)
 
 publish-docker:
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-	docker push ibraheem4/redwood-web-nginx-dev:latest
-	docker push ibraheem4/redwood-api-dev:latest
+	docker push ibraheem4/$(DOCKER_TAG_WEB)
+	docker push ibraheem4/$(DOCKER_TAG_API)
 
-run-local:
-	$(MAKE) build
-	$(MAKE) up
+# Dev commands
+storybook:
+	$(DC_DEV) exec -T api yarn storybook
 
-clean:
-	$(MAKE) down
+prisma-studio:
+	$(DC_DEV) exec -T api yarn rw prisma studio
+
+build:
+	$(DC_DEV) build
+
+# Local commands
+run-local: build up
+
+clean: down
