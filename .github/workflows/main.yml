@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: make install-deps
       - name: Build RedwoodJS project
-        run: make build
+        run: make build-ci
       - name: Lint RedwoodJS project
         run: make lint
       - name: Run Web tests

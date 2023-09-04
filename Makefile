@@ -3,6 +3,9 @@
 setup-env:
 	cp .env.example .env
 
+build-ci:
+	docker-compose -f docker-compose.ci.yml -f docker-compose.dev.yml build
+
 build:
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml build
 
