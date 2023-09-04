@@ -1,4 +1,7 @@
-.PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker
+.PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker setup-env run-local
+
+setup-env:
+	cp .env.example .env
 
 build:
 	docker-compose -f docker-compose.ci.yml exec -T api yarn rw build
@@ -39,6 +42,10 @@ publish-docker:
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 	docker push ibraheem4/redwood-web-nginx-dev:latest
 	docker push ibraheem4/redwood-api-dev:latest
+
+run-local:
+	$(MAKE) build
+	$(MAKE) up
 
 clean:
 	$(MAKE) down

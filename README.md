@@ -48,7 +48,7 @@ Benchmark on running averages
 ```bash
 git clone <repo_url>
 cd <project_name>
-cp .env.example .env
+make setup-env
 ```
 
 Replace any instances of `FIXME` in the `.env` file.
