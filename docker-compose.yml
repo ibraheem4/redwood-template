@@ -70,7 +70,7 @@ services:
     networks:
       - app-network
     volumes:
-      - pgadmin_data:/root/.pgadmin
+      - pgadmin_data_dev:/root/.pgadmin
 
 volumes:
   redwood_web_data_dev:
