@@ -68,12 +68,15 @@ services:
       - "8080:80"
     networks:
       - app-network
+    volumes:
+      - pgadmin_data:/root/.pgadmin
 
 volumes:
   redwood_web_data_dev:
   redwood_api_data_dev:
   redwood_db_data_dev:
   redwood_test_db_data_dev:
+  pgadmin_data:
 
 networks:
   app-network:
