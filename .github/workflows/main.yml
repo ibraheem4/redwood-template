@@ -12,7 +12,7 @@ jobs:
   build_test_lint_publish:
     runs-on: ubuntu-latest
     env:
-      REDWOOD_API_URL: http://api:8911
+      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
       SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
       POSTGRES_DB_DEV: ${{ secrets.POSTGRES_DB_DEV }}
       POSTGRES_DB_TEST: ${{ secrets.POSTGRES_DB_TEST }}
