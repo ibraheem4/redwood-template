@@ -97,6 +97,8 @@ This project includes a Makefile for managing various Docker-related tasks and m
   make storybook
   ```
 
+> Storybook is a development environment for UI components. Open it at [http://localhost:7910](http://localhost:7910).
+
 ### Database and Testing Commands
 
 - **Run Prisma Studio**:
@@ -104,6 +106,7 @@ This project includes a Makefile for managing various Docker-related tasks and m
   ```bash
   make prisma-studio
   ```
+> Prisma Studio is a visual editor for your database schema. Open it at [http://localhost:5555](http://localhost:5555).
 
 - **Run Tests**:
 
@@ -125,6 +128,35 @@ This project includes a Makefile for managing various Docker-related tasks and m
 
 For additional Makefile commands, refer to the Makefile in the repository.
 
+### Accessing pgAdmin4
+
+To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Follow these steps to access it:
+
+1. **Start the Docker Containers**:
+
+    If you haven't already, make sure the Docker containers are running:
+
+    ```bash
+    make run-local
+    ```
+
+2. **Access pgAdmin4 Web Interface**:
+
+    Open your web browser and go to [http://localhost:8080](http://localhost:8080).
+
+3. **Login to pgAdmin4**:
+
+    Use the email and password specified in the `docker-compose.yml` file under the `pgadmin4` service (default is `admin@admin.com` and `admin`).
+
+4. **Connect to PostgreSQL**:
+
+    - **Hostname**: Use the service name for the PostgreSQL container (`db` or `test_db`).
+    - **Port**: `5432`
+    - **Username**: The value of `${POSTGRES_USER}` from your `.env` file.
+    - **Password**: The value of `${POSTGRES_PASSWORD}` from your `.env` file.
+
+Now you should be able to manage your databases using pgAdmin4.
+
 ## Publishing Images to Docker Hub
 
 Run the following commands to push images to Docker Hub:
@@ -144,3 +176,4 @@ Ensure you're logged into Docker Hub before pushing.
 - [Docker Documentation](https://docs.docker.com)
 - [Node.js Documentation](https://nodejs.org/en/)
 - [Yarn Documentation](https://yarnpkg.com/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)

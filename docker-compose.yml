@@ -44,11 +44,32 @@ services:
     volumes:
       - redwood_db_data_dev:/var/lib/postgresql/data
 
+  test_db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_TEST}
+    networks:
+      - app-network
+    volumes:
+      - redwood_test_db_data_dev:/var/lib/postgresql/data
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+
 volumes:
   redwood_web_data_dev:
   redwood_api_data_dev:
   redwood_db_data_dev:
+  redwood_test_db_data_dev:
 
 networks:
   app-network:
-    driver: bridge
