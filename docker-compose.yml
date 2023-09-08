@@ -77,7 +77,7 @@ volumes:
   redwood_api_data_dev:
   redwood_db_data_dev:
   redwood_test_db_data_dev:
-  pgadmin_data:
+  pgadmin_data_dev:
 
 networks:
   app-network:
