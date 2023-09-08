@@ -1,4 +1,4 @@
-.PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker setup-env run-local
+.PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker setup-env run-local seed
 
 # Variables
 DC_CI := docker-compose -f docker-compose.yml -f docker-compose.ci.yml
@@ -51,6 +51,9 @@ storybook:
 
 prisma-studio:
 	$(DC_DEV) exec -T api yarn rw prisma studio
+
+seed:
+	$(DC_DEV) exec -T api yarn rw prisma db seed
 
 build:
 	$(DC_DEV) build

@@ -25,6 +25,7 @@ services:
       SESSION_SECRET: ${SESSION_SECRET}
       DISABLE_SIGNUP: ${DISABLE_SIGNUP}
       NODE_ENV: ${NODE_ENV}
+      ENVIRONMENT: ${ENVIRONMENT}
     image: redwood-api-dev:latest
     ports:
       - "8911:8911"
