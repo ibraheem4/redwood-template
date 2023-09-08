@@ -20,8 +20,11 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
+      REDWOOD_WEB_URL: ${REDWOOD_WEB_URL}
       DATABASE_URL: ${DATABASE_URL}
       SESSION_SECRET: ${SESSION_SECRET}
+      DISABLE_SIGNUP: ${DISABLE_SIGNUP}
+      NODE_ENV: ${NODE_ENV}
     image: redwood-api-dev:latest
     ports:
       - "8911:8911"
@@ -39,6 +42,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB_DEV}
     networks:
       - app-network
     volumes:
