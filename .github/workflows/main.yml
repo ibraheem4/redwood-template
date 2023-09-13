@@ -20,6 +20,7 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:5432/${{ secrets.POSTGRES_DB_DEV }}
       TEST_DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@test_db:5432/${{ secrets.POSTGRES_DB_TEST }}
+      COMPOSE_PROJECT_NAME: template
 
     steps:
       - name: Capture start time
@@ -54,8 +55,8 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Publish Build Information
         run: |
-          web_image_size=$(docker images ibraheem4/redwood-web-nginx-dev:latest --format "{{.Size}}")
-          api_image_size=$(docker images ibraheem4/redwood-api-dev:latest --format "{{.Size}}")
+          web_image_size=$(docker images ibraheem4/template-web-nginx-dev:latest --format "{{.Size}}")
+          api_image_size=$(docker images ibraheem4/template-api-dev:latest --format "{{.Size}}")
           echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
       - name: Record build time
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."

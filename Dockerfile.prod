@@ -37,6 +37,8 @@ CMD ["nginx", "-g", "daemon off;"]
 FROM production-base AS api
 COPY --from=builder /app/api /app/web /app/node_modules /app/
 COPY scripts entrypoint.prod.sh /app/
+COPY rename.js /app/scripts/
+COPY undo-rename.js /app/scripts/
 RUN chmod +x /app/entrypoint.prod.sh
 EXPOSE 8911
 CMD ["/app/entrypoint.prod.sh"]

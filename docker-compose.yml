@@ -5,13 +5,13 @@ services:
       context: .
       target: web
       dockerfile: Dockerfile.dev
-    image: redwood-web-nginx-dev:latest
+    image: template-web-nginx-dev:latest
     ports:
       - "8910:8910"
     networks:
       - app-network
     volumes:
-      - redwood_web_data_dev:/var/www
+      - template_web_data_dev:/var/www
 
   api:
     build:
@@ -26,7 +26,7 @@ services:
       DISABLE_SIGNUP: ${DISABLE_SIGNUP}
       NODE_ENV: ${NODE_ENV}
       ENVIRONMENT: ${ENVIRONMENT}
-    image: redwood-api-dev:latest
+    image: template-api-dev:latest
     ports:
       - "8911:8911"
       - "7910:7910"
@@ -36,7 +36,7 @@ services:
     networks:
       - app-network
     volumes:
-      - redwood_api_data_dev:/var/www
+      - template_api_data_dev:/var/www
 
   db:
     image: postgres:15
@@ -47,7 +47,7 @@ services:
     networks:
       - app-network
     volumes:
-      - redwood_db_data_dev:/var/lib/postgresql/data
+      - template_db_data_dev:/var/lib/postgresql/data
 
   test_db:
     image: postgres:15
@@ -58,7 +58,7 @@ services:
     networks:
       - app-network
     volumes:
-      - redwood_test_db_data_dev:/var/lib/postgresql/data
+      - template_test_db_data_dev:/var/lib/postgresql/data
 
   pgadmin4:
     image: dpage/pgadmin4
@@ -70,14 +70,14 @@ services:
     networks:
       - app-network
     volumes:
-      - pgadmin_data_dev:/root/.pgadmin
+      - template_pgadmin_data_dev:/root/.pgadmin
 
 volumes:
-  redwood_web_data_dev:
-  redwood_api_data_dev:
-  redwood_db_data_dev:
-  redwood_test_db_data_dev:
-  pgadmin_data_dev:
+  template_web_data_dev:
+  template_api_data_dev:
+  template_db_data_dev:
+  template_test_db_data_dev:
+  template_pgadmin_data_dev:
 
 networks:
   app-network:

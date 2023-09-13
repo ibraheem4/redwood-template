@@ -3,25 +3,27 @@ services:
   web:
     build:
       dockerfile: Dockerfile.prod
-    image: docker-ibraheem4-nginx-web-prod:latest
+    image: docker-ibraheem4-web-nginx-prod:latest
     volumes:
-      - redwood_web_data_prod:/var/www
+      - template_web_data_prod:/var/www
 
   api:
     build:
       dockerfile: Dockerfile.prod
-    image: docker-ibraheem4-redwood-api-prod:latest
+    image: docker-ibraheem4-template-api-prod:latest
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
     volumes:
-      - redwood_api_data_prod:/var/www
+      - template_api_data_prod:/var/www
 
   db:
     environment:
       POSTGRES_DB: ${POSTGRES_DB_PROD}
     volumes:
-      - redwood_db_data_prod:/var/lib/postgresql/data
+      - template_db_data_prod:/var/lib/postgresql/data
 
 volumes:
-  redwood_db_data_prod:
+  template_web_data_prod:
+  template_api_data_prod:
+  template_db_data_prod:

@@ -1,4 +1,4 @@
-# RedwoodJS App README
+# template App README
 
 This is a RedwoodJS application with full-stack capabilities, including a frontend, backend, and database, containerized using Docker.
 
@@ -8,7 +8,7 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 |------------|------------------------------------------------------------------------------------------------------------------------------|
 | Name       | `ibraheem4-nginx`                                                                                                            |
 | Description| RedwoodJS application that provides web and API services.                                                                     |
-| Workflow   | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg)                           |
+| Workflow   | ![CI/CD Pipeline](https://github.com/ibraheem4/template/actions/workflows/main.yml/badge.svg)                           |
 | Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4)                                                                         |
 
 ## Packages
@@ -53,7 +53,7 @@ Benchmark on running averages
    make setup-env
    ```
 
-4. Find and replace any instances of `FIXME`.
+4. Find and replace any instances of `FIXME`, `template_`.
 
 ## Makefile Commands
 
