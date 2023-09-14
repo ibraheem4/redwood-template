@@ -6,7 +6,7 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-  title = "template"
+  title = "Stencil"
   port = 8910
   apiUrl = "http://localhost:8911"
   includeEnvironmentVariables = ["REDWOOD_API_URL"]
