@@ -11,7 +11,7 @@ services:
     networks:
       - app-network
     volumes:
-      - template_web_data_dev:/var/www
+      - web_data_dev:/var/www
 
   api:
     build:
@@ -36,7 +36,7 @@ services:
     networks:
       - app-network
     volumes:
-      - template_api_data_dev:/var/www
+      - api_data_dev:/var/www
 
   db:
     image: postgres:15
@@ -47,7 +47,7 @@ services:
     networks:
       - app-network
     volumes:
-      - template_db_data_dev:/var/lib/postgresql/data
+      - db_data_dev:/var/lib/postgresql/data
 
   test_db:
     image: postgres:15
@@ -58,7 +58,7 @@ services:
     networks:
       - app-network
     volumes:
-      - template_test_db_data_dev:/var/lib/postgresql/data
+      - test_db_data_dev:/var/lib/postgresql/data
 
   pgadmin4:
     image: dpage/pgadmin4
@@ -70,14 +70,14 @@ services:
     networks:
       - app-network
     volumes:
-      - template_pgadmin_data_dev:/root/.pgadmin
+      - pgadmin_data_dev:/root/.pgadmin
 
 volumes:
-  template_web_data_dev:
-  template_api_data_dev:
-  template_db_data_dev:
-  template_test_db_data_dev:
-  template_pgadmin_data_dev:
+  web_data_dev:
+  api_data_dev:
+  db_data_dev:
+  test_db_data_dev:
+  pgadmin_data_dev:
 
 networks:
   app-network:
