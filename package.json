@@ -12,6 +12,7 @@
     "@commitlint/config-conventional": "^17.6.3",
     "@ngneat/falso": "^6.4.0",
     "@redwoodjs/core": "6.2.3",
+    "@redwoodjs/vite": "6.2.3",
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
     "prettier-plugin-tailwindcss": "^0.3.0",
