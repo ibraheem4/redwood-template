@@ -5,7 +5,7 @@ services:
       context: .
       target: web
       dockerfile: Dockerfile.dev
-    image: template-web-nginx-dev:latest
+    image: stencil-web-nginx-dev:latest
     ports:
       - "8910:8910"
     networks:
@@ -26,7 +26,7 @@ services:
       DISABLE_SIGNUP: ${DISABLE_SIGNUP}
       NODE_ENV: ${NODE_ENV}
       ENVIRONMENT: ${ENVIRONMENT}
-    image: template-api-dev:latest
+    image: stencil-api-dev:latest
     ports:
       - "8911:8911"
       - "7910:7910"

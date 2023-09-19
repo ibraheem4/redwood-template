@@ -3,8 +3,8 @@
 # Variables
 DC_CI := docker-compose -f docker-compose.yml -f docker-compose.ci.yml
 DC_DEV := docker-compose -f docker-compose.yml -f docker-compose.dev.yml
-DOCKER_TAG_WEB := template-web-nginx-dev:latest
-DOCKER_TAG_API := template-api-dev:latest
+DOCKER_TAG_WEB := stencil-web-nginx-dev:latest
+DOCKER_TAG_API := stencil-api-dev:latest
 
 # Setup commands
 setup-env:
