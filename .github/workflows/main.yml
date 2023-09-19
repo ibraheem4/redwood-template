@@ -12,6 +12,10 @@ jobs:
   build_test_lint_publish:
     runs-on: ubuntu-latest
     env:
+      REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
+      DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
       REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
       SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
       POSTGRES_DB_DEV: ${{ secrets.POSTGRES_DB_DEV }}
