@@ -29,7 +29,6 @@ services:
     image: stencil-api-dev:latest
     ports:
       - "8911:8911"
-      - "5555:5555"
     depends_on:
       - db
     networks:
@@ -80,11 +79,29 @@ services:
     ports:
       - "7910:7910"
     environment:
-      - IS_STORYBOOK=true
+      IS_STORYBOOK: true
+      REDWOOD_API_URL: ${REDWOOD_API_URL}
     networks:
       - app-network
     volumes:
       - storybook_data_dev:/var/www
+
+  prisma-studio:
+    build:
+      context: .
+      target: prisma-studio
+      dockerfile: Dockerfile.dev
+    image: stencil-prisma-studio-dev:latest
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "5555:5555"
+    depends_on:
+      - db
+    networks:
+      - app-network
+    volumes:
+      - prisma_studio_data_dev:/var/www
 
 volumes:
   web_data_dev:
@@ -93,6 +110,7 @@ volumes:
   test_db_data_dev:
   pgadmin_data_dev:
   storybook_data_dev:
+  prisma_studio_data_dev:
 
 networks:
   app-network:
