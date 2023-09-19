@@ -29,7 +29,6 @@ services:
     image: stencil-api-dev:latest
     ports:
       - "8911:8911"
-      - "7910:7910"
       - "5555:5555"
     depends_on:
       - db
@@ -72,12 +71,28 @@ services:
     volumes:
       - pgadmin_data_dev:/root/.pgadmin
 
+  storybook:
+    build:
+      context: .
+      target: storybook
+      dockerfile: Dockerfile.dev
+    image: stencil-storybook-dev:latest
+    ports:
+      - "7910:7910"
+    environment:
+      - IS_STORYBOOK=true
+    networks:
+      - app-network
+    volumes:
+      - storybook_data_dev:/var/www
+
 volumes:
   web_data_dev:
   api_data_dev:
   db_data_dev:
   test_db_data_dev:
   pgadmin_data_dev:
+  storybook_data_dev:
 
 networks:
   app-network:

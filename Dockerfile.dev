@@ -42,3 +42,11 @@ COPY entrypoint.dev.sh /app/
 RUN chmod +x /app/entrypoint.dev.sh
 EXPOSE 8911
 CMD ["/app/entrypoint.dev.sh"]
+
+# Storybook stage
+FROM node:18-alpine as storybook
+WORKDIR /app
+COPY . .
+RUN yarn install
+ENV IS_STORYBOOK=true
+CMD ["yarn", "rw", "storybook"]

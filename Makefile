@@ -46,9 +46,6 @@ publish-docker:
 	docker push ibraheem4/$(DOCKER_TAG_API)
 
 # Dev commands
-storybook:
-	$(DC_DEV) exec -T api yarn storybook
-
 prisma-studio:
 	$(DC_DEV) exec -T api yarn rw prisma studio
 

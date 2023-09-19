@@ -53,7 +53,7 @@ Benchmark on running averages
    make setup-env
    ```
 
-4. Find and replace any instances of `FIXME`, `Stencil`, `stencil_`, `-stencil-`, `/template/`.
+4. Find and replace any instances of `FIXME`, `Stencil`, `stencil_`, `-stencil-`, `/stencil/`.
 
 ## Makefile Commands
 
@@ -91,12 +91,6 @@ This project includes a Makefile for managing various Docker-related tasks and m
   make install-deps
   ```
 
-- **Run Storybook**:
-
-  ```bash
-  make storybook
-  ```
-
 > Storybook is a development environment for UI components. Open it at [http://localhost:7910](http://localhost:7910).
 
 ### Database and Testing Commands
@@ -128,7 +122,7 @@ This project includes a Makefile for managing various Docker-related tasks and m
 
 For additional Makefile commands, refer to the Makefile in the repository.
 
-### Accessing pgAdmin4
+### Accessing pgAdmin4, storybook, and Prisma Studio
 
 To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Follow these steps to access it:
 
@@ -156,6 +150,24 @@ To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Fo
     - **Password**: The value of `${POSTGRES_PASSWORD}` from your `.env` file.
 
 Now you should be able to manage your databases using pgAdmin4.
+
+### Accessing storybook and Prisma Studio
+
+1. **Start the Docker Containers**:
+
+    If you haven't already, make sure the Docker containers are running:
+
+    ```bash
+    make run-local
+    ```
+
+2. **Access storybook Web Interface**:
+
+      Open your web browser and go to [http://localhost:7910](http://localhost:7910).
+
+3. **Access Prisma Studio Web Interface**:
+
+      Open your web browser and go to [http://localhost:5555](http://localhost:5555).
 
 ## Publishing Images to Docker Hub
 
