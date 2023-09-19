@@ -79,7 +79,7 @@ services:
     ports:
       - "7910:7910"
     environment:
-      IS_STORYBOOK: true
+      IS_STORYBOOK: "true"
       REDWOOD_API_URL: ${REDWOOD_API_URL}
     networks:
       - app-network
