@@ -6,7 +6,6 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-  bundler = "webpack"
   title = "Stencil"
   port = 8910
   apiUrl = "http://localhost:8911"

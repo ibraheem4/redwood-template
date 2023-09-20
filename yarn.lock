@@ -21394,6 +21394,7 @@ __metadata:
     "@redwoodjs/auth-dbauth-web": 6.2.3
     "@redwoodjs/forms": 6.2.3
     "@redwoodjs/router": 6.2.3
+    "@redwoodjs/vite": 6.2.3
     "@redwoodjs/web": 6.2.3
     autoprefixer: ^10.4.13
     humanize-string: 2.1.0
