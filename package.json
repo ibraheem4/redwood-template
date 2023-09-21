@@ -17,6 +17,7 @@
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
     "prettier-plugin-tailwindcss": "^0.3.0",
+    "prisma": "latest",
     "storybook-tailwind-dark-mode": "1.0.15"
   },
   "eslintConfig": {
@@ -39,6 +40,7 @@
     "storybook": "IS_STORYBOOK=true yarn rw storybook"
   },
   "dependencies": {
+    "@prisma/client": "latest",
     "typescript": "4.3.5"
   }
 }
