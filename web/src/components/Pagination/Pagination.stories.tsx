@@ -1,8 +1,8 @@
-import type { Meta, ComponentStory } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react'
 
 import Pagination from './Pagination'
 
-export const Default: ComponentStory<typeof Pagination> = (args) => {
+export const Default: StoryFn<typeof Pagination> = (args) => {
   return <Pagination {...args} />
 }
 
@@ -12,7 +12,7 @@ Default.args = {
   routeName: 'home',
 }
 
-export const MorePages: ComponentStory<typeof Pagination> = (args) => {
+export const MorePages: StoryFn<typeof Pagination> = (args) => {
   return <Pagination {...args} />
 }
 

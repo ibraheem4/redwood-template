@@ -1,8 +1,8 @@
-import type { Meta, ComponentStory } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react'
 
 import TranslatedMetaTags from './TranslatedMetaTags'
 
-export const generated: ComponentStory<typeof TranslatedMetaTags> = (args) => {
+export const generated: StoryFn<typeof TranslatedMetaTags> = (args) => {
   return <TranslatedMetaTags {...args} />
 }
 

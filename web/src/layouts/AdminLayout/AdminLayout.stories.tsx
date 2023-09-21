@@ -1,8 +1,8 @@
-import type { Meta, ComponentStory } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react'
 
 import AdminLayout from './AdminLayout'
 
-export const generated: ComponentStory<typeof AdminLayout> = (args) => {
+export const generated: StoryFn<typeof AdminLayout> = (args) => {
   return <AdminLayout {...args} />
 }
 

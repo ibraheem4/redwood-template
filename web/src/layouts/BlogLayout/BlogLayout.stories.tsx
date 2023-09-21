@@ -1,8 +1,8 @@
-import type { Meta, ComponentStory } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react'
 
 import BlogLayout from './BlogLayout'
 
-export const loggedIn: ComponentStory<typeof BlogLayout> = (args) => {
+export const loggedIn: StoryFn<typeof BlogLayout> = (args) => {
   mockCurrentUser({
     id: '5e1923f3-e84c-4603-90a6-18302f95a6f8',
     email: 'rob@redwoodjs.com',
@@ -12,7 +12,7 @@ export const loggedIn: ComponentStory<typeof BlogLayout> = (args) => {
   return <BlogLayout {...args} />
 }
 
-export const loggedOut: ComponentStory<typeof BlogLayout> = (args) => {
+export const loggedOut: StoryFn<typeof BlogLayout> = (args) => {
   return <BlogLayout {...args} />
 }
 
