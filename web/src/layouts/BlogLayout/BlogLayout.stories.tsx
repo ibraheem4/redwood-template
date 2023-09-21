@@ -1,4 +1,4 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { Meta, ComponentStory } from '@storybook/react'
 
 import BlogLayout from './BlogLayout'
 
@@ -19,4 +19,4 @@ export const loggedOut: ComponentStory<typeof BlogLayout> = (args) => {
 export default {
   title: 'Layouts/BlogLayout',
   component: BlogLayout,
-} as ComponentMeta<typeof BlogLayout>
+} as Meta<typeof BlogLayout>

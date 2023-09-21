@@ -1,4 +1,4 @@
-import type { ComponentStory } from '@storybook/react'
+import type { StoryFn } from '@storybook/react'
 
 import { Loading, Empty, Failure, Success } from './CommentsCell'
 import { standard } from './CommentsCell.mock'
@@ -11,11 +11,11 @@ export const empty = () => {
   return Empty ? <Empty /> : <></>
 }
 
-export const failure: ComponentStory<typeof Failure> = (args) => {
+export const failure: StoryFn<typeof Failure> = (args) => {
   return Failure ? <Failure error={new Error('Oh no')} {...args} /> : <></>
 }
 
-export const success: ComponentStory<typeof Success> = (args) => {
+export const success: StoryFn<typeof Success> = (args) => {
   return Success ? <Success {...standard()} {...args} /> : <></>
 }
 

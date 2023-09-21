@@ -1,4 +1,4 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { Meta, ComponentStory } from '@storybook/react'
 
 import TranslatedMetaTags from './TranslatedMetaTags'
 
@@ -9,4 +9,4 @@ export const generated: ComponentStory<typeof TranslatedMetaTags> = (args) => {
 export default {
   title: 'Components/TranslatedMetaTags',
   component: TranslatedMetaTags,
-} as ComponentMeta<typeof TranslatedMetaTags>
+} as Meta<typeof TranslatedMetaTags>

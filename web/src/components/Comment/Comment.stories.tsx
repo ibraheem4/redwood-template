@@ -11,7 +11,7 @@
 //
 // See https://storybook.js.org/docs/react/writing-stories/args.
 
-import type { ComponentMeta } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import Comment from './Comment'
 
@@ -72,4 +72,4 @@ export const adminView = () => {
 export default {
   title: 'Components/Comment',
   component: Comment,
-} as ComponentMeta<typeof Comment>
+} as Meta<typeof Comment>

@@ -1,4 +1,4 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { Meta, ComponentStory } from '@storybook/react'
 
 import Pagination from './Pagination'
 
@@ -25,4 +25,4 @@ MorePages.args = {
 export default {
   title: 'Components/Pagination',
   component: Pagination,
-} as ComponentMeta<typeof Pagination>
+} as Meta<typeof Pagination>
