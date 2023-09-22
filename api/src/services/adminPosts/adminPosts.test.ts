@@ -48,6 +48,7 @@ describe('posts', () => {
   })
 
   scenario('updates a post', async (scenario: StandardScenario) => {
+    // FIXME: currentUser.id is undefined
     const original = await adminPost({ id: scenario.post.one.id })
     const result = await updatePost({
       id: original.id,
@@ -58,6 +59,7 @@ describe('posts', () => {
   })
 
   scenario('deletes a post', async (scenario: StandardScenario) => {
+    // FIXME: currentUser.id is undefined
     const original = await deletePost({ id: scenario.post.one.id })
     const result = await adminPost({ id: original.id })
 
