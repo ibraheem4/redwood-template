@@ -6,20 +6,6 @@ DC_DEV := docker-compose -f docker-compose.yml -f docker-compose.dev.yml
 DOCKER_TAG_WEB := stencil-auth0-web-nginx-dev:latest
 DOCKER_TAG_API := stencil-auth0-api-dev:latest
 
-# Docker commands
-build-docker:
-	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile.dev .
-	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile.dev .
-
-tag-docker:
-	docker tag $(DOCKER_TAG_WEB) ibraheem4/$(DOCKER_TAG_WEB)
-	docker tag $(DOCKER_TAG_API) ibraheem4/$(DOCKER_TAG_API)
-
-publish-docker:
-	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-	docker push ibraheem4/$(DOCKER_TAG_WEB)
-	docker push ibraheem4/$(DOCKER_TAG_API)
-
 # Dev commands
 seed:
 	$(DC_DEV) exec -T api yarn rw prisma db seed
@@ -56,3 +42,17 @@ test:
 
 lint:
 	$(DC_CI) exec -T api yarn rw lint
+
+# Docker commands
+build-docker:
+	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile.dev .
+	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile.dev .
+
+tag-docker:
+	docker tag $(DOCKER_TAG_WEB) ibraheem4/$(DOCKER_TAG_WEB)
+	docker tag $(DOCKER_TAG_API) ibraheem4/$(DOCKER_TAG_API)
+
+publish-docker:
+	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+	docker push ibraheem4/$(DOCKER_TAG_WEB)
+	docker push ibraheem4/$(DOCKER_TAG_API)
