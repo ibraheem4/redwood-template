@@ -65,4 +65,4 @@ jobs:
       - name: Record build time
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
       - name: Cleanup
-        run: make clean
+        run: make clean-ci

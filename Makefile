@@ -31,6 +31,11 @@ clean: down
 build-ci:
 	$(DC_CI) build
 
+down-ci:
+	$(DC_CI) down
+
+clean-ci: down-ci
+
 up-detached:
 	$(DC_CI) up -d
 
