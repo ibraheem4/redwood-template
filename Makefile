@@ -23,6 +23,12 @@ down:
 setup-env:
 	cp .env.example .env
 
+test:
+	$(DC_DEV) exec -T api yarn rw test web --no-watch
+
+lint:
+	$(DC_DEV) exec -T api yarn rw lint
+
 run-local: build up
 
 clean: down
@@ -42,10 +48,10 @@ up-detached:
 install-deps:
 	$(DC_CI) exec -T api yarn install
 
-test:
+test-ci:
 	$(DC_CI) exec -T api yarn rw test web --no-watch
 
-lint:
+lint-ci:
 	$(DC_CI) exec -T api yarn rw lint
 
 # Docker commands
