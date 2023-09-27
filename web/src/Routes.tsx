@@ -1,9 +1,8 @@
 import { Router, Route, Set } from '@redwoodjs/router'
 
+import { useAuth } from 'src/auth'
 import AdminLayout from 'src/layouts/AdminLayout'
 import BlogLayout from 'src/layouts/BlogLayout'
-
-import { useAuth } from './auth'
 
 const Routes = () => {
   return (
