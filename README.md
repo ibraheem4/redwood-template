@@ -1,4 +1,4 @@
-# Stencil App README
+# Stencil DBAuth App README
 
 This is a RedwoodJS application with full-stack capabilities, including a frontend, backend, and database, containerized using Docker.
 
@@ -6,7 +6,7 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 |            |                                                                                                                              |
 |------------|------------------------------------------------------------------------------------------------------------------------------|
-| Name       | `stencil`                                                                                                            |
+| Name       | `stencil-dbauth`                                                                                                            |
 | Description| RedwoodJS application that provides web and API services.                                                                     |
 | Workflow   | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg)                           |
 | Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4)                                                                         |
@@ -53,7 +53,7 @@ Benchmark on running averages
    make setup-env
    ```
 
-4. Find and replace any instances of `FIXME`, `Stencil`, `stencil_`, `-stencil-`, `/stencil/`.
+4. Find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_dbauth_`, `stencil-dbauth-`, `stencil-dbauth`.
 
 ## Makefile Commands
 

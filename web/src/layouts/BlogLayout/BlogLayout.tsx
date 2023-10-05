@@ -79,7 +79,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
                 className="text-2xl font-bold text-black uppercase dark:text-white"
                 to={appendLangToRoute(routes.home())}
               >
-                Stencil
+                Stencil DBAuth
               </Link>
             </div>
             <div className="ml-10 space-x-4">
@@ -116,7 +116,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         >
           <LanguageSelect />
           <small className="text-xs text-center rtl:text-left rtl:text-sm dark:text-white">
-            Copyright © 2023 Stencil
+            Copyright © 2023 Stencil DBAuth
           </small>
         </nav>
       </main>

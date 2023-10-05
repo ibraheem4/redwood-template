@@ -3,8 +3,8 @@
 # Variables
 DC_CI := docker-compose -f docker-compose.yml -f docker-compose.ci.yml
 DC_LOCAL := docker-compose -f docker-compose.yml -f docker-compose.local.yml
-DOCKER_TAG_WEB := stencil-auth0-web-nginx-local:latest
-DOCKER_TAG_API := stencil-auth0-api-local:latest
+DOCKER_TAG_WEB := stencil-dbauth-auth0-web-nginx-local:latest
+DOCKER_TAG_API := stencil-dbauth-auth0-api-local:latest
 
 # Setup commands
 setup-env:

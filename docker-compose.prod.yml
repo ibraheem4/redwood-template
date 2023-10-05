@@ -3,14 +3,14 @@ services:
   web:
     build:
       dockerfile: Dockerfile.prod
-    image: stencil-web-nginx-prod:latest
+    image: stencil-dbauth-web-nginx-prod:latest
     volumes:
       - web_data_prod:/var/www
 
   api:
     build:
       dockerfile: Dockerfile.prod
-    image: stencil-api-prod:latest
+    image: stencil-dbauth-api-prod:latest
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
