@@ -1,37 +1,28 @@
-.PHONY: up install-deps storybook test lint build down clean build-docker tag-docker publish-docker setup-env run-local seed
+.PHONY: up-local up-ci install-deps-ci storybook test-ci lint-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local
 
 # Variables
 DC_CI := docker-compose -f docker-compose.yml -f docker-compose.ci.yml
-DC_DEV := docker-compose -f docker-compose.yml -f docker-compose.dev.yml
-DOCKER_TAG_WEB := stencil-auth0-web-nginx-dev:latest
-DOCKER_TAG_API := stencil-auth0-api-dev:latest
+DC_LOCAL := docker-compose -f docker-compose.yml -f docker-compose.local.yml
+DOCKER_TAG_WEB := stencil-auth0-web-nginx-local:latest
+DOCKER_TAG_API := stencil-auth0-api-local:latest
 
-# Dev commands
-seed:
-	$(DC_DEV) exec -T api yarn rw prisma db seed
-
-build:
-	$(DC_DEV) build
-
-up:
-	$(DC_DEV) up
-
-down:
-	$(DC_DEV) down
-
-# Local/Setup commands
+# Setup commands
 setup-env:
 	cp .env.example .env
 
-test:
-	$(DC_DEV) exec -T api yarn rw test web --no-watch
+# Dev commands
+build-local:
+	$(DC_LOCAL) build
 
-lint:
-	$(DC_DEV) exec -T api yarn rw lint
+up-local:
+	$(DC_LOCAL) up
 
-run-local: build up
+down-local:
+	$(DC_LOCAL) down
 
-clean: down
+run-local: build-local up-local
+
+clean-local: down-local
 
 # CI commands
 build-ci:
@@ -42,10 +33,10 @@ down-ci:
 
 clean-ci: down-ci
 
-up-detached:
+up-ci:
 	$(DC_CI) up -d
 
-install-deps:
+install-deps-ci:
 	$(DC_CI) exec -T api yarn install
 
 test-ci:
@@ -56,8 +47,8 @@ lint-ci:
 
 # Docker commands
 build-docker:
-	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile.dev .
-	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile.dev .
+	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile.local .
+	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile.local .
 
 tag-docker:
 	docker tag $(DOCKER_TAG_WEB) ibraheem4/$(DOCKER_TAG_WEB)

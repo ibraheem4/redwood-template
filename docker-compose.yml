@@ -4,20 +4,20 @@ services:
     build:
       context: .
       target: web
-      dockerfile: Dockerfile.dev
-    image: stencil-web-nginx-dev:latest
+      dockerfile: Dockerfile.local
+    image: stencil-web-nginx-local:latest
     ports:
       - "8910:8910"
     networks:
       - app-network
     volumes:
-      - web_data_dev:/var/www
+      - web_data_local:/var/www
 
   api:
     build:
       context: .
       target: api
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.local
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       REDWOOD_WEB_URL: ${REDWOOD_WEB_URL}
@@ -26,7 +26,7 @@ services:
       DISABLE_SIGNUP: ${DISABLE_SIGNUP}
       NODE_ENV: ${NODE_ENV}
       ENVIRONMENT: ${ENVIRONMENT}
-    image: stencil-api-dev:latest
+    image: stencil-api-local:latest
     ports:
       - "8911:8911"
     depends_on:
@@ -34,7 +34,7 @@ services:
     networks:
       - app-network
     volumes:
-      - api_data_dev:/var/www
+      - api_data_local:/var/www
 
   db:
     image: postgres:15
@@ -45,7 +45,7 @@ services:
     networks:
       - app-network
     volumes:
-      - db_data_dev:/var/lib/postgresql/data
+      - db_data_local:/var/lib/postgresql/data
 
   test_db:
     image: postgres:15
@@ -56,7 +56,7 @@ services:
     networks:
       - app-network
     volumes:
-      - test_db_data_dev:/var/lib/postgresql/data
+      - test_db_data_local:/var/lib/postgresql/data
 
   pgadmin4:
     image: dpage/pgadmin4
@@ -68,14 +68,14 @@ services:
     networks:
       - app-network
     volumes:
-      - pgadmin_data_dev:/root/.pgadmin
+      - pgadmin_data_local:/root/.pgadmin
 
   storybook:
     build:
       context: .
       target: storybook
-      dockerfile: Dockerfile.dev
-    image: stencil-storybook-dev:latest
+      dockerfile: Dockerfile.local
+    image: stencil-storybook-local:latest
     ports:
       - "7910:7910"
     environment:
@@ -84,14 +84,14 @@ services:
     networks:
       - app-network
     volumes:
-      - storybook_data_dev:/var/www
+      - storybook_data_local:/var/www
 
   prisma-studio:
     build:
       context: .
       target: prisma-studio
-      dockerfile: Dockerfile.dev
-    image: stencil-prisma-studio-dev:latest
+      dockerfile: Dockerfile.local
+    image: stencil-prisma-studio-local:latest
     environment:
       DATABASE_URL: ${DATABASE_URL}
     ports:
@@ -101,16 +101,16 @@ services:
     networks:
       - app-network
     volumes:
-      - prisma_studio_data_dev:/var/www
+      - prisma_studio_data_local:/var/www
 
 volumes:
-  web_data_dev:
-  api_data_dev:
-  db_data_dev:
-  test_db_data_dev:
-  pgadmin_data_dev:
-  storybook_data_dev:
-  prisma_studio_data_dev:
+  web_data_local:
+  api_data_local:
+  db_data_local:
+  test_db_data_local:
+  pgadmin_data_local:
+  storybook_data_local:
+  prisma_studio_data_local:
 
 networks:
   app-network:

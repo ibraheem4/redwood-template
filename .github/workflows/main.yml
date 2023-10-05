@@ -37,9 +37,9 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
       - name: Build and start containers
-        run: make up-detached
+        run: make up-ci
       - name: Install dependencies
-        run: make install-deps
+        run: make install-deps-ci
       - name: Build RedwoodJS project
         run: make build-ci
       - name: Lint RedwoodJS project
@@ -59,8 +59,8 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - name: Publish Build Information
         run: |
-          web_image_size=$(docker images ibraheem4/stencil-web-nginx-dev:latest --format "{{.Size}}")
-          api_image_size=$(docker images ibraheem4/stencil-api-dev:latest --format "{{.Size}}")
+          web_image_size=$(docker images ibraheem4/stencil-web-nginx-local:latest --format "{{.Size}}")
+          api_image_size=$(docker images ibraheem4/stencil-api-local:latest --format "{{.Size}}")
           echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
       - name: Record build time
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
