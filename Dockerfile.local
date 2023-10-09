@@ -1,15 +1,17 @@
 # ==
 # Base
 # ==
-FROM node:18-alpine as base
+FROM node:18-bookworm-slim as base
 WORKDIR /app
 COPY package.json yarn.lock redwood.toml graphql.config.js .
 COPY api/package.json api/
 COPY web/package.json web/
 ENV HUSKY=0
-RUN apk add --update --no-cache openssl1.1-compat && \
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev && \
     yarn install --immutable --immutable-cache --parallel && \
-    yarn cache clean
+    yarn cache clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # ==
 # Build
@@ -36,16 +38,17 @@ EXPOSE 8910
 CMD ["nginx", "-g", "daemon off;"]
 
 # Runner for the API server
-FROM node:18-alpine AS api
+FROM node:18-bookworm-slim AS api
 WORKDIR /app
+RUN apt-get update && apt-get install -y libssl-dev
 COPY --from=builder /app .
-COPY entrypoint.dev.sh /app/
-RUN chmod +x /app/entrypoint.dev.sh
+COPY entrypoint.local.sh /app/
+RUN chmod +x /app/entrypoint.local.sh
 EXPOSE 8911
-CMD ["/app/entrypoint.dev.sh"]
+CMD ["/app/entrypoint.local.sh"]
 
 # Storybook stage
-FROM node:18-alpine as storybook
+FROM node:18-bookworm-slim as storybook
 WORKDIR /app
 COPY . .
 RUN yarn install
@@ -53,7 +56,7 @@ ENV IS_STORYBOOK=true
 CMD ["yarn", "rw", "storybook"]
 
 # Prisma Studio
-FROM node:18-alpine AS prisma-studio
+FROM node:18-bookworm-slim AS prisma-studio
 WORKDIR /app
 COPY --from=builder /app .
 EXPOSE 5556

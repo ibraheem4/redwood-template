@@ -6,11 +6,19 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
+  host = "0.0.0.0"
   title = "Stencil DBAuth"
   port = 8910
   apiUrl = "http://localhost:8911"
-  includeEnvironmentVariables = ["REDWOOD_API_URL"]
+  includeEnvironmentVariables = [
+    "REDWOOD_API_URL",
+    "AUTH0_DOMAIN",
+    "AUTH0_CLIENT_ID",
+    "AUTH0_REDIRECT_URI",
+    "AUTH0_AUDIENCE",
+  ]
 [api]
+  host = "0.0.0.0"
   port = 8911
 [browser]
   open = true
