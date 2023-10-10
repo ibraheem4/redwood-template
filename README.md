@@ -1,4 +1,4 @@
-# Stencil DBAuth App README
+# Stencil Clerk App README
 
 This is a RedwoodJS application with full-stack capabilities, including a frontend, backend, and database, containerized using Docker.
 

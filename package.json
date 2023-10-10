@@ -11,6 +11,7 @@
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@ngneat/falso": "^6.4.0",
+    "@redwoodjs/auth-clerk-setup": "6.3.1",
     "@redwoodjs/cli-storybook": "6.3.1",
     "@redwoodjs/core": "6.3.1",
     "@redwoodjs/vite": "6.3.1",
@@ -37,10 +38,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "storybook": "IS_STORYBOOK=true yarn rw storybook",
-    "copy:env": "cp .env.$ENV_TYPE .env",
-    "dev:dbauth_docker": "ENV_TYPE=dbauth_docker yarn copy:env && make run-local",
-    "dev:dbauth_local": "ENV_TYPE=dbauth_local yarn copy:env && redwood dev"
+    "storybook": "IS_STORYBOOK=true yarn rw storybook"
   },
   "dependencies": {
     "@prisma/client": "latest",

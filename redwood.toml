@@ -7,11 +7,12 @@
 
 [web]
   host = "0.0.0.0"
-  title = "Stencil DBAuth"
+  title = "Stencil Clerk"
   port = 8910
   apiUrl = "http://localhost:8911"
   includeEnvironmentVariables = [
-    "REDWOOD_API_URL"
+    "REDWOOD_API_URL",
+    "CLERK_PUBLISHABLE_KEY"
   ]
 [api]
   host = "0.0.0.0"
