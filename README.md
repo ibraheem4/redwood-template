@@ -188,6 +188,7 @@ This section provides instructions for running the application in a traditional,
 
 - **Node.js**: >=14.19.x <=16.x
 - **Yarn**: >=1.15
+- **PostgreSQL**: >=9.5 (Optional, if you're not using a Dockerized database)
 
 ### Steps
 
@@ -219,7 +220,15 @@ This section provides instructions for running the application in a traditional,
    yarn install
    ```
 
-5. **Start Development Server**:
+5. **Database Setup**:
+
+   If you are using a local PostgreSQL database, update the `.env` file with your database credentials. Then run:
+
+   ```bash
+   yarn rw prisma migrate dev
+   ```
+
+6. **Start Development Server**:
 
    ```bash
    yarn rw dev
@@ -245,6 +254,30 @@ If you're running the app without Docker, you can use the following yarn command
 
   ```bash
   yarn rw lint
+  ```
+
+- **Database Migrations**:
+
+  ```bash
+  yarn rw prisma migrate dev
+  ```
+
+### Accessing Development Tools (Non-Containerized)
+
+- **Prisma Studio**:
+
+  Run the following command and access it at [http://localhost:5555](http://localhost:5555):
+
+  ```bash
+  yarn rw prisma studio
+  ```
+
+- **Storybook**:
+
+  Start Storybook with the following command and access it at [http://localhost:7910](http://localhost:7910):
+
+  ```bash
+  yarn rw storybook
   ```
 
 ## Resources
