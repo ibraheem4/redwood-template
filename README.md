@@ -43,7 +43,7 @@ Benchmark on running averages
 - **Node.js**: >=14.19.x <=16.x
 - **Yarn**: >=1.15
 
-## Installation
+## Installation (Containerized)
 
 1. Clone the repository or download the source code.
 2. Open a terminal or command prompt and navigate to the project directory.
@@ -179,6 +179,73 @@ make push-api
 ```
 
 Ensure you're logged into Docker Hub before pushing.
+
+## Installation and Setup (Non-Containerized)
+
+This section provides instructions for running the application in a traditional, non-Docker setup.
+
+### Prerequisites
+
+- **Node.js**: >=14.19.x <=16.x
+- **Yarn**: >=1.15
+
+### Steps
+
+1. **Clone the Repository**:
+
+   ```bash
+   git clone https://github.com/your-repo/stencil-dbauth.git
+   ```
+
+2. **Navigate to Project Directory**:
+
+   ```bash
+   cd stencil-dbauth
+   ```
+
+3. **Set Up Environment Variables**:
+
+   Duplicate the `.env.example` file and create a new `.env` file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Then, find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_dbauth_`, `stencil-dbauth-`, `stencil-dbauth`.
+
+4. **Install Dependencies**:
+
+   ```bash
+   yarn install
+   ```
+
+5. **Start Development Server**:
+
+   ```bash
+   yarn rw dev
+   ```
+
+### Development Commands (Non-Containerized)
+
+If you're running the app without Docker, you can use the following yarn commands:
+
+- **Start the App**:
+
+  ```bash
+  yarn rw dev
+  ```
+
+- **Run Tests**:
+
+  ```bash
+  yarn rw test
+  ```
+
+- **Lint the Code**:
+
+  ```bash
+  yarn rw lint
+  ```
 
 ## Resources
 
