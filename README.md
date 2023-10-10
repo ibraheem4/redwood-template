@@ -194,7 +194,7 @@ This section provides instructions for running the application in a traditional,
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/your-repo/stencil-dbauth.git
+   git clone https://github.com/ibraheem4/redwood-docker.git
    ```
 
 2. **Navigate to Project Directory**:
