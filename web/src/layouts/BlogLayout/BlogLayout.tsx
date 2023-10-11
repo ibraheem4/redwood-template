@@ -1,5 +1,5 @@
 import { navigate, Link, routes } from '@redwoodjs/router'
-import { Toaster } from '@redwoodjs/web/toast'
+import { Toaster, toast } from '@redwoodjs/web/toast' // Added toast import
 
 import { useAuth } from 'src/auth'
 import LanguageSelect from 'src/components/LanguageSelect/LanguageSelect'
@@ -14,6 +14,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
 
   const logoutHandler = () => {
     logOut()
+    toast.success('Successfully logged out') // Added this line for the toast
     navigate(routes.home())
   }
 
