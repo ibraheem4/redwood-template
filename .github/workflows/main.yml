@@ -77,10 +77,10 @@ jobs:
         fetch-depth: 0
         token: ${{ secrets.REPO_WORKFLOW_TOKEN }}
 
-    - name: Setup Node.js 16
-      uses: actions/setup-node@v2
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '18'
 
     - name: Merge main into auth-auth0
       run: |
