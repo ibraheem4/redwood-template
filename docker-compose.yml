@@ -5,7 +5,7 @@ services:
       context: .
       target: web
       dockerfile: Dockerfile.local
-    image: stencil-dbauth-web-nginx-local:latest
+    image: stencil-auth0-web-nginx-local:latest
     ports:
       - "8910:8910"
     networks:
@@ -26,7 +26,7 @@ services:
       DISABLE_SIGNUP: ${DISABLE_SIGNUP}
       NODE_ENV: ${NODE_ENV}
       ENVIRONMENT: ${ENVIRONMENT}
-    image: stencil-dbauth-api-local:latest
+    image: stencil-auth0-api-local:latest
     ports:
       - "8911:8911"
     depends_on:
@@ -75,7 +75,7 @@ services:
       context: .
       target: storybook
       dockerfile: Dockerfile.local
-    image: stencil-dbauth-storybook-local:latest
+    image: stencil-auth0-storybook-local:latest
     ports:
       - "7910:7910"
     environment:
@@ -91,7 +91,7 @@ services:
       context: .
       target: prisma-studio
       dockerfile: Dockerfile.local
-    image: stencil-dbauth-prisma-studio-local:latest
+    image: stencil-auth0-prisma-studio-local:latest
     environment:
       DATABASE_URL: ${DATABASE_URL}
     ports:

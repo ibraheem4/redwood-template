@@ -10,7 +10,8 @@ type BlogLayoutProps = {
 }
 
 const BlogLayout = ({ children }: BlogLayoutProps) => {
-  const { logOut, isAuthenticated, currentUser, loading } = useAuth()
+  const { logOut, isAuthenticated, loading, signUp, logIn, userMetadata } =
+    useAuth()
 
   const logoutHandler = () => {
     logOut()
@@ -26,20 +27,20 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
       return (
         <>
           <li>
-            <Link
-              to={appendLangToRoute(routes.login())}
+            <button
+              onClick={logIn}
               className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
             >
               Login
-            </Link>
+            </button>
           </li>
           <li>
-            <Link
-              to={appendLangToRoute(routes.signup())}
+            <button
+              onClick={signUp}
               className="px-4 py-2 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
             >
               Signup
-            </Link>
+            </button>
           </li>
         </>
       )
@@ -57,7 +58,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         </li>
         <li>
           <div className="right-0 px-4 py-2">
-            Logged in as {currentUser.email}
+            Logged in as {userMetadata?.email}
           </div>
         </li>
       </>
@@ -79,7 +80,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
                 className="text-2xl font-bold text-black uppercase dark:text-white"
                 to={appendLangToRoute(routes.home())}
               >
-                Stencil DBAuth
+                Stencil Auth0
               </Link>
             </div>
             <div className="ml-10 space-x-4">
@@ -116,7 +117,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         >
           <LanguageSelect />
           <small className="text-xs text-center rtl:text-left rtl:text-sm dark:text-white">
-            Copyright © 2023 Stencil DBAuth
+            Copyright © 2023 Stencil Auth0
           </small>
         </nav>
       </main>

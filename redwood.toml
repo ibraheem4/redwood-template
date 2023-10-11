@@ -7,11 +7,15 @@
 
 [web]
   host = "0.0.0.0"
-  title = "Stencil DBAuth"
+  title = "Stencil Auth0"
   port = 8910
   apiUrl = "http://localhost:8911"
   includeEnvironmentVariables = [
-    "REDWOOD_API_URL"
+    "REDWOOD_API_URL",
+    "AUTH0_DOMAIN",
+    "AUTH0_CLIENT_ID",
+    "AUTH0_REDIRECT_URI",
+    "AUTH0_AUDIENCE"
   ]
 [api]
   host = "0.0.0.0"
