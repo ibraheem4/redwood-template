@@ -75,6 +75,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
+        token: ${{ secrets.REPO_WORKFLOW_TOKEN }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v2
@@ -88,6 +89,8 @@ jobs:
         git checkout auth-auth0
         git merge main
         git push origin auth-auth0
+      env:
+        GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
 
     - name: Merge main into auth-clerk
       run: |
@@ -96,3 +99,5 @@ jobs:
         git checkout auth-clerk
         git merge main
         git push origin auth-clerk
+      env:
+        GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
