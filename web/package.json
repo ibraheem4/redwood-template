@@ -15,9 +15,9 @@
   "dependencies": {
     "@clerk/clerk-react": "^4",
     "@redwoodjs/auth-clerk-web": "6.3.1",
-    "@redwoodjs/forms": "6.3.1",
-    "@redwoodjs/router": "6.3.1",
-    "@redwoodjs/web": "6.3.1",
+    "@redwoodjs/forms": "6.3.2",
+    "@redwoodjs/router": "6.3.2",
+    "@redwoodjs/web": "6.3.2",
     "humanize-string": "2.1.0",
     "i18n": "^0.15.1",
     "i18next": "^22.4.8",
@@ -30,7 +30,7 @@
     "react-i18next": "^12.1.4"
   },
   "devDependencies": {
-    "@redwoodjs/vite": "6.3.1",
+    "@redwoodjs/vite": "6.3.2",
     "autoprefixer": "^10.4.13",
     "tailwindcss": "^3.2.4"
   }
