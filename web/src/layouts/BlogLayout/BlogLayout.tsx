@@ -1,5 +1,7 @@
+import React, { useEffect, useRef } from 'react'
+
 import { navigate, Link, routes } from '@redwoodjs/router'
-import { Toaster } from '@redwoodjs/web/toast'
+import { Toaster, toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 import LanguageSelect from 'src/components/LanguageSelect/LanguageSelect'
@@ -12,10 +14,19 @@ type BlogLayoutProps = {
 const BlogLayout = ({ children }: BlogLayoutProps) => {
   const { logOut, isAuthenticated, loading, signUp, logIn, userMetadata } =
     useAuth()
+  const prevIsAuthenticated = useRef(null)
+
+  useEffect(() => {
+    if (isAuthenticated && !prevIsAuthenticated.current) {
+      toast.success('Successfully logged in')
+      navigate(routes.home())
+    }
+    prevIsAuthenticated.current = isAuthenticated
+  }, [isAuthenticated])
 
   const logoutHandler = () => {
     logOut()
-    navigate(routes.home())
+    toast.success('Successfully logged out')
   }
 
   const displayCurrentUser = () => {
