@@ -105,3 +105,21 @@ jobs:
         git push origin auth-clerk
       env:
         GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
+
+    - name: Notify on Failure
+      if: failure()
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issue_title = "Auto-merge failed";
+          const issue_body = "Auto-merge of main into feature branches failed. Manual intervention required.";
+          const token = process.env.REPO_WORKFLOW_TOKEN;
+          const context = github.context;
+          const octokit = github.getOctokit(token);
+          octokit.issues.create({
+            ...context.repo,
+            title: issue_title,
+            body: issue_body
+          });
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
