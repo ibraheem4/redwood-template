@@ -1,3 +1,19 @@
+// Mock matchMedia
+global.matchMedia = (global.matchMedia ||
+  function (query: string): MediaQueryList {
+    const mock: Partial<MediaQueryList> = {
+      matches: false,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      media: query,
+      onchange: null,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }
+    return mock as MediaQueryList
+  }) as (query: string) => MediaQueryList
+
 import { render, screen, waitFor } from '@redwoodjs/testing'
 
 import BlogLayout from './BlogLayout'
