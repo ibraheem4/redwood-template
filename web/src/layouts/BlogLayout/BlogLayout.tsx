@@ -29,6 +29,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
     try {
       await signOut()
       toast.success('Successfully logged out')
+      navigate(routes.home())
     } catch (error) {
       toast.error('Error logging out')
     }
