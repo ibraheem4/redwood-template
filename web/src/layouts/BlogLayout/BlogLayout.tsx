@@ -27,6 +27,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
   const logoutHandler = () => {
     logOut()
     toast.success('Successfully logged out')
+    navigate(routes.home())
   }
 
   const displayCurrentUser = () => {
