@@ -58,7 +58,9 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         </li>
         <li>
           <div className="right-0 px-4 py-2">
-            Logged in as {currentUser.email}
+            {currentUser && currentUser.email
+              ? `Logged in as ${currentUser.email}`
+              : 'Logged in'}
           </div>
         </li>
       </>
