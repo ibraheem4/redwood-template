@@ -24,8 +24,8 @@ Benchmark on running averages
 
 | Package | Build time | Image size |
 |---------|------------|------------|
-| api     | `~554s`    | `1.32GB`   |
-| web     | `~554s`    | `43.6MB`   |
+| api     | `~772s`    | `1.45GB`   |
+| web     | `~772s`    | `43.3MB`   |
 
 ## Suitable for
 
