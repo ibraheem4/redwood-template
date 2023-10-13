@@ -40,7 +40,7 @@ install-deps-ci:
 	$(DC_CI) exec -T api yarn install
 
 test-ci:
-	$(DC_CI) exec -T api yarn rw test web --no-watch
+	$(DC_CI) exec -T api yarn rw test --no-watch
 
 lint-ci:
 	$(DC_CI) exec -T api yarn rw lint
