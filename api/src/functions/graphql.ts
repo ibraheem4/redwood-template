@@ -17,7 +17,11 @@ export const handler = createGraphQLHandler({
   sdls,
   services,
   cors: {
-    origin: [process.env.REDWOOD_WEB_URL, 'http://localhost:7910', 'http://localhost:8910'],
+    origin: [
+      process.env.REDWOOD_WEB_URL,
+      'http://localhost:7910',
+      'http://localhost:8910',
+    ],
     credentials: true,
   },
   onException: () => {
