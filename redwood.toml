@@ -9,7 +9,7 @@
   host = "0.0.0.0"
   title = "Stencil Auth0"
   port = "${PORT:8910}"
-  apiUrl = "/api"
+  apiUrl = "http://localhost:8911"
   includeEnvironmentVariables = [
     "REDWOOD_API_URL",
     "AUTH0_DOMAIN",
