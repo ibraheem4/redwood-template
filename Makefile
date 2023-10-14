@@ -37,7 +37,7 @@ up-ci:
 	$(DC_CI) up -d
 
 install-deps-ci:
-	$(DC_CI) exec -T api yarn install
+	$(DC_CI) exec -T api yarn install --check-cache
 
 test-ci:
 	$(DC_CI) exec -T api yarn rw test --no-watch
