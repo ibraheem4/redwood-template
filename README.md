@@ -6,7 +6,7 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 |            |                                                                                                                              |
 |------------|------------------------------------------------------------------------------------------------------------------------------|
-| Name       | `stencil-dbauth`                                                                                                            |
+| Name       | `stencil-clerk`                                                                                                            |
 | Description| RedwoodJS application that provides web and API services.                                                                     |
 | Workflow   | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg)                           |
 | Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4)                                                                         |
@@ -53,7 +53,7 @@ Benchmark on running averages
    make setup-env
    ```
 
-4. Find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_dbauth_`, `stencil-dbauth-`, `stencil-dbauth`.
+4. Find and replace any instances of `FIXME`, `Stencil Clerk`, `stencil_clerk_`, `stencil-clerk-`, `stencil-clerk`.
 
 ## Makefile Commands
 
@@ -201,7 +201,7 @@ This section provides instructions for running the application in a traditional,
 2. **Navigate to Project Directory**:
 
    ```bash
-   cd stencil-dbauth
+   cd stencil-clerk
    ```
 
 3. **Set Up Environment Variables**:
@@ -212,7 +212,7 @@ This section provides instructions for running the application in a traditional,
    cp .env.example .env
    ```
 
-   Then, find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_dbauth_`, `stencil-dbauth-`, `stencil-dbauth`.
+   Then, find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_clerk_`, `stencil-clerk-`, `stencil-clerk`.
 
 4. **Install Dependencies**:
 
