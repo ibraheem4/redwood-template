@@ -58,7 +58,7 @@
           "type": "rds",
           "engine": "postgres",
           "engineVersion": "15",
-          "instanceSize": "db.t2.micro",
+          "instanceSize": "db.t3.micro",
           "port": 5432,
           "storage": 20,
           "private": false
