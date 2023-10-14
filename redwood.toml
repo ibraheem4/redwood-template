@@ -9,7 +9,7 @@
   host = "0.0.0.0"
   title = "Stencil Clerk"
   port = "${PORT:8910}"
-  apiUrl = "${REDWOOD_API_URL}"
+  apiUrl = "/api"
   includeEnvironmentVariables = [
     "REDWOOD_API_URL",
     "CLERK_PUBLISHABLE_KEY"
