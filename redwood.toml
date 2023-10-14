@@ -8,14 +8,14 @@
 [web]
   host = "0.0.0.0"
   title = "Stencil DBAuth"
-  port = "${PORT:8910}"
-  apiUrl = "/api"
+  port = "${WEB_PORT:8910}"
+  apiUrl = "${REDWOOD_API_URL}"
   includeEnvironmentVariables = [
     "REDWOOD_API_URL"
   ]
 [api]
   host = "0.0.0.0"
-  port = "${PORT:8911}"
+  port = "${API_PORT:8911}"
 [browser]
   open = true
 [notifications]
