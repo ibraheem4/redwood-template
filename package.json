@@ -17,7 +17,7 @@
     "@redwoodjs/vite": "6.3.2",
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
-    "prettier-plugin-tailwindcss": "^0.3.0",
+    "prettier-plugin-tailwindcss": "0.4.1",
     "prisma": "latest",
     "storybook-tailwind-dark-mode": "1.0.15"
   },

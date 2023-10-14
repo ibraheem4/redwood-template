@@ -217,7 +217,7 @@ This section provides instructions for running the application in a traditional,
 4. **Install Dependencies**:
 
    ```bash
-   yarn install
+   yarn install --check-cache
    ```
 
 5. **Database Setup**:
