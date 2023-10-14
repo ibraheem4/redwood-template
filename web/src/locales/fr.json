@@ -17,10 +17,6 @@
     "title": "Contact",
     "description": "Page de contact"
   },
-  "LoginPage": {
-    "title": "Connexion",
-    "description": "Page de connexion"
-  },
   "languageCodes": {
     "en": "Anglais",
     "fr": "Francais",
