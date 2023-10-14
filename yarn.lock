@@ -10477,6 +10477,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"caniuse-lite@npm:^1.0.30001538":
+  version: 1.0.30001549
+  resolution: "caniuse-lite@npm:1.0.30001549"
+  checksum: f21d019220f4a1f19fbf8fef8d251cd8419d5d840bf4d50bcb4976f959b9fbdfb3af0b6815e16396a24a805290738b184cf1dee70ec703b82782f52f36317d46
+  languageName: node
+  linkType: hard
+
 "capital-case@npm:^1.0.4":
   version: 1.0.4
   resolution: "capital-case@npm:1.0.4"
@@ -20119,7 +20126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-loader@npm:^7.0.2":
+"postcss-loader@npm:^7.3.3":
   version: 7.3.3
   resolution: "postcss-loader@npm:7.3.3"
   dependencies:
@@ -20469,16 +20476,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "prettier-plugin-tailwindcss@npm:0.3.0"
+"prettier-plugin-tailwindcss@npm:0.4.1":
+  version: 0.4.1
+  resolution: "prettier-plugin-tailwindcss@npm:0.4.1"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-pug": "*"
     "@shopify/prettier-plugin-liquid": "*"
     "@shufo/prettier-plugin-blade": "*"
     "@trivago/prettier-plugin-sort-imports": "*"
-    prettier: ">=2.2.0"
+    prettier: ^2.2 || ^3.0
     prettier-plugin-astro: "*"
     prettier-plugin-css-order: "*"
     prettier-plugin-import-sort: "*"
@@ -20520,7 +20527,7 @@ __metadata:
       optional: true
     prettier-plugin-twig-melody:
       optional: true
-  checksum: b7c4470097c1c4a9b280fcd89b6853a7afef07dc9596393b6cf90141abdd25bceb5222133aed4b4cd64c1849c09ae446eb54bf560214f5e309a9fbf8ce5af08c
+  checksum: da9dc4c8c80b5510d51e671de61bc230e2b076bd4c14ddd3e8bd4fa5395373800d10473718bbf22e1cabe09167e8d2eb1bedaa06587ee905d6e6106003b69d11
   languageName: node
   linkType: hard
 
@@ -21920,7 +21927,7 @@ __metadata:
     "@redwoodjs/vite": 6.3.2
     husky: ^8.0.2
     lint-staged: ^13.2.2
-    prettier-plugin-tailwindcss: ^0.3.0
+    prettier-plugin-tailwindcss: 0.4.1
     prisma: latest
     storybook-tailwind-dark-mode: 1.0.15
     typescript: 4.3.5
@@ -23349,7 +23356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.2.4":
+"tailwindcss@npm:^3.3.3":
   version: 3.3.3
   resolution: "tailwindcss@npm:3.3.3"
   dependencies:
@@ -24913,18 +24920,18 @@ __metadata:
     "@redwoodjs/router": 6.3.2
     "@redwoodjs/vite": 6.3.2
     "@redwoodjs/web": 6.3.2
-    autoprefixer: ^10.4.13
+    autoprefixer: ^10.4.16
     humanize-string: 2.1.0
     i18n: ^0.15.1
     i18next: ^22.4.8
     i18next-browser-languagedetector: ^7.0.1
     postcss: ^8.4.31
-    postcss-loader: ^7.0.2
+    postcss-loader: ^7.3.3
     prop-types: 15.8.1
     react: 18.2.0
     react-dom: 18.2.0
     react-i18next: ^12.1.4
-    tailwindcss: ^3.2.4
+    tailwindcss: ^3.3.3
   languageName: unknown
   linkType: soft
 
