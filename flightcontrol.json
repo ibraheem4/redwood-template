@@ -57,7 +57,7 @@
           "name": "Database",
           "type": "rds",
           "engine": "postgres",
-          "engineVersion": "12",
+          "engineVersion": "15",
           "instanceSize": "db.t2.micro",
           "port": 5432,
           "storage": 20,
