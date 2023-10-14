@@ -48,7 +48,7 @@ jobs:
         run: make build-ci
       - name: Lint RedwoodJS project
         run: make lint-ci
-      - name: Run Web tests
+      - name: Run web and api tests
         run: make test-ci
       # Build, Tag, and Publish Docker Images
       - name: Build Docker Images
