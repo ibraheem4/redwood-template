@@ -15,7 +15,7 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 | Name  | Runtime       |
 |-------|--------------|
-| api   | `node:18-alpine` |
+| api   | `node:18-bookworm-slim` |
 | web   | `nginx:alpine`   |
 
 ## Benchmark
