@@ -28,6 +28,7 @@ jobs:
       POSTGRES_DB_TEST: ${{ secrets.POSTGRES_DB_TEST }}
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Capture start time
