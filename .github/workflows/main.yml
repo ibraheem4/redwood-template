@@ -4,15 +4,9 @@ on:
   push:
     branches:
       - main
-      - auth-auth0
-      - auth-dbauth-docker
-      - auth-clerk
   pull_request:
     branches:
       - main
-      - auth-auth0
-      - auth-dbauth-docker
-      - auth-clerk
 
 jobs:
   build_test_lint:
