@@ -3,14 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
       - auth-auth0
-      - auth-clerk
   pull_request:
     branches:
-      - main
       - auth-auth0
-      - auth-clerk
 
 jobs:
   build_test_lint_publish:
