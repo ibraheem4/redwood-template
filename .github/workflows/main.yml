@@ -1,0 +1,137 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - auth-auth0
+      - auth-dbauth-docker
+      - auth-clerk
+  pull_request:
+    branches:
+      - main
+      - auth-auth0
+      - auth-dbauth-docker
+      - auth-clerk
+
+jobs:
+  build_test_lint_publish:
+    runs-on: ubuntu-latest
+    env:
+      REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
+      DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+      REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      POSTGRES_DB_DEV: ${{ secrets.POSTGRES_DB_DEV }}
+      POSTGRES_DB_TEST: ${{ secrets.POSTGRES_DB_TEST }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:5432/${{ secrets.POSTGRES_DB_DEV }}
+      TEST_DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@test_db:5432/${{ secrets.POSTGRES_DB_TEST }}
+      COMPOSE_PROJECT_NAME: stencil-dbauth
+
+    steps:
+      - name: Capture start time
+        run: echo "BUILD_START_TIME=$(date +%s)" >> $GITHUB_ENV
+      - uses: actions/checkout@v3
+      - name: Install Make
+        run: sudo apt-get update -y && sudo apt-get install -y make
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+      - name: Build and start containers
+        run: make up-ci
+      - name: Install dependencies
+        run: make install-deps-ci
+      - name: Build RedwoodJS project
+        run: make build-ci
+      - name: Lint RedwoodJS project
+        run: make lint-ci
+      - name: Run web and api tests
+        run: make test-ci
+      # Build, Tag, and Publish Docker Images
+      - name: Build Docker Images
+        run: make build-docker
+      - name: Tag Docker Images
+        run: make tag-docker
+      - name: Publish Docker Images
+        if: github.ref == 'refs/heads/main'
+        run: make publish-docker
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Publish Build Information
+        run: |
+          web_image_size=$(docker images ibraheem4/stencil-dbauth-web-nginx-local:latest --format "{{.Size}}")
+          api_image_size=$(docker images ibraheem4/stencil-dbauth-api-local:latest --format "{{.Size}}")
+          echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
+      - name: Record build time
+        run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
+      - name: Cleanup
+        run: make clean-ci
+
+  auto_merge_to_feature_branches:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.REPO_WORKFLOW_TOKEN }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Merge main into auth-auth0
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git checkout auth-auth0
+        git merge main
+        git push origin auth-auth0
+      env:
+        GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
+
+    - name: Merge main into auth-clerk
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git checkout auth-clerk
+        git merge main
+        git push origin auth-clerk
+      env:
+        GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
+
+    - name: Merge main into auth-dbauth-docker
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git checkout auth-dbauth-docker
+        git merge main
+        git push origin auth-dbauth-docker
+      env:
+        GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
+
+    - name: Notify on Failure
+      if: failure()
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issue_title = "Auto-merge failed";
+          const issue_body = "Auto-merge of main into feature branches failed. Manual intervention required.";
+          const token = process.env.REPO_WORKFLOW_TOKEN;
+          const context = github.context;
+          const octokit = github.getOctokit(token);
+          octokit.issues.create({
+            ...context.repo,
+            title: issue_title,
+            body: issue_body
+          });
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
