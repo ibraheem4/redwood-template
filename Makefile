@@ -1,4 +1,4 @@
-.PHONY: up-local up-ci install-deps-ci test-ci lint-ci build-local build-ci setup-env run-local
+.PHONY: up-local up-ci install-deps-ci test-ci lint-ci build-local build-ci setup-env run-local db-setup-ci
 
 # Setup commands
 setup-env:
@@ -28,3 +28,6 @@ test-ci:
 
 lint-ci:
 	yarn rw lint
+
+db-setup-ci:
+	yarn rw prisma db push --force-reset --accept-data-loss
