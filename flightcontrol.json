@@ -14,23 +14,24 @@
           "name": "Redwood API",
           "type": "fargate",
           "buildType": "nixpacks",
-          "cpu": 0.5,
-          "memory": 1,
+          "cpu": 0.25,
+          "memory": 0.5,
           "buildCommand": "yarn rw deploy flightcontrol api",
           "startCommand": "yarn rw deploy flightcontrol api --serve",
+          "postBuildCommand": "echo 0",
           "port": 8911,
           "healthCheckPath": "/graphql/health",
           "envVariables": {
-            "REDWOOD_WEB_URL": {
-              "fromService": {
-                "id": "redwood-web",
-                "value": "origin"
-              }
-            },
             "DATABASE_URL": {
               "fromService": {
                 "id": "db",
                 "value": "dbConnectionString"
+              }
+            },
+            "REDWOOD_WEB_URL": {
+              "fromService": {
+                "id": "redwood-web",
+                "value": "origin"
               }
             }
           }
@@ -39,8 +40,8 @@
           "id": "redwood-web",
           "name": "Redwood Web",
           "type": "static",
-          "buildType": "nixpacks",
           "singlePageApp": true,
+          "installCommand": "yarn set version stable && NODE_ENV=development yarn install",
           "buildCommand": "yarn rw deploy flightcontrol web",
           "outputDirectory": "web/dist",
           "envVariables": {
@@ -57,8 +58,8 @@
           "name": "Database",
           "type": "rds",
           "engine": "postgres",
-          "engineVersion": "15",
-          "instanceSize": "db.t3.micro",
+          "engineVersion": "13",
+          "instanceSize": "db.t4g.micro",
           "port": 5432,
           "storage": 20,
           "private": false
