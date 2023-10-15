@@ -5,11 +5,13 @@ on:
     branches:
       - main
       - auth-auth0
+      - auth-dbauth-docker
       - auth-clerk
   pull_request:
     branches:
       - main
       - auth-auth0
+      - auth-dbauth-docker
       - auth-clerk
 
 jobs:
@@ -103,6 +105,16 @@ jobs:
         git checkout auth-clerk
         git merge main
         git push origin auth-clerk
+      env:
+        GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
+
+    - name: Merge main into auth-dbauth-docker
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git checkout auth-dbauth-docker
+        git merge main
+        git push origin auth-dbauth-docker
       env:
         GIT_AUTH_TOKEN: ${{ secrets.REPO_WORKFLOW_TOKEN }}
 
