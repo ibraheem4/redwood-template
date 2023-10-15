@@ -41,7 +41,7 @@
           "name": "Redwood Web",
           "type": "static",
           "singlePageApp": true,
-          "installCommand": "yarn set version stable && NODE_ENV=development yarn install",
+          "installCommand": "yarn set version stable && NODE_ENV=production yarn install",
           "buildCommand": "yarn rw deploy flightcontrol web",
           "outputDirectory": "web/dist",
           "envVariables": {
