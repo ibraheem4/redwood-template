@@ -30,7 +30,20 @@ api:
         '--apiRootPath=/api',
       ]
   local_packages: ['node_modules']
-  seed: ['yarn', 'rw', 'prisma', 'db', 'seed']
+  seed:
+    [
+      'yarn',
+      'rw',
+      'prisma',
+      'migrate',
+      'dev',
+      '&&',
+      'yarn',
+      'rw',
+      'prisma',
+      'db',
+      'seed',
+    ]
 
   system:
     cpu: 2
