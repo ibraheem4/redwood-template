@@ -68,7 +68,7 @@ services:
     networks:
       - app-network
     volumes:
-      - pgadmin_data_local:/root/.pgadmin
+      - pgadmin_data_local:/var/lib/pgadmin
 
   storybook:
     build:
