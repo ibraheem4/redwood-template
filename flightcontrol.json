@@ -16,7 +16,7 @@
           "buildType": "nixpacks",
           "cpu": 0.25,
           "memory": 0.5,
-          "buildCommand": "yarn rw deploy flightcontrol api && yarn rw prisma migrate dev && yarn rw prisma db seed",
+          "buildCommand": "yarn rw deploy flightcontrol api && yarn rw prisma db seed",
           "startCommand": "yarn rw deploy flightcontrol api --serve",
           "postBuildCommand": "echo 0",
           "port": 8911,
