@@ -1,8 +1,8 @@
 .PHONY: up-local up-ci install-deps-ci storybook test-ci lint-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local
 
 # Variables
-DC_CI := docker compose -f docker-compose.yml -f docker-compose.ci.yml
-DC_LOCAL := docker compose -f docker-compose.yml -f docker-compose.local.yml
+DC_CI := docker compose -f compose.yml -f compose.ci.yml
+DC_LOCAL := docker compose -f compose.yml -f compose.local.yml
 DOCKER_TAG_WEB := stencil-clerk-web-nginx-local:latest
 DOCKER_TAG_API := stencil-clerk-api-local:latest
 
