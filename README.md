@@ -140,7 +140,7 @@ To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Fo
 
 3. **Login to pgAdmin4**:
 
-    Use the email and password specified in the `docker-compose.yml` file under the `pgadmin4` service (default is `admin@admin.com` and `admin`).
+    Use the email and password specified in the `compose.yml` file under the `pgadmin4` service (default is `admin@admin.com` and `admin`).
 
 4. **Connect to PostgreSQL**:
 
