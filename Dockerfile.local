@@ -58,6 +58,7 @@ CMD ["yarn", "rw", "storybook"]
 # Prisma Studio
 FROM node:18-bookworm-slim AS prisma-studio
 WORKDIR /app
+RUN apt-get update && apt-get install -y openssl libssl-dev
 COPY --from=builder /app .
 EXPOSE 5556
 CMD ["yarn", "rw", "prisma", "studio"]

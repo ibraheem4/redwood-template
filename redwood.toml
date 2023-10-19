@@ -8,15 +8,15 @@
 [web]
   host = "0.0.0.0"
   title = "Stencil Clerk"
-  port = "${WEB_PORT:8910}"
-  apiUrl = "${REDWOOD_API_URL}"
+  port = "8910"
+  apiUrl = "http://localhost:8911"
   includeEnvironmentVariables = [
     "REDWOOD_API_URL",
     "CLERK_PUBLISHABLE_KEY"
   ]
 [api]
   host = "0.0.0.0"
-  port = "${API_PORT:8911}"
+  port = "8911"
 [browser]
   open = true
 [notifications]
