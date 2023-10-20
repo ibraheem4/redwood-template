@@ -48,7 +48,7 @@ jobs:
       - name: Tag Docker Images
         run: make tag-docker
       - name: Publish Docker Images
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/auth-auth0'
         run: make publish-docker
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
