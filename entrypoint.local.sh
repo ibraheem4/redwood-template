@@ -1,5 +1,7 @@
 #!/bin/sh
 
+node /app/node_modules/.bin/rw-vite-build --webDir="/app/web"
+
 # Run Prisma migrations
 echo "Running Prisma migrations..."
 yarn rw prisma migrate dev
