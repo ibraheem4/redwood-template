@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - auth-dbauth-docker
+      - auth-dbauth
   pull_request:
     branches:
-      - auth-dbauth-docker
+      - auth-dbauth
 
 jobs:
   build_test_lint_publish:
@@ -48,7 +48,7 @@ jobs:
       - name: Tag Docker Images
         run: make tag-docker
       - name: Publish Docker Images
-        if: github.ref == 'refs/heads/auth-dbauth-docker'
+        if: github.ref == 'refs/heads/auth-dbauth'
         run: make publish-docker
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
