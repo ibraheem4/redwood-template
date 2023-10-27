@@ -37,10 +37,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "storybook": "IS_STORYBOOK=true yarn rw storybook",
-    "copy:env": "cp .env.$ENV_TYPE .env",
-    "dev:dbauth_docker": "ENV_TYPE=dbauth_docker yarn copy:env && make run-local",
-    "dev:dbauth_local": "ENV_TYPE=dbauth_local yarn copy:env && redwood dev"
+    "storybook": "IS_STORYBOOK=true yarn rw storybook"
   },
   "dependencies": {
     "@prisma/client": "latest",
