@@ -9,7 +9,7 @@
   host = "0.0.0.0"
   title = "Stencil DBAuth"
   port = "${PORT:8910}"
-  apiUrl = "/api"
+  apiUrl = "/.redwood/functions"
   includeEnvironmentVariables = [
     "REDWOOD_API_URL"
   ]
