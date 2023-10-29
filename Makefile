@@ -47,8 +47,8 @@ lint-ci:
 
 # Docker commands
 build-docker:
-	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile.local .
-	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile.local .
+	docker build --target web -t $(DOCKER_TAG_WEB) -f Dockerfile .
+	docker build --target api -t $(DOCKER_TAG_API) -f Dockerfile .
 
 tag-docker:
 	docker tag $(DOCKER_TAG_WEB) ibraheem4/$(DOCKER_TAG_WEB)
