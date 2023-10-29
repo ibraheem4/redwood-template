@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: web
-      dockerfile: Dockerfile.local
+      dockerfile: Dockerfile
     image: stencil-auth0-web-nginx-local:latest
     ports:
       - "8910:8910"
@@ -17,7 +17,7 @@ services:
     build:
       context: .
       target: api
-      dockerfile: Dockerfile.local
+      dockerfile: Dockerfile
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       REDWOOD_WEB_URL: ${REDWOOD_WEB_URL}
@@ -74,7 +74,7 @@ services:
     build:
       context: .
       target: storybook
-      dockerfile: Dockerfile.local
+      dockerfile: Dockerfile
     image: stencil-auth0-storybook-local:latest
     ports:
       - "7910:7910"
@@ -90,7 +90,7 @@ services:
     build:
       context: .
       target: prisma-studio
-      dockerfile: Dockerfile.local
+      dockerfile: Dockerfile
     image: stencil-auth0-prisma-studio-local:latest
     environment:
       DATABASE_URL: ${DATABASE_URL}
