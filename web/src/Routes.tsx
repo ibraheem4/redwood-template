@@ -7,6 +7,7 @@ import BlogLayout from 'src/layouts/BlogLayout'
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+      <Route path="/login" page={AuthRedirectPage} name="authRedirect" />
       <Set wrap={BlogLayout}>
         <Route path="/blog-post/{id:String}" page={BlogPostPage} name="blogPost" />
         <Route path="/contact" page={ContactPage} name="contact" />
