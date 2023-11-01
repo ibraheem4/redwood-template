@@ -18,7 +18,7 @@ const auth0 = new Auth0Client({
 
   // `useRefreshTokens` is required for automatically extending sessions beyond what's set in the initial JWT expiration.
   // See https://auth0.com/docs/tokens/refresh-tokens.
-  // useRefreshTokens: true,
+  useRefreshTokens: true,
 })
 
 export const { AuthProvider, useAuth } = createAuth(auth0)
