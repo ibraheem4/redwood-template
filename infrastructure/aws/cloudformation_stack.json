@@ -8,6 +8,43 @@
     }
   ],
   "Resources": {
+    "PostgresDB": {
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBName": "MyDatabase",
+        "AllocatedStorage": "20",
+        "DBInstanceClass": "db.t2.micro",
+        "Engine": "postgres",
+        "MasterUsername": "masteruser",
+        "MasterUserPassword": "masteruserpassword",
+        "VPCSecurityGroups": [
+          {
+            "Ref": "MySecurityGroup"
+          }
+        ],
+        "DBSubnetGroupName": {
+          "Ref": "MyDBSubnetGroup"
+        },
+        "MultiAZ": false,
+        "PubliclyAccessible": true,
+        "StorageType": "gp2",
+        "DeletionPolicy": "Snapshot"
+      }
+    },
+    "MyDBSubnetGroup": {
+      "Type": "AWS::RDS::DBSubnetGroup",
+      "Properties": {
+        "DBSubnetGroupDescription": "My DB subnet group",
+        "SubnetIds": [
+          {
+            "Ref": "PublicSubnetOne"
+          },
+          {
+            "Ref": "PublicSubnetTwo"
+          }
+        ]
+      }
+    },
     "MyVPC": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
