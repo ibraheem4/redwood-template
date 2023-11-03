@@ -62,6 +62,7 @@ jobs:
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
       - name: Cleanup
         run: make clean-ci
+
   deploy_to_aws:
     needs: build_test_lint_publish
     runs-on: ubuntu-latest
@@ -81,7 +82,7 @@ jobs:
         run: |
           aws cloudformation deploy \
             --template-file infrastructure/aws/cloudformation_stack.json \
-            --stack-name stencil-auth0-stack \
+            --stack-name redwood-stencil-auth0-stack \
             --capabilities CAPABILITY_NAMED_IAM \
             --no-fail-on-empty-changeset
         env:
