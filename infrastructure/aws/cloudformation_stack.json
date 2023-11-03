@@ -5,6 +5,7 @@
     "PostgresDB": {
       "Type": "AWS::RDS::DBInstance",
       "DeletionPolicy": "Snapshot",
+      "DependsOn": ["MyDBSubnetGroup", "GatewayAttachment"],
       "Properties": {
         "DBName": "MyDatabase",
         "AllocatedStorage": "20",
