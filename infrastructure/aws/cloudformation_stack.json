@@ -2,6 +2,103 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "CloudFormation stack for deploying web and API applications using ECR and ECS.",
   "Resources": {
+    "MyVPC": {
+      "Type": "AWS::ECR::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16"
+      }
+    },
+    "PublicSubnetOne": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        },
+        "CidrBlock": "10.0.1.0/24",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            "0",
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        }
+      }
+    },
+    "PublicSubnetTwo": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        },
+        "CidrBlock": "10.0.2.0/24",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            "1",
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        }
+      }
+    },
+    "InternetGateway": {
+      "Type": "AWS::EC2::InternetGateway"
+    },
+    "GatewayAttachment": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        },
+        "InternetGatewayId": {
+          "Ref": "InternetGateway"
+        }
+      }
+    },
+    "PublicRouteTable": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "MyVPC"
+        }
+      }
+    },
+    "PublicRoute": {
+      "Type": "AWS::EC2::Route",
+      "DependsOn": "GatewayAttachment",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "PublicRouteTable"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "InternetGateway"
+        }
+      }
+    },
+    "SubnetRouteTableAssociationOne": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "PublicSubnetOne"
+        },
+        "RouteTableId": {
+          "Ref": "PublicRouteTable"
+        }
+      }
+    },
+    "SubnetRouteTableAssociationTwo": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "PublicSubnetTwo"
+        },
+        "RouteTableId": {
+          "Ref": "PublicRouteTable"
+        }
+      }
+    },
     "WebAppRepository": {
       "Type": "AWS::ECR::Repository",
       "Properties": {
@@ -30,8 +127,19 @@
         },
         "NetworkConfiguration": {
           "AwsvpcConfiguration": {
-            "Subnets": ["subnet-xxxxxxx", "subnet-yyyyyyy"],
-            "SecurityGroups": ["sg-xxxxxxxx"],
+            "Subnets": [
+              {
+                "Ref": "PublicSubnetOne"
+              },
+              {
+                "Ref": "PublicSubnetTwo"
+              }
+            ],
+            "SecurityGroups": [
+              {
+                "Ref": "MySecurityGroup"
+              }
+            ],
             "AssignPublicIp": "ENABLED"
           }
         }
