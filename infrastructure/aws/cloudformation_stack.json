@@ -1,0 +1,153 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "CloudFormation stack for deploying web and API applications using ECR and ECS.",
+  "Resources": {
+    "WebAppRepository": {
+      "Type": "AWS::ECR::Repository",
+      "Properties": {
+        "RepositoryName": "stencil-auth0-web"
+      }
+    },
+    "ApiAppRepository": {
+      "Type": "AWS::ECR::Repository",
+      "Properties": {
+        "RepositoryName": "stencil-auth0-api"
+      }
+    },
+    "ECSCluster": {
+      "Type": "AWS::ECS::Cluster"
+    },
+    "WebAppService": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "ECSCluster"
+        },
+        "DesiredCount": 2,
+        "LaunchType": "FARGATE",
+        "TaskDefinition": {
+          "Ref": "WebAppTaskDefinition"
+        },
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "Subnets": ["subnet-xxxxxxx", "subnet-yyyyyyy"],
+            "SecurityGroups": ["sg-xxxxxxxx"],
+            "AssignPublicIp": "ENABLED"
+          }
+        }
+      }
+    },
+    "WebAppTaskDefinition": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "Family": "stencil-auth0-web-task",
+        "Cpu": "256",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": ["FARGATE"],
+        "ExecutionRoleArn": {
+          "Ref": "ECSTaskExecutionRole"
+        },
+        "ContainerDefinitions": [
+          {
+            "Name": "web-container",
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ".dkr.ecr.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".amazonaws.com/",
+                  {
+                    "Ref": "WebAppRepository"
+                  },
+                  ":latest"
+                ]
+              ]
+            },
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "HostPort": 80
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ECSTaskExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyName": "AmazonECSTaskExecutionRolePolicy",
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:GetAuthorizationToken",
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:GetDownloadUrlForLayer",
+                    "ecr:GetRepositoryPolicy",
+                    "ecr:DescribeRepositories",
+                    "ecr:ListImages",
+                    "ecr:DescribeImages",
+                    "ecr:BatchGetImage",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "WebAppRepositoryURI": {
+      "Description": "URI for the web application's ECR repository",
+      "Value": {
+        "Fn::GetAtt": ["WebAppRepository", "RepositoryUri"]
+      }
+    },
+    "ApiAppRepositoryURI": {
+      "Description": "URI for the API application's ECR repository",
+      "Value": {
+        "Fn::GetAtt": ["ApiAppRepository", "RepositoryUri"]
+      }
+    },
+    "ECSClusterName": {
+      "Description": "Name of the ECS Cluster",
+      "Value": {
+        "Ref": "ECSCluster"
+      }
+    },
+    "WebAppServiceName": {
+      "Description": "Name of the web application's ECS Service",
+      "Value": {
+        "Ref": "WebAppService"
+      }
+    }
+  }
+}
