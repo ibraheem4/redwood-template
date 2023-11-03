@@ -1,6 +1,12 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "CloudFormation stack for deploying web and API applications using ECR and ECS.",
+  "Tags": [
+    {
+      "Key": "AppManagerCFNStackKey",
+      "Value": "redwood-stencil"
+    }
+  ],
   "Resources": {
     "MyVPC": {
       "Type": "AWS::EC2::VPC",
