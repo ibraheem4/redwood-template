@@ -3,7 +3,7 @@
   "Description": "CloudFormation stack for deploying web and API applications using ECR and ECS.",
   "Resources": {
     "MyVPC": {
-      "Type": "AWS::ECR::VPC",
+      "Type": "AWS::EC2::VPC",
       "Properties": {
         "CidrBlock": "10.0.0.0/16"
       }
