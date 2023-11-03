@@ -4,6 +4,7 @@
   "Resources": {
     "PostgresDB": {
       "Type": "AWS::RDS::DBInstance",
+      "DeletionPolicy": "Snapshot",
       "Properties": {
         "DBName": "MyDatabase",
         "AllocatedStorage": "20",
@@ -21,8 +22,7 @@
         },
         "MultiAZ": false,
         "PubliclyAccessible": true,
-        "StorageType": "gp2",
-        "DeletionPolicy": "Snapshot"
+        "StorageType": "gp2"
       }
     },
     "MyDBSubnetGroup": {
