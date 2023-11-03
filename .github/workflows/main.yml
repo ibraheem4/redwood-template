@@ -78,13 +78,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy to AWS using CloudFormation
-        run: |
-          aws cloudformation deploy \
-            --template-file infrastructure/aws/cloudformation_stack.json \
-            --stack-name redwood-stencil-auth0-stack \
-            --capabilities CAPABILITY_NAMED_IAM \
-            --no-fail-on-empty-changeset
+      - name: Deploy to AWS using CloudFormation Script
+        run: bash ./scripts/deploy_cloudformation.sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
