@@ -36,5 +36,5 @@ echo "Deploying the stack..."
 aws cloudformation deploy \
   --template-file $TEMPLATE_FILE \
   --stack-name $STACK_NAME \
-  --capabilities CAPABILITY_NAMED_IAM \
+  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
   --no-fail-on-empty-changeset
