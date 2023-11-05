@@ -5,7 +5,7 @@ TEMPLATE_FILE="infrastructure/aws/cloudformation_stack.json"
 
 # Helper function to get the current stack status
 get_stack_status() {
-  aws cloudformation describe-stacks --stack-name $STACK_NAME --query 'Stacks[0].StackStatus' --output text 2>/dev/null
+  aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query 'Stacks[0].StackStatus' --output text 2>/dev/null
 }
 
 # Initial stack status check
@@ -21,20 +21,25 @@ done
 # If the stack is in ROLLBACK_COMPLETE state, delete it
 if [ "$STACK_STATUS" == "ROLLBACK_COMPLETE" ]; then
   echo "Stack is in ROLLBACK_COMPLETE state. Deleting..."
-  aws cloudformation delete-stack --stack-name $STACK_NAME
-
-  echo "Waiting for stack to be deleted..."
-  aws cloudformation wait stack-delete-complete --stack-name $STACK_NAME
-elif [ -z "$STACK_STATUS" ]; then
+  if aws cloudformation delete-stack --stack-name "$STACK_NAME"; then
+    echo "Waiting for stack to be deleted..."
+    aws cloudformation wait stack-delete-complete --stack-name "$STACK_NAME"
+  else
+    echo "Failed to delete stack." >&2
+    exit 1
+  fi
+elif [[ -z "$STACK_STATUS" ]]; then
   echo "Stack does not exist. Creating..."
+  # Deploy the stack
+  if ! aws cloudformation deploy \
+    --template-file "$TEMPLATE_FILE" \
+    --stack-name "$STACK_NAME" \
+    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+    --no-fail-on-empty-changeset; then
+    echo "Stack deployment failed." >&2
+    exit 1
+  fi
+  echo "Stack deployed successfully."
 else
   echo "Stack is in $STACK_STATUS state."
 fi
-
-# Deploy the stack
-echo "Deploying the stack..."
-aws cloudformation deploy \
-  --template-file $TEMPLATE_FILE \
-  --stack-name $STACK_NAME \
-  --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
-  --no-fail-on-empty-changeset

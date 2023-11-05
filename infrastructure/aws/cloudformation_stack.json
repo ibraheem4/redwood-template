@@ -5,7 +5,6 @@
     "PostgresDB": {
       "Type": "AWS::RDS::DBInstance",
       "DeletionPolicy": "Snapshot",
-      "DependsOn": ["MyDBSubnetGroup", "GatewayAttachment"],
       "Properties": {
         "DBName": "MyDatabase",
         "AllocatedStorage": "20",
@@ -16,7 +15,7 @@
         "MasterUserPassword": "masteruserpassword",
         "VPCSecurityGroups": [
           {
-            "Ref": "MySecurityGroup"
+            "Ref": "AppSecurityGroup"
           }
         ],
         "DBSubnetGroupName": {
@@ -27,13 +26,11 @@
         "StorageType": "gp2"
       }
     },
-    "MySecurityGroup": {
+    "AppSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
         "GroupDescription": "Security group for RDS and Web Access",
-        "VpcId": {
-          "Ref": "MyVPC"
-        },
+        "VpcId": "vpc-030595db95854cc41",
         "SecurityGroupIngress": [
           {
             "IpProtocol": "tcp",
@@ -53,114 +50,8 @@
     "MyDBSubnetGroup": {
       "Type": "AWS::RDS::DBSubnetGroup",
       "Properties": {
-        "DBSubnetGroupDescription": "My DB subnet group",
-        "SubnetIds": [
-          {
-            "Ref": "PublicSubnetOne"
-          },
-          {
-            "Ref": "PublicSubnetTwo"
-          }
-        ]
-      }
-    },
-    "MyVPC": {
-      "Type": "AWS::EC2::VPC",
-      "Properties": {
-        "CidrBlock": "10.0.0.0/16",
-        "EnableDnsSupport": "true",
-        "EnableDnsHostnames": "true"
-      }
-    },
-    "PublicSubnetOne": {
-      "Type": "AWS::EC2::Subnet",
-      "Properties": {
-        "VpcId": {
-          "Ref": "MyVPC"
-        },
-        "CidrBlock": "10.0.1.0/24",
-        "AvailabilityZone": {
-          "Fn::Select": [
-            "0",
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        }
-      }
-    },
-    "PublicSubnetTwo": {
-      "Type": "AWS::EC2::Subnet",
-      "Properties": {
-        "VpcId": {
-          "Ref": "MyVPC"
-        },
-        "CidrBlock": "10.0.2.0/24",
-        "AvailabilityZone": {
-          "Fn::Select": [
-            "1",
-            {
-              "Fn::GetAZs": ""
-            }
-          ]
-        }
-      }
-    },
-    "InternetGateway": {
-      "Type": "AWS::EC2::InternetGateway"
-    },
-    "GatewayAttachment": {
-      "Type": "AWS::EC2::VPCGatewayAttachment",
-      "Properties": {
-        "VpcId": {
-          "Ref": "MyVPC"
-        },
-        "InternetGatewayId": {
-          "Ref": "InternetGateway"
-        }
-      }
-    },
-    "PublicRouteTable": {
-      "Type": "AWS::EC2::RouteTable",
-      "Properties": {
-        "VpcId": {
-          "Ref": "MyVPC"
-        }
-      }
-    },
-    "PublicRoute": {
-      "Type": "AWS::EC2::Route",
-      "DependsOn": "GatewayAttachment",
-      "Properties": {
-        "RouteTableId": {
-          "Ref": "PublicRouteTable"
-        },
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": {
-          "Ref": "InternetGateway"
-        }
-      }
-    },
-    "SubnetRouteTableAssociationOne": {
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-      "Properties": {
-        "SubnetId": {
-          "Ref": "PublicSubnetOne"
-        },
-        "RouteTableId": {
-          "Ref": "PublicRouteTable"
-        }
-      }
-    },
-    "SubnetRouteTableAssociationTwo": {
-      "Type": "AWS::EC2::SubnetRouteTableAssociation",
-      "Properties": {
-        "SubnetId": {
-          "Ref": "PublicSubnetTwo"
-        },
-        "RouteTableId": {
-          "Ref": "PublicRouteTable"
-        }
+        "DBSubnetGroupDescription": "A DBSubnetGroup for MyDatabase",
+        "SubnetIds": ["subnet-09cba449eb7170193", "subnet-0917c46b110f7258d"]
       }
     },
     "WebAppRepository": {
@@ -191,17 +82,10 @@
         },
         "NetworkConfiguration": {
           "AwsvpcConfiguration": {
-            "Subnets": [
-              {
-                "Ref": "PublicSubnetOne"
-              },
-              {
-                "Ref": "PublicSubnetTwo"
-              }
-            ],
+            "Subnets": ["subnet-09cba449eb7170193", "subnet-0917c46b110f7258d"],
             "SecurityGroups": [
               {
-                "Ref": "MySecurityGroup"
+                "Ref": "AppSecurityGroup"
               }
             ],
             "AssignPublicIp": "ENABLED"
@@ -223,25 +107,7 @@
         "ContainerDefinitions": [
           {
             "Name": "web-container",
-            "Image": {
-              "Fn::Join": [
-                "",
-                [
-                  {
-                    "Ref": "AWS::AccountId"
-                  },
-                  ".dkr.ecr.",
-                  {
-                    "Ref": "AWS::Region"
-                  },
-                  ".amazonaws.com/",
-                  {
-                    "Ref": "WebAppRepository"
-                  },
-                  ":latest"
-                ]
-              ]
-            },
+            "Image": "aws_account_id.dkr.ecr.region.amazonaws.com/stencil-auth0-web:latest",
             "PortMappings": [
               {
                 "ContainerPort": 80,
@@ -267,7 +133,6 @@
             }
           ]
         },
-        "Path": "/",
         "Policies": [
           {
             "PolicyName": "AmazonECSTaskExecutionRolePolicy",
