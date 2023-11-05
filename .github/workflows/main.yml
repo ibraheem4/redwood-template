@@ -29,7 +29,9 @@ jobs:
     steps:
       - name: Capture start time
         run: echo "BUILD_START_TIME=$(date +%s)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v3
+
       - name: Cache node modules
         uses: actions/cache@v2
         with:
@@ -37,51 +39,67 @@ jobs:
             **/node_modules
             ~/.npm
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install Make
         run: sudo apt-get update -y && sudo apt-get install -y make
+
       - name: Build and start containers
         run: make up-ci
+
       - name: Install dependencies
         run: make install-deps-ci
+
       - name: Build RedwoodJS project
         run: make build-ci
+
       - name: Lint RedwoodJS project
         run: make lint-ci
+
       - name: Run web and api tests
         run: make test-ci
-      # Build, Tag, and Publish Docker Images
+
       - name: Cache Docker layers
         uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
+
       - name: Build Docker Images
         run: make build-docker
+
       - name: Tag Docker Images
         run: make tag-docker
-      - name: Publish Docker Images
+
+      - name: Publish Docker Images to Docker Hub
         if: github.ref == 'refs/heads/auth-auth0'
         run: make publish-docker
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-      - name: Build, tag, and push image to Amazon ECR
+
+      - name: Tag and push image to Amazon ECR for Web
         if: github.ref == 'refs/heads/auth-auth0'
-        env:
-          ECR_REPOSITORY: my-ecr-repo
-          IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
-          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.login-ecr.outputs.registry }}/my-ecr-repo:$IMAGE_TAG
-          docker push ${{ steps.login-ecr.outputs.registry }}/my-ecr-repo:$IMAGE_TAG
+          docker tag ibraheem4/stencil-auth0-web-nginx-local:latest ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest
+
+      - name: Tag and push image to Amazon ECR for API
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: |
+          docker tag ibraheem4/stencil-auth0-api-local:latest ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest
+
       - name: Publish Build Information
         run: |
           web_image_size=$(docker images ibraheem4/stencil-auth0-web-nginx-local:latest --format "{{.Size}}")
           api_image_size=$(docker images ibraheem4/stencil-auth0-api-local:latest --format "{{.Size}}")
           echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
+
       - name: Record build time
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
+
       - name: Cleanup
         run: make clean-ci
 
@@ -90,8 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -101,15 +118,15 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to AWS using CloudFormation
-        run: bash ./scripts/deploy_cloudformation.sh
+        run: |
+          aws cloudformation deploy \
+            --template-file cloudformation.json \
+            --stack-name my-stack \
+            --parameter-overrides \
+              WebAppImageUri=${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest \
+              ApiAppImageUri=${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest \
+            --tags Project=stencil-auth0
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          IMAGE_URI: ${{ steps.login-ecr.outputs.registry }}/my-ecr-repo:$IMAGE_TAG
-
-      - name: Update ECS Service
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: |
-          # Update the ECS service here, for example using AWS CLI commands
-          # The specific commands will depend on your AWS setup
