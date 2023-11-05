@@ -100,8 +100,8 @@
       "Type": "AWS::ECS::TaskDefinition",
       "Properties": {
         "Family": "stencil-auth0-web-task",
-        "Cpu": "256",
-        "Memory": "512",
+        "Cpu": "2048",
+        "Memory": "4096",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": ["FARGATE"],
         "ExecutionRoleArn": {
@@ -125,8 +125,8 @@
       "Type": "AWS::ECS::TaskDefinition",
       "Properties": {
         "Family": "stencil-auth0-api-task",
-        "Cpu": "256",
-        "Memory": "512",
+        "Cpu": "2048",
+        "Memory": "4096",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": ["FARGATE"],
         "ExecutionRoleArn": {
