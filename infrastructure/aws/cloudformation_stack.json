@@ -120,13 +120,7 @@
             ]
           }
         ]
-      },
-      "Tags": [
-        {
-          "Key": "Name",
-          "Value": "stencil-auth0-web-task"
-        }
-      ]
+      }
     },
     "ApiAppTaskDefinition": {
       "Type": "AWS::ECS::TaskDefinition",
@@ -151,13 +145,7 @@
             ]
           }
         ]
-      },
-      "Tags": [
-        {
-          "Key": "Name",
-          "Value": "stencil-auth0-api-task"
-        }
-      ]
+      }
     },
     "ECSTaskExecutionRole": {
       "Type": "AWS::IAM::Role",
