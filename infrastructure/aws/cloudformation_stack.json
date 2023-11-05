@@ -110,7 +110,7 @@
         "ContainerDefinitions": [
           {
             "Name": "web-container",
-            "Image": "aws_account_id.dkr.ecr.region.amazonaws.com/stencil-auth0-web:latest",
+            "Image": "717824651453.dkr.ecr.region.amazonaws.com/stencil-auth0-web:latest",
             "PortMappings": [
               {
                 "ContainerPort": 80,
@@ -135,7 +135,7 @@
         "ContainerDefinitions": [
           {
             "Name": "api-container",
-            "Image": "aws_account_id.dkr.ecr.region.amazonaws.com/stencil-auth0-api:latest",
+            "Image": "717824651453.dkr.ecr.region.amazonaws.com/stencil-auth0-api:latest",
             "PortMappings": [
               {
                 "ContainerPort": 80,
