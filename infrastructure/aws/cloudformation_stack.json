@@ -79,7 +79,6 @@
         "Cluster": {
           "Ref": "ECSCluster"
         },
-        "DesiredCount": 1,
         "LaunchType": "FARGATE",
         "TaskDefinition": {
           "Ref": "WebAppTaskDefinition"
@@ -196,7 +195,6 @@
         "Cluster": {
           "Ref": "ECSCluster"
         },
-        "DesiredCount": 1,
         "LaunchType": "FARGATE",
         "TaskDefinition": {
           "Ref": "ApiAppTaskDefinition"
