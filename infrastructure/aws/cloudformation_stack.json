@@ -67,11 +67,15 @@
       }
     },
     "ECSCluster": {
-      "Type": "AWS::ECS::Cluster"
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "ClusterName": "stencil-auth0-cluster"
+      }
     },
     "WebAppService": {
       "Type": "AWS::ECS::Service",
       "Properties": {
+        "ServiceName": "stencil-auth0-web-service",
         "Cluster": {
           "Ref": "ECSCluster"
         },
@@ -116,7 +120,13 @@
             ]
           }
         ]
-      }
+      },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "stencil-auth0-web-task"
+        }
+      ]
     },
     "ECSTaskExecutionRole": {
       "Type": "AWS::IAM::Role",
