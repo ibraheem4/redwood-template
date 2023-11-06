@@ -75,9 +75,9 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Login to Amazon ECR
+      - name: Login to Amazon ECR Public
         if: github.ref == 'refs/heads/auth-auth0'
-        uses: aws-actions/amazon-ecr-login@v1
+        run: echo ${{ secrets.AWS_ACCESS_KEY_ID }} | aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
 
       - name: Build Docker Images for ECS
         if: github.ref == 'refs/heads/auth-auth0'
@@ -87,7 +87,7 @@ jobs:
         if: github.ref == 'refs/heads/auth-auth0'
         run: make tag-ecs
 
-      - name: Publish Docker Images to Amazon ECR
+      - name: Publish Docker Images to Amazon ECR Public
         if: github.ref == 'refs/heads/auth-auth0'
         run: make publish-ecs
 

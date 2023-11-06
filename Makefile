@@ -7,9 +7,9 @@ DOCKER_TAG_WEB := stencil-auth0-web-nginx-local:latest
 DOCKER_TAG_API := stencil-auth0-api-local:latest
 
 # ECS variables
-ECR_REGISTRY := 717824651453.dkr.ecr.us-east-1.amazonaws.com # e.g., 000000000000.dkr.ecr.us-east-1.amazonaws.com
-ECR_WEB_REPOSITORY := stencil-auth0-web
-ECR_API_REPOSITORY := stencil-auth0-api
+ECR_REGISTRY := public.ecr.aws/s2i4a5g7 # e.g., 000000000000.dkr.ecr.us-east-1.amazonaws.com
+ECR_WEB_REPOSITORY := ibraheem4/stencil-auth0-web
+ECR_API_REPOSITORY := ibraheem4/stencil-auth0-api
 DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
 DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 
