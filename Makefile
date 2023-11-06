@@ -17,8 +17,8 @@ DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 build-ecs: build-docker
 
 tag-ecs:
-	docker tag $(DOCKER_TAG_WEB) $(DOCKER_ECS_TAG_WEB)
-	docker tag $(DOCKER_TAG_API) $(DOCKER_ECS_TAG_API)
+	@echo docker tag "$(DOCKER_TAG_WEB)" "$(DOCKER_ECS_TAG_WEB)"
+	@echo docker tag "$(DOCKER_TAG_API)" "$(DOCKER_ECS_TAG_API)"
 
 publish-ecs:
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
