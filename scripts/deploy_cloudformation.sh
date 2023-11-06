@@ -1,7 +1,7 @@
 #!/bin/bash
 
 STACK_NAME="redwood-stencil-auth0-stack"
-TEMPLATE_FILE="infrastructure/aws/cloudformation_stack.json"
+TEMPLATE_FILE="infrastructure/aws/cloudformation_stack.yml"
 
 # Helper function to get the current stack status
 get_stack_status() {

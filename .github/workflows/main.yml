@@ -76,28 +76,30 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to Amazon ECR
-        id: login-ecr
+        if: github.ref == 'refs/heads/auth-auth0'
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Tag and push image to Amazon ECR for Web
+      - name: Build Docker Images for ECS
         if: github.ref == 'refs/heads/auth-auth0'
-        run: |
-          docker tag ibraheem4/stencil-auth0-web-nginx-local:latest ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest
-          docker push ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest
+        run: make build-ecs
 
-      - name: Tag and push image to Amazon ECR for API
+      - name: Tag Docker Images for ECS
         if: github.ref == 'refs/heads/auth-auth0'
-        run: |
-          docker tag ibraheem4/stencil-auth0-api-local:latest ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest
-          docker push ${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest
+        run: make tag-ecs
+
+      - name: Publish Docker Images to Amazon ECR
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: make publish-ecs
 
       - name: Publish Build Information
+        if: github.ref == 'refs/heads/auth-auth0'
         run: |
-          web_image_size=$(docker images ibraheem4/stencil-auth0-web-nginx-local:latest --format "{{.Size}}")
-          api_image_size=$(docker images ibraheem4/stencil-auth0-api-local:latest --format "{{.Size}}")
+          web_image_size=$(docker images $(DOCKER_TAG_WEB) --format "{{.Size}}")
+          api_image_size=$(docker images $(DOCKER_TAG_API) --format "{{.Size}}")
           echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
 
       - name: Record build time
+        if: github.ref == 'refs/heads/auth-auth0'
         run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
 
       - name: Cleanup
@@ -126,7 +128,3 @@ jobs:
               WebAppImageUri=${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest \
               ApiAppImageUri=${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest \
             --tags Project=stencil-auth0
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}

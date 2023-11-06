@@ -6,6 +6,25 @@ DC_LOCAL := docker compose -f compose.yml -f compose.local.yml
 DOCKER_TAG_WEB := stencil-auth0-web-nginx-local:latest
 DOCKER_TAG_API := stencil-auth0-api-local:latest
 
+# ECS variables
+ECR_REGISTRY := 717824651453.dkr.ecr.us-east-1.amazonaws.com # e.g., 000000000000.dkr.ecr.us-east-1.amazonaws.com
+ECR_WEB_REPOSITORY := stencil-auth0-web
+ECR_API_REPOSITORY := stencil-auth0-api
+DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
+DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
+
+# ECS commands
+build-ecs: build-docker
+
+tag-ecs:
+	docker tag $(DOCKER_TAG_WEB) $(DOCKER_ECS_TAG_WEB)
+	docker tag $(DOCKER_TAG_API) $(DOCKER_ECS_TAG_API)
+
+publish-ecs:
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
+	docker push $(DOCKER_ECS_TAG_WEB)
+	docker push $(DOCKER_ECS_TAG_API)
+
 # Setup commands
 setup-env:
 	cp .env.example .env

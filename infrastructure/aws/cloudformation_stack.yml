@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  # Database
+  RedwoodDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: RedwoodDB
+      AllocatedStorage: 20
+      DBInstanceClass: db.t3.micro
+      EngineVersion: 14.9
+      Engine: postgres
+      MasterUsername: redwood
+      MasterUserPassword: CHANGE_ME # Replace with a secure password.
+
+  # ECS Cluster
+  RedwoodCluster:
+    Type: AWS::ECS::Cluster
+
+  # ECS Task Definition for API
+  RedwoodAPITaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: '2048' # Minimum vCPU for Fargate
+      Memory: '4096' # Minimum memory for Fargate
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !GetAtt RedwoodExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: redwood-api
+          Image: my-ecr-repo/redwood-api:latest # Replace with your image URL
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/redwood-api
+              awslogs-region: !Ref 'AWS::Region'
+              awslogs-stream-prefix: ecs
+
+  # ECS Service for API
+  RedwoodAPIService:
+    Type: AWS::ECS::Service
+    DependsOn: RedwoodAPITaskDefinition
+    Properties:
+      Cluster: !Ref RedwoodCluster
+      TaskDefinition: !Ref RedwoodAPITaskDefinition
+      LaunchType: FARGATE
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets:
+            - subnet-09cba449eb7170193 # Replace with your subnet ID
+            - subnet-0917c46b110f7258d # Replace with your subnet ID
+          SecurityGroups:
+            - sg-0b5e6bb730e80a2cc # Replace with your security group ID
+
+  # ECS Execution Role
+  RedwoodExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+  # S3 Bucket for Web Assets
+  RedwoodWebBucket:
+    Type: AWS::S3::Bucket
+
+  # CloudFront Distribution for the Web App
+  RedwoodWebCDN:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt RedwoodWebBucket.DomainName
+            Id: myRedwoodWebOrigin
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+        Enabled: true
+        DefaultCacheBehavior:
+          TargetOriginId: myRedwoodWebOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
