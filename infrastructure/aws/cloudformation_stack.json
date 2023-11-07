@@ -149,7 +149,14 @@
               {
                 "Name": "DATABASE_URL",
                 "Value": {
-                  "Fn::Sub": "postgresql://${MasterUsername}:${MasterUserPassword}@${DbEndpoint}/${DBName}"
+                  "Fn::Sub": [
+                    "postgresql://${MasterUsername}:${MasterUserPassword}@${endpoint}/${DBName}",
+                    {
+                      "endpoint": {
+                        "Fn::GetAtt": ["PostgresDB", "Endpoint.Address"]
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -260,6 +267,24 @@
     }
   },
   "Outputs": {
+    "DbEndpoint": {
+      "Value": {
+        "Fn::GetAtt": ["PostgresDB", "Endpoint.Address"]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-DbEndpoint"
+        }
+      }
+    },
+    "DBName": {
+      "Value": "MyDatabase",
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-DBName"
+        }
+      }
+    },
     "WebAppRepositoryURI": {
       "Description": "URI for the web application's ECR repository",
       "Value": {
@@ -288,24 +313,6 @@
       "Description": "Name of the API application's ECS Service",
       "Value": {
         "Ref": "ApiAppService"
-      }
-    },
-    "DbEndpoint": {
-      "Value": {
-        "Fn::GetAtt": ["PostgresDB", "Endpoint.Address"]
-      },
-      "Export": {
-        "Name": {
-          "Fn::Sub": "${AWS::StackName}-DbEndpoint"
-        }
-      }
-    },
-    "DBName": {
-      "Value": "MyDatabase",
-      "Export": {
-        "Name": {
-          "Fn::Sub": "${AWS::StackName}-DBName"
-        }
       }
     }
   }
