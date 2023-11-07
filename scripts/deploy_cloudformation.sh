@@ -1,11 +1,27 @@
 #!/bin/bash
 
 STACK_NAME="redwood-stencil-auth0-stack"
-TEMPLATE_FILE="infrastructure/aws/cloudformation_stack.yml"
+TEMPLATE_FILE="infrastructure/aws/cloudformation_stack.json"
+PARAMETERS_FILE="infrastructure/aws/cloudformation_parameters.json"
 
 # Helper function to get the current stack status
 get_stack_status() {
   aws cloudformation describe-stacks --stack-name "$STACK_NAME" --query 'Stacks[0].StackStatus' --output text 2>/dev/null
+}
+
+# Function to create or update the stack
+deploy_stack() {
+  if aws cloudformation deploy \
+    --template-file "$TEMPLATE_FILE" \
+    --stack-name "$STACK_NAME" \
+    --parameter-overrides file://"$PARAMETERS_FILE" \
+    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
+    --no-fail-on-empty-changeset; then
+    echo "Stack deployed successfully."
+  else
+    echo "Stack deployment failed." >&2
+    exit 1
+  fi
 }
 
 # Initial stack status check
@@ -30,16 +46,8 @@ if [ "$STACK_STATUS" == "ROLLBACK_COMPLETE" ]; then
   fi
 elif [[ -z "$STACK_STATUS" ]]; then
   echo "Stack does not exist. Creating..."
-  # Deploy the stack
-  if ! aws cloudformation deploy \
-    --template-file "$TEMPLATE_FILE" \
-    --stack-name "$STACK_NAME" \
-    --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM \
-    --no-fail-on-empty-changeset; then
-    echo "Stack deployment failed." >&2
-    exit 1
-  fi
-  echo "Stack deployed successfully."
+  deploy_stack
 else
-  echo "Stack is in $STACK_STATUS state."
+  echo "Stack is in $STACK_STATUS state. Updating..."
+  deploy_stack
 fi

@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "CloudFormation stack for deploying web and API applications using ECR and ECS.",
+  "Description": "CloudFormation stack for deploying web and API applications using ECR and ECS with a RedwoodJS application.",
   "Resources": {
     "PostgresDB": {
       "Type": "AWS::RDS::DBInstance",
@@ -11,8 +11,12 @@
         "DBInstanceClass": "db.t3.micro",
         "Engine": "postgres",
         "EngineVersion": "14.9",
-        "MasterUsername": "masteruser",
-        "MasterUserPassword": "masteruserpassword",
+        "MasterUsername": {
+          "Ref": "MasterUsername"
+        },
+        "MasterUserPassword": {
+          "Ref": "MasterUserPassword"
+        },
         "VPCSecurityGroups": [
           {
             "Ref": "AppSecurityGroup"
@@ -57,31 +61,31 @@
     "WebAppRepository": {
       "Type": "AWS::ECR::Repository",
       "Properties": {
-        "RepositoryName": "stencil-auth0-web"
+        "RepositoryName": "redwood-web"
       }
     },
     "ApiAppRepository": {
       "Type": "AWS::ECR::Repository",
       "Properties": {
-        "RepositoryName": "stencil-auth0-api"
+        "RepositoryName": "redwood-api"
       }
     },
     "ECSCluster": {
       "Type": "AWS::ECS::Cluster",
       "Properties": {
-        "ClusterName": "stencil-auth0-cluster"
+        "ClusterName": "redwood-auth0-cluster"
       }
     },
-    "WebAppService": {
+    "RedwoodWebService": {
       "Type": "AWS::ECS::Service",
       "Properties": {
-        "ServiceName": "stencil-auth0-web-service",
+        "ServiceName": "redwood-web-service",
         "Cluster": {
           "Ref": "ECSCluster"
         },
         "LaunchType": "FARGATE",
         "TaskDefinition": {
-          "Ref": "WebAppTaskDefinition"
+          "Ref": "RedwoodWebTaskDefinition"
         },
         "NetworkConfiguration": {
           "AwsvpcConfiguration": {
@@ -96,10 +100,10 @@
         }
       }
     },
-    "WebAppTaskDefinition": {
+    "RedwoodWebTaskDefinition": {
       "Type": "AWS::ECS::TaskDefinition",
       "Properties": {
-        "Family": "stencil-auth0-web-task",
+        "Family": "redwood-web-task",
         "Cpu": "2048",
         "Memory": "4096",
         "NetworkMode": "awsvpc",
@@ -109,12 +113,12 @@
         },
         "ContainerDefinitions": [
           {
-            "Name": "web-container",
-            "Image": "717824651453.dkr.ecr.region.amazonaws.com/stencil-auth0-web:latest",
+            "Name": "redwood-web-container",
+            "Image": "717824651453.dkr.ecr.us-east-1.amazonaws.com/stencil:latest",
             "PortMappings": [
               {
-                "ContainerPort": 80,
-                "HostPort": 80
+                "ContainerPort": 8910,
+                "HostPort": 8910
               }
             ]
           }
@@ -124,9 +128,9 @@
     "ApiAppTaskDefinition": {
       "Type": "AWS::ECS::TaskDefinition",
       "Properties": {
-        "Family": "stencil-auth0-api-task",
-        "Cpu": "2048",
-        "Memory": "4096",
+        "Family": "redwood-api-task",
+        "Cpu": "256",
+        "Memory": "512",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": ["FARGATE"],
         "ExecutionRoleArn": {
@@ -134,16 +138,47 @@
         },
         "ContainerDefinitions": [
           {
-            "Name": "api-container",
-            "Image": "717824651453.dkr.ecr.region.amazonaws.com/stencil-auth0-api:latest",
+            "Name": "redwood-api-container",
+            "Image": "717824651453.dkr.ecr.us-east-1.amazonaws.com/redwood-api:latest",
             "PortMappings": [
               {
-                "ContainerPort": 80,
-                "HostPort": 80
+                "ContainerPort": 8911
+              }
+            ],
+            "Environment": [
+              {
+                "Name": "DATABASE_URL",
+                "Value": {
+                  "Fn::Sub": "postgresql://${MasterUsername}:${MasterUserPassword}@${DbEndpoint}/${DBName}"
+                }
               }
             ]
           }
         ]
+      }
+    },
+    "ApiAppService": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "ServiceName": "redwood-api-service",
+        "Cluster": {
+          "Ref": "ECSCluster"
+        },
+        "LaunchType": "FARGATE",
+        "TaskDefinition": {
+          "Ref": "ApiAppTaskDefinition"
+        },
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "Subnets": ["subnet-09cba449eb7170193", "subnet-0917c46b110f7258d"],
+            "SecurityGroups": [
+              {
+                "Ref": "AppSecurityGroup"
+              }
+            ],
+            "AssignPublicIp": "ENABLED"
+          }
+        }
       }
     },
     "ECSTaskExecutionRole": {
@@ -187,30 +222,41 @@
           }
         ]
       }
+    }
+  },
+  "Parameters": {
+    "MasterUsername": {
+      "Type": "String",
+      "Description": "The database admin account username"
     },
-    "ApiAppService": {
-      "Type": "AWS::ECS::Service",
-      "Properties": {
-        "ServiceName": "stencil-auth0-api-service",
-        "Cluster": {
-          "Ref": "ECSCluster"
-        },
-        "LaunchType": "FARGATE",
-        "TaskDefinition": {
-          "Ref": "ApiAppTaskDefinition"
-        },
-        "NetworkConfiguration": {
-          "AwsvpcConfiguration": {
-            "Subnets": ["subnet-09cba449eb7170193", "subnet-0917c46b110f7258d"],
-            "SecurityGroups": [
-              {
-                "Ref": "AppSecurityGroup"
-              }
-            ],
-            "AssignPublicIp": "ENABLED"
-          }
-        }
-      }
+    "MasterUserPassword": {
+      "Type": "String",
+      "Description": "The database admin account password",
+      "NoEcho": true
+    },
+    "DBName": {
+      "Type": "String",
+      "Description": "The database name"
+    },
+    "WebAppImage": {
+      "Type": "String",
+      "Description": "The Docker image for the web application"
+    },
+    "ApiAppImage": {
+      "Type": "String",
+      "Description": "The Docker image for the API application"
+    },
+    "ECSClusterName": {
+      "Type": "String",
+      "Description": "The name of the ECS cluster"
+    },
+    "WebAppRepositoryName": {
+      "Type": "String",
+      "Description": "The name of the ECR repository for the web application"
+    },
+    "ApiAppRepositoryName": {
+      "Type": "String",
+      "Description": "The name of the ECR repository for the API application"
     }
   },
   "Outputs": {
@@ -232,16 +278,34 @@
         "Ref": "ECSCluster"
       }
     },
-    "WebAppServiceName": {
-      "Description": "Name of the web application's ECS Service",
+    "RedwoodWebServiceName": {
+      "Description": "Name of the Redwood web application's ECS Service",
       "Value": {
-        "Ref": "WebAppService"
+        "Ref": "RedwoodWebService"
       }
     },
     "ApiAppServiceName": {
       "Description": "Name of the API application's ECS Service",
       "Value": {
         "Ref": "ApiAppService"
+      }
+    },
+    "DbEndpoint": {
+      "Value": {
+        "Fn::GetAtt": ["PostgresDB", "Endpoint.Address"]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-DbEndpoint"
+        }
+      }
+    },
+    "DBName": {
+      "Value": "MyDatabase",
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-DBName"
+        }
       }
     }
   }

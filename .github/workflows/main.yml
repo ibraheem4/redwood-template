@@ -126,6 +126,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # New step: Run migrations on the actual database
+      - name: Run migrations on the actual database
+        run: yarn rw prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # New step: Run seed script in the actual db
+      - name: Run seed script in the actual db
+        run: yarn rw prisma db seed
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Deploy to AWS using CloudFormation
         run: |
           aws cloudformation deploy \
