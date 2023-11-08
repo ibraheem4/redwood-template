@@ -75,6 +75,12 @@ build-web:
 build-api:
 	docker build --target api -t "$(DOCKER_TAG_API)" -f $(DOCKERFILE_PATH) .
 
+tag-web:
+	docker tag "$(DOCKER_TAG_WEB)" "$(ECR_WEB_REPOSITORY):latest"
+
+tag-api:
+	docker tag "$(DOCKER_TAG_API)" "$(ECR_API_REPOSITORY):latest"
+
 tag-docker:
 	docker tag "$(DOCKER_TAG_WEB)" "ibraheem4/$(DOCKER_TAG_WEB)"
 	docker tag "$(DOCKER_TAG_API)" "ibraheem4/$(DOCKER_TAG_API)"
