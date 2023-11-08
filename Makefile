@@ -5,6 +5,8 @@ DC_CI := docker compose -f compose.yml -f compose.ci.yml
 DC_LOCAL := docker compose -f compose.yml -f compose.local.yml
 DOCKER_TAG_WEB := stencil-auth0-web:latest
 DOCKER_TAG_API := stencil-auth0-api:latest
+DOCKERFILE_PATH_WEB := Dockerfile.web
+DOCKERFILE_PATH_API := Dockerfile.api
 
 # ECS variables
 ECR_REGISTRY := 717824651453.dkr.ecr.us-east-1.amazonaws.com
@@ -70,16 +72,16 @@ build-docker:
 	docker build --target api -t "$(DOCKER_TAG_API)" .
 
 build-web:
-	docker build --target web -t "$(DOCKER_TAG_WEB)" -f $(DOCKERFILE_PATH) .
+  docker build --target web -t "$(DOCKER_TAG_WEB)" -f $(DOCKERFILE_PATH_WEB) .
 
 build-api:
-	docker build --target api -t "$(DOCKER_TAG_API)" -f $(DOCKERFILE_PATH) .
+	docker build --target api -t "$(DOCKER_TAG_API)" -f $(DOCKERFILE_PATH_API) .
 
 tag-web:
-	docker tag "$(DOCKER_TAG_WEB)" "$(ECR_WEB_REPOSITORY):latest"
+	docker tag "$(DOCKER_TAG_WEB)" "$(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest"
 
 tag-api:
-	docker tag "$(DOCKER_TAG_API)" "$(ECR_API_REPOSITORY):latest"
+	docker tag "$(DOCKER_TAG_API)" "$(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest"
 
 publish-web:
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
