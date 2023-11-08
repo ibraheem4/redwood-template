@@ -46,32 +46,11 @@ up-ci:
 	$(DC_CI) up -d
 
 # CI commands for API
-install-deps-api-ci:
-	$(DC_CI) exec -T api yarn install --check-cache
+test-ci: $(DC_CI) exec -T api yarn rw test --no-watch
 
-test-api-ci:
-	$(DC_CI) exec -T api yarn rw test --no-watch
+lint-ci: $(DC_CI) exec -T api yarn rw lint
 
-lint-api-ci:
-	$(DC_CI) exec -T api yarn rw lint
-
-# CI commands for Web
-install-deps-web-ci:
-	$(DC_CI) exec -T web yarn install --check-cache
-
-test-web-ci:
-	# Add your test command for the web component
-	$(DC_CI) exec -T web yarn test
-
-lint-web-ci:
-	# Add your lint command for the web component
-	$(DC_CI) exec -T web yarn lint
-
-test-ci: test-api-ci test-web-ci
-
-lint-ci: lint-api-ci lint-web-ci
-
-install-deps-ci: install-deps-api-ci install-deps-web-ci
+install-deps-ci: $(DC_CI) exec -T api yarn install --check-cache
 
 # Docker commands
 build-docker:
