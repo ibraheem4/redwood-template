@@ -53,8 +53,11 @@ jobs:
       - name: Build and start containers
         run: make up-ci
 
-      - name: Install dependencies
-        run: make install-deps-ci
+      - name: Install dependencies for API
+        run: make install-deps-api-ci
+
+      - name: Install dependencies for Web
+        run: make install-deps-web-ci
 
       - name: Build RedwoodJS project
         run: make build-ci

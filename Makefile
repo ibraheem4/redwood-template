@@ -1,4 +1,4 @@
-.PHONY: up-local up-ci install-deps-ci test-ci lint-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local
+.PHONY: up-local up-ci install-deps-api-ci test-api-ci lint-api-ci install-deps-web-ci test-web-ci lint-web-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local clean-ci test-ci lint-ci install-deps-ci
 
 # Variables
 DC_CI := docker compose -f compose.yml -f compose.ci.yml
@@ -45,14 +45,33 @@ clean-ci: down-ci
 up-ci:
 	$(DC_CI) up -d
 
-install-deps-ci:
+# CI commands for API
+install-deps-api-ci:
 	$(DC_CI) exec -T api yarn install --check-cache
 
-test-ci:
+test-api-ci:
 	$(DC_CI) exec -T api yarn rw test --no-watch
 
-lint-ci:
+lint-api-ci:
 	$(DC_CI) exec -T api yarn rw lint
+
+# CI commands for Web
+install-deps-web-ci:
+	$(DC_CI) exec -T web yarn install --check-cache
+
+test-web-ci:
+	# Add your test command for the web component
+	$(DC_CI) exec -T web yarn test
+
+lint-web-ci:
+	# Add your lint command for the web component
+	$(DC_CI) exec -T web yarn lint
+
+test-ci: test-api-ci test-web-ci
+
+lint-ci: lint-api-ci lint-web-ci
+
+install-deps-ci: install-deps-api-ci install-deps-web-ci
 
 # Docker commands
 build-docker:
