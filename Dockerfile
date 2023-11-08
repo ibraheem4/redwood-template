@@ -29,7 +29,7 @@ RUN yarn rw prisma generate
 # Runners
 # ==
 # Runner for the Nginx web server
-FROM nginx:alpine AS web
+FROM public.ecr.aws/nginx/nginx:1.19 AS web
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY nginx.conf /etc/nginx/conf.d/default.conf
