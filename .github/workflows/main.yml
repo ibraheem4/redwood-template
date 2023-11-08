@@ -69,64 +69,17 @@ jobs:
         uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
 
-      - name: Build Web Docker Image
+      - name: Build Docker Images
         if: github.ref == 'refs/heads/auth-auth0'
-        run: make build-web
-        env:
-          DOCKERFILE_PATH: Dockerfile.web
+        run: make build-docker
 
-      - name: Build API Docker Image
+      - name: Tag Docker Images
         if: github.ref == 'refs/heads/auth-auth0'
-        run: make build-api
-        env:
-          DOCKERFILE_PATH: Dockerfile.api
+        run: make tag-docker
 
-      - name: Tag Web Docker Image
+      - name: Publish Docker Images to ECR
         if: github.ref == 'refs/heads/auth-auth0'
-        run: make tag-web
-
-      - name: Tag API Docker Image
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: make tag-api
-
-      - name: Publish Web Docker Image to Docker Hub
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: make publish-web
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_NAME: web
-
-      - name: Publish API Docker Image to Docker Hub
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: make publish-api
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_NAME: api
-
-      - name: Login to Amazon ECR Public
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: echo ${{ secrets.AWS_ACCESS_KEY_ID }} | aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
-
-      - name: Build Docker Images for ECS
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: make build-ecs
-
-      - name: Tag Docker Images for ECS
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: make tag-ecs
-
-      - name: Publish Docker Images to Amazon ECR Public
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: make publish-ecs
-
-      - name: Publish Build Information
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: |
-          web_image_size=$(docker images $(DOCKER_TAG_WEB) --format "{{.Size}}")
-          api_image_size=$(docker images $(DOCKER_TAG_API) --format "{{.Size}}")
-          echo "::warning file=build.log,line=1,col=5::Web Image Size: $web_image_size | API Image Size: $api_image_size"
+        run: make publish-docker
 
       - name: Record build time
         if: github.ref == 'refs/heads/auth-auth0'
@@ -135,34 +88,8 @@ jobs:
       - name: Cleanup
         run: make clean-ci
 
-  publish_to_ecr:
-    needs: build_test_lint_publish
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Log in to Amazon ECR
-        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
-
-      - name: Build Docker Images for ECS
-        run: make build-ecs
-
-      - name: Tag Docker Images for ECS
-        run: make tag-ecs
-
-      - name: Publish Docker Images to Amazon ECR
-        run: make publish-ecs
-
   deploy_to_aws:
-    needs: publish_to_ecr
+    needs: build_test_lint_publish
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
     steps:
@@ -182,15 +109,13 @@ jobs:
           sudo mv copilot /usr/local/bin/copilot
 
       - name: Deploy Web Service to AWS using Copilot
-        if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
-        run: |
-          copilot svc deploy --name web --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/web:$IMAGE_TAG
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: copilot svc deploy --name web --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/web:${{ github.sha }}
         env:
           DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
 
       - name: Deploy API Service to AWS using Copilot
-        if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
-        run: |
-          copilot svc deploy --name api --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/api:$IMAGE_TAG
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: copilot svc deploy --name api --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/api:${{ github.sha }}
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
