@@ -1,0 +1,27 @@
+# Base stage for shared dependencies
+FROM node:18-bookworm-slim as base
+WORKDIR /app
+COPY package.json yarn.lock redwood.toml graphql.config.js .
+COPY web/package.json web/
+ENV HUSKY=0
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev && \
+    yarn install --immutable --immutable-cache --parallel && \
+    yarn cache clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Build stage for web assets
+FROM base as builder
+COPY web/ /app/web/
+COPY scripts/ /app/scripts/
+RUN yarn global add @redwoodjs/cli
+RUN node /app/node_modules/.bin/rw-vite-build --webDir="/app/web"
+
+# Final stage for Nginx web server
+FROM public.ecr.aws/nginx/nginx:1.19 AS web
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/web/dist .
+EXPOSE 8910
+CMD ["nginx", "-g", "daemon off;"]

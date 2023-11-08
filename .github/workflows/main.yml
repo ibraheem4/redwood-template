@@ -62,18 +62,41 @@ jobs:
         uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
 
-      - name: Build Docker Images
-        run: make build-docker
-
-      - name: Tag Docker Images
-        run: make tag-docker
-
-      - name: Publish Docker Images to Docker Hub
+      - name: Build Web Docker Image
         if: github.ref == 'refs/heads/auth-auth0'
-        run: make publish-docker
+        run: make build-web
+        env:
+          DOCKERFILE_PATH: Dockerfile.web
+
+      - name: Build API Docker Image
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: make build-api
+        env:
+          DOCKERFILE_PATH: Dockerfile.api
+
+      - name: Tag Web Docker Image
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: make tag-web
+
+      - name: Tag API Docker Image
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: make tag-api
+
+      - name: Publish Web Docker Image to Docker Hub
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: make publish-web
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE_NAME: web-service
+
+      - name: Publish API Docker Image to Docker Hub
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: make publish-api
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE_NAME: api-service
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -158,23 +181,16 @@ jobs:
           chmod +x copilot && \
           sudo mv copilot /usr/local/bin/copilot
 
-      - name: Deploy to AWS using Copilot
+      - name: Deploy Web Service to AWS using Copilot
+        if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
         run: |
-          copilot svc deploy --name Compose --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/compose:$IMAGE_TAG
+          copilot svc deploy --name web-service --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/web-service:$IMAGE_TAG
+        env:
+          DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
+
+      - name: Deploy API Service to AWS using Copilot
+        if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
+        run: |
+          copilot svc deploy --name api-service --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/api-service:$IMAGE_TAG
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
-          REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
-          REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-          ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
-          COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-          AUTH0_REDIRECT_URI: ${{ secrets.AUTH0_REDIRECT_URI }}
-          AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
