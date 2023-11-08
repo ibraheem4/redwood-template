@@ -88,7 +88,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_NAME: web-service
+          IMAGE_NAME: web
 
       - name: Publish API Docker Image to Docker Hub
         if: github.ref == 'refs/heads/auth-auth0'
@@ -96,7 +96,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          IMAGE_NAME: api-service
+          IMAGE_NAME: api
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -184,13 +184,13 @@ jobs:
       - name: Deploy Web Service to AWS using Copilot
         if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
         run: |
-          copilot svc deploy --name web-service --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/web-service:$IMAGE_TAG
+          copilot svc deploy --name web --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/web:$IMAGE_TAG
         env:
           DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
 
       - name: Deploy API Service to AWS using Copilot
         if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
         run: |
-          copilot svc deploy --name api-service --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/api-service:$IMAGE_TAG
+          copilot svc deploy --name api --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/api:$IMAGE_TAG
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
