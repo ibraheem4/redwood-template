@@ -45,12 +45,14 @@ clean-ci: down-ci
 up-ci:
 	$(DC_CI) up -d
 
-# CI commands for API
-test-ci: $(DC_CI) exec -T api yarn rw test --no-watch
+test-ci:
+	$(DC_CI) exec -T api yarn rw test --no-watch
 
-lint-ci: $(DC_CI) exec -T api yarn rw lint
+lint-ci:
+	$(DC_CI) exec -T api yarn rw lint
 
-install-deps-ci: $(DC_CI) exec -T api yarn install --check-cache
+install-deps-ci:
+	$(DC_CI) exec -T api yarn install --check-cache
 
 # Docker commands
 build-docker:
