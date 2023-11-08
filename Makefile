@@ -81,6 +81,13 @@ tag-web:
 tag-api:
 	docker tag "$(DOCKER_TAG_API)" "$(ECR_API_REPOSITORY):latest"
 
+publish-web:
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
+	docker push "$(DOCKER_ECS_TAG_WEB)"
+
+publish-api:
+	docker push "$(DOCKER_ECS_TAG_API)"
+
 tag-docker:
 	docker tag "$(DOCKER_TAG_WEB)" "ibraheem4/$(DOCKER_TAG_WEB)"
 	docker tag "$(DOCKER_TAG_API)" "ibraheem4/$(DOCKER_TAG_API)"
