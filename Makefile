@@ -8,8 +8,8 @@ DOCKER_TAG_API := stencil-auth0-api:latest
 
 # ECS variables
 ECR_REGISTRY := 717824651453.dkr.ecr.us-east-1.amazonaws.com
-ECR_WEB_REPOSITORY := ibraheem4/stencil-auth0-web
-ECR_API_REPOSITORY := ibraheem4/stencil-auth0-api
+ECR_WEB_REPOSITORY := stencil-auth0/web
+ECR_API_REPOSITORY := stencil-auth0/api
 DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
 DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 
@@ -83,10 +83,11 @@ tag-api:
 
 publish-web:
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
-	docker push "$(DOCKER_ECS_TAG_WEB)"
+	docker push "$(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest"
 
 publish-api:
-	docker push "$(DOCKER_ECS_TAG_API)"
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
+	docker push "$(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest"
 
 tag-docker:
 	docker tag "$(DOCKER_TAG_WEB)" "ibraheem4/$(DOCKER_TAG_WEB)"
