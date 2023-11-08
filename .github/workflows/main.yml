@@ -112,7 +112,7 @@ jobs:
       - name: Cleanup
         run: make clean-ci
 
-  deploy_to_aws:
+  publish_to_ecr:
     needs: build_test_lint_publish
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
@@ -126,24 +126,55 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # New step: Run migrations on the actual database
-      - name: Run migrations on the actual database
-        run: yarn rw prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Log in to Amazon ECR
+        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-      # New step: Run seed script in the actual db
-      - name: Run seed script in the actual db
-        run: yarn rw prisma db seed
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Build Docker Images for ECS
+        run: make build-ecs
 
-      - name: Deploy to AWS using CloudFormation
+      - name: Tag Docker Images for ECS
+        run: make tag-ecs
+
+      - name: Publish Docker Images to Amazon ECR
+        run: make publish-ecs
+
+  deploy_to_aws:
+    needs: publish_to_ecr
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install AWS Copilot CLI
         run: |
-          aws cloudformation deploy \
-            --template-file cloudformation.json \
-            --stack-name my-stack \
-            --parameter-overrides \
-              WebAppImageUri=${{ steps.login-ecr.outputs.registry }}/stencil-auth0-web:latest \
-              ApiAppImageUri=${{ steps.login-ecr.outputs.registry }}/stencil-auth0-api:latest \
-            --tags Project=stencil-auth0
+          curl -Lo copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && \
+          chmod +x copilot && \
+          sudo mv copilot /usr/local/bin/copilot
+
+      - name: Deploy to AWS using Copilot
+        run: |
+          copilot svc deploy --name Compose --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/compose:$IMAGE_TAG
+        env:
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
+          REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
+          REDWOOD_API_URL: ${{ secrets.REDWOOD_API_URL }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+          ENVIRONMENT_NAME: ${{ secrets.ENVIRONMENT_NAME }}
+          COMPOSE_PROJECT_NAME: ${{ secrets.COMPOSE_PROJECT_NAME }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+          AUTH0_REDIRECT_URI: ${{ secrets.AUTH0_REDIRECT_URI }}
+          AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
