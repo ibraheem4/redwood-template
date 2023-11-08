@@ -6,6 +6,7 @@ COPY api/package.json api/
 ENV HUSKY=0
 RUN apt-get update && \
     apt-get install -y openssl libssl-dev && \
+    npm install -g yarn && \
     yarn install --immutable --immutable-cache --parallel && \
     yarn cache clean && \
     rm -rf /var/lib/apt/lists/*
