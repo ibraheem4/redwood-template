@@ -69,6 +69,9 @@ build-docker:
 	docker build --target web -t "$(DOCKER_TAG_WEB)" .
 	docker build --target api -t "$(DOCKER_TAG_API)" .
 
+build-web:
+	docker build --target web -t "$(DOCKER_TAG_WEB)" -f $(DOCKERFILE_PATH) .
+
 tag-docker:
 	docker tag "$(DOCKER_TAG_WEB)" "ibraheem4/$(DOCKER_TAG_WEB)"
 	docker tag "$(DOCKER_TAG_API)" "ibraheem4/$(DOCKER_TAG_API)"
