@@ -116,12 +116,12 @@ jobs:
 
       - name: Deploy Web Service to AWS using Copilot
         if: github.ref == 'refs/heads/auth-auth0'
-        run: copilot svc deploy --name web --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/web:${{ github.sha }}
+        run: copilot svc deploy --name web --env ${{ secrets.ENVIRONMENT_NAME }}
         env:
           DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
 
       - name: Deploy API Service to AWS using Copilot
         if: github.ref == 'refs/heads/auth-auth0'
-        run: copilot svc deploy --name api --env ${{ secrets.ENVIRONMENT_NAME }} --image ${{ secrets.ECR_REGISTRY }}/api:${{ github.sha }}
+        run: copilot svc deploy --name api --env ${{ secrets.ENVIRONMENT_NAME }}
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
