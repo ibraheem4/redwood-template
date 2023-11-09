@@ -30,7 +30,7 @@ jobs:
       - name: Capture start time
         run: echo "BUILD_START_TIME=$(date +%s)" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -40,7 +40,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             **/node_modules
@@ -65,9 +65,10 @@ jobs:
       - name: Run tests in parallel
         run: make test-ci
 
-      - name: Cache Docker layers
-        uses: satackey/action-docker-layer-caching@v0.0.11
-        continue-on-error: true
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.3.6
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('compose.yml') }}
 
       - name: Build Docker Images
         if: github.ref == 'refs/heads/auth-auth0'
