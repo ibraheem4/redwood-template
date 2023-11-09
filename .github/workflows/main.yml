@@ -103,8 +103,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Setup AWS Copilot
-        uses: softprops/setup-aws-copilot@v1
+      - name: Install AWS Copilot CLI
+        run: |
+          COPILOT_VERSION='1.31.0'
+          COPILOT_BINARY='copilot-linux'
+          COPILOT_URL="https://github.com/aws/copilot-cli/releases/download/v${COPILOT_VERSION}/${COPILOT_BINARY}-v${COPILOT_VERSION}"
+          # Specify a different name for the downloaded file to avoid conflict with the 'copilot' directory
+          curl -Lo copilot-cli "${COPILOT_URL}"
+          chmod +x copilot-cli
+          sudo mv copilot-cli /usr/local/bin/copilot
 
       - name: Deploy Web Service to AWS using Copilot
         if: github.ref == 'refs/heads/auth-auth0'
