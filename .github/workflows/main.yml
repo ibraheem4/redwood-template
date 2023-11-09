@@ -126,6 +126,6 @@ jobs:
 
       - name: Deploy API Service to AWS using Copilot
         if: github.ref == 'refs/heads/auth-auth0'
-        run: copilot svc deploy --name api --env web
+        run: copilot svc deploy --name api --env api
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
