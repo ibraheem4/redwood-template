@@ -106,11 +106,13 @@ jobs:
       - name: Install AWS Copilot CLI
         run: |
           # Check if Copilot CLI is already installed
-          if ! command -v copilot &> /dev/null
-          then
-            curl -Lo copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux
-            chmod +x copilot
+          if ! which copilot > /dev/null; then
+            echo "Copilot CLI not found, installing..."
+            curl -Lo copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && \
+            chmod +x copilot && \
             sudo mv copilot /usr/local/bin/copilot
+          else
+            echo "Copilot CLI is already installed."
           fi
 
       - name: Deploy Web Service to AWS using Copilot
