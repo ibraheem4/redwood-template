@@ -2,7 +2,7 @@
 
 Use this folder to add static files directly to your app. All included files and folders will be copied directly into the `/dist` folder (created when Vite builds for production). They will also be available during development when you run `yarn rw dev`.
 
-> Note: files will *not* hot reload while the development server is running. You'll need to manually stop/start to access file changes.
+> Note: files will _not_ hot reload while the development server is running. You'll need to manually stop/start to access file changes.
 
 ## Example Use
 
@@ -29,14 +29,14 @@ In general, it's best to import files directly into a template, page, or compone
 Instead of handling our logo image as a static file per the example above, you can directly import it like this:
 
 ```jsx
-import React from "react";
-import logo from "./my-logo.jpg";
+import React from 'react'
+import logo from './my-logo.jpg'
 
 function Header() {
-  return <img src={logo} alt="Logo" />;
+  return <img src={logo} alt="Logo" />
 }
 
-export default Header;
+export default Header
 ```
 
 For more information, consult Vite's documentation on [static asset handling](https://vitejs.dev/guide/assets.html).

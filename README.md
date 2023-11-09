@@ -4,38 +4,38 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 ## Meta
 
-|            |                                                                                                                              |
-|------------|------------------------------------------------------------------------------------------------------------------------------|
-| Name       | `stencil-auth0`                                                                                                            |
-| Description| RedwoodJS application that provides web and API services.                                                                     |
-| Workflow   | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg)                           |
-| Maintainer | [Ibraheem Abdul-Malik](https://github.com/ibraheme4)                                                                         |
+|             |                                                                                                     |
+| ----------- | --------------------------------------------------------------------------------------------------- |
+| Name        | `stencil-auth0`                                                                                     |
+| Description | RedwoodJS application that provides web and API services.                                           |
+| Workflow    | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg) |
+| Maintainer  | [Ibraheem Abdul-Malik](https://github.com/ibraheme4)                                                |
 
 ## Packages
 
-| Name  | Runtime       |
-|-------|--------------|
-| api   | `node:18-bookworm-slim` |
-| web   | `nginx:alpine`   |
+| Name | Runtime                 |
+| ---- | ----------------------- |
+| api  | `node:18-bookworm-slim` |
+| web  | `nginx:alpine`          |
 
 ## Benchmark
 
 Benchmark on running averages
 
 | Package | Build time | Image size |
-|---------|------------|------------|
+| ------- | ---------- | ---------- |
 | api     | `~772s`    | `1.45GB`   |
 | web     | `~772s`    | `43.3MB`   |
 
 ## Suitable for
 
-| Scenario                  | Development | Production |
-|---------------------------|-------------|------------|
-| Basic installation        | ✅          | ❌         |
-| Preferably w/ LB/proxy    | ❌          | ❌         |
-| High Availability         | ❌          | ❌         |
-| Separation of concern     | ❌          | ❌         |
-| Handles db migration & seed | ✅       | ❌         |
+| Scenario                    | Development | Production |
+| --------------------------- | ----------- | ---------- |
+| Basic installation          | ✅          | ❌         |
+| Preferably w/ LB/proxy      | ❌          | ❌         |
+| High Availability           | ❌          | ❌         |
+| Separation of concern       | ❌          | ❌         |
+| Handles db migration & seed | ✅          | ❌         |
 
 ## Prerequisites
 
@@ -100,7 +100,8 @@ This project includes a Makefile for managing various Docker-related tasks and m
   ```bash
   make prisma-studio
   ```
-> Prisma Studio is a visual editor for your database schema. Open it at [http://localhost:5555](http://localhost:5555).
+
+  > Prisma Studio is a visual editor for your database schema. Open it at [http://localhost:5555](http://localhost:5555).
 
 - **Run Tests**:
 
@@ -128,26 +129,26 @@ To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Fo
 
 1. **Start the Docker Containers**:
 
-    If you haven't already, make sure the Docker containers are running:
+   If you haven't already, make sure the Docker containers are running:
 
-    ```bash
-    make run-local
-    ```
+   ```bash
+   make run-local
+   ```
 
 2. **Access pgAdmin4 Web Interface**:
 
-    Open your web browser and go to [http://localhost:8080](http://localhost:8080).
+   Open your web browser and go to [http://localhost:8080](http://localhost:8080).
 
 3. **Login to pgAdmin4**:
 
-    Use the email and password specified in the `compose.yml` file under the `pgadmin4` service (default is `admin@admin.com` and `admin`).
+   Use the email and password specified in the `compose.yml` file under the `pgadmin4` service (default is `admin@admin.com` and `admin`).
 
 4. **Connect to PostgreSQL**:
 
-    - **Hostname**: Use the service name for the PostgreSQL container (`db` or `test_db`).
-    - **Port**: `5432`
-    - **Username**: The value of `${POSTGRES_USER}` from your `.env` file.
-    - **Password**: The value of `${POSTGRES_PASSWORD}` from your `.env` file.
+   - **Hostname**: Use the service name for the PostgreSQL container (`db` or `test_db`).
+   - **Port**: `5432`
+   - **Username**: The value of `${POSTGRES_USER}` from your `.env` file.
+   - **Password**: The value of `${POSTGRES_PASSWORD}` from your `.env` file.
 
 Now you should be able to manage your databases using pgAdmin4.
 
@@ -155,19 +156,19 @@ Now you should be able to manage your databases using pgAdmin4.
 
 1. **Start the Docker Containers**:
 
-    If you haven't already, make sure the Docker containers are running:
+   If you haven't already, make sure the Docker containers are running:
 
-    ```bash
-    make run-local
-    ```
+   ```bash
+   make run-local
+   ```
 
 2. **Access storybook Web Interface**:
 
-      Open your web browser and go to [http://localhost:7910](http://localhost:7910).
+   Open your web browser and go to [http://localhost:7910](http://localhost:7910).
 
 3. **Access Prisma Studio Web Interface**:
 
-      Open your web browser and go to [http://localhost:5555](http://localhost:5555).
+   Open your web browser and go to [http://localhost:5555](http://localhost:5555).
 
 ## Publishing Images to Docker Hub
 

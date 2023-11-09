@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: stencil-auth0-web-nginx-local:latest
     ports:
-      - "8910:8910"
+      - '8910:8910'
     networks:
       - app-network
     volumes:
@@ -28,7 +28,7 @@ services:
       ENVIRONMENT: ${ENVIRONMENT}
     image: stencil-auth0-api-local:latest
     ports:
-      - "8911:8911"
+      - '8911:8911'
     depends_on:
       - db
     networks:
@@ -61,10 +61,10 @@ services:
   pgadmin4:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
-      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
     ports:
-      - "8080:80"
+      - '8080:80'
     networks:
       - app-network
     volumes:
@@ -77,9 +77,9 @@ services:
       dockerfile: Dockerfile
     image: stencil-auth0-storybook-local:latest
     ports:
-      - "7910:7910"
+      - '7910:7910'
     environment:
-      IS_STORYBOOK: "true"
+      IS_STORYBOOK: 'true'
       REDWOOD_API_URL: ${REDWOOD_API_URL}
     networks:
       - app-network
@@ -95,7 +95,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
     ports:
-      - "5555:5555"
+      - '5555:5555'
     depends_on:
       - db
     networks:

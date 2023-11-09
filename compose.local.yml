@@ -3,7 +3,7 @@ services:
   api:
     env_file:
       - .env
-    entrypoint: ["./entrypoint.local.sh"]
+    entrypoint: ['./entrypoint.local.sh']
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}
