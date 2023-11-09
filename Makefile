@@ -1,4 +1,4 @@
-.PHONY: up-local up-ci install-deps-api-ci test-api-ci lint-api-ci install-deps-web-ci test-web-ci lint-web-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local clean-ci test-ci lint-ci install-deps-ci
+.PHONY: up-local up-ci install-deps-api-ci test-ci lint-api-ci install-deps-web-ci lint-web-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local clean-ci lint-ci install-deps-ci
 
 # Variables
 DC_CI := docker compose -f compose.yml -f compose.ci.yml

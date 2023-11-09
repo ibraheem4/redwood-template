@@ -62,11 +62,8 @@ jobs:
       - name: Lint RedwoodJS project
         run: make lint-ci
 
-      - name: Run web and api tests in parallel
-        run: |
-          make test-web-ci &
-          make test-api-ci &
-          wait
+      - name: Run tests in parallel
+        run: make test-ci
 
       - name: Cache Docker layers
         uses: satackey/action-docker-layer-caching@v0.0.11
