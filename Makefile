@@ -17,6 +17,9 @@ ECR_API_REPOSITORY := stencil-auth0/api
 DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
 DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 
+# Primary make command
+run-local: build-local up-local
+
 # Setup commands
 setup-env:
 	cp .env.example .env
@@ -30,8 +33,6 @@ up-local:
 
 down-local:
 	$(DC_LOCAL) down
-
-run-local: build-local up-local
 
 clean-local: down-local
 
