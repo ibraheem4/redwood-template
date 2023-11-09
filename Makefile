@@ -9,7 +9,9 @@ DOCKERFILE_PATH_WEB := Dockerfile.web
 DOCKERFILE_PATH_API := Dockerfile.api
 
 # ECS variables
-ECR_REGISTRY := 717824651453.dkr.ecr.us-east-1.amazonaws.com
+AWS_ACCOUNT_ID := 717824651453
+AWS_REGION := us-east-1
+ECR_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
 ECR_WEB_REPOSITORY := stencil-auth0/web
 ECR_API_REPOSITORY := stencil-auth0/api
 DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
