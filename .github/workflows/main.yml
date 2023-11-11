@@ -94,41 +94,41 @@ jobs:
       - name: Cleanup
         run: make clean-ci
 
-      deploy_to_aws:
-        needs: build_test_lint_publish
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
-        steps:
-          - uses: actions/checkout@v3
+  deploy_to_aws:
+    needs: build_test_lint_publish
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
 
-          - name: Configure AWS credentials
-            uses: aws-actions/configure-aws-credentials@v4
-            with:
-              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              aws-region: ${{ secrets.AWS_REGION }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-          - name: Install AWS Copilot CLI
-            run: |
-              COPILOT_VERSION='1.31.0'
-              COPILOT_BINARY='copilot-linux'
-              COPILOT_URL="https://github.com/aws/copilot-cli/releases/download/v${COPILOT_VERSION}/${COPILOT_BINARY}-v${COPILOT_VERSION}"
-              curl -Lo copilot-cli "${COPILOT_URL}"
-              chmod +x copilot-cli
-              sudo mv copilot-cli /usr/local/bin/copilot
+      - name: Install AWS Copilot CLI
+        run: |
+          COPILOT_VERSION='1.31.0'
+          COPILOT_BINARY='copilot-linux'
+          COPILOT_URL="https://github.com/aws/copilot-cli/releases/download/v${COPILOT_VERSION}/${COPILOT_BINARY}-v${COPILOT_VERSION}"
+          curl -Lo copilot-cli "${COPILOT_URL}"
+          chmod +x copilot-cli
+          sudo mv copilot-cli /usr/local/bin/copilot
 
-          - name: Initialize Copilot Application (if needed)
-            run: copilot app init stencil-auth0 || echo "Application already initialized"
+      - name: Initialize Copilot Application (if needed)
+        run: copilot app init stencil-auth0 || echo "Application already initialized"
 
-          - name: Initialize Copilot Environment (if needed)
-            run: copilot env init --name test --profile default --app stencil-auth0 || echo "Environment already initialized"
+      - name: Initialize Copilot Environment (if needed)
+        run: copilot env init --name test --profile default --app stencil-auth0 || echo "Environment already initialized"
 
-          - name: Deploy Web Service to AWS using Copilot
-            run: copilot svc deploy --name web --env test
-            env:
-              DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
+      - name: Deploy Web Service to AWS using Copilot
+        run: copilot svc deploy --name web --env test
+        env:
+          DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
 
-          - name: Deploy API Service to AWS using Copilot
-            run: copilot svc deploy --name api --env test
-            env:
-              SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      - name: Deploy API Service to AWS using Copilot
+        run: copilot svc deploy --name api --env test
+        env:
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
