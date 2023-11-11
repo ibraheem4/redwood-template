@@ -15,8 +15,8 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 | Name | Runtime                 |
 | ---- | ----------------------- |
-| api  | `node:18-bookworm-slim` |
-| web  | `nginx:alpine`          |
+| api  | `public.ecr.aws/docker/library/node:18.17.1-bookworm-slim` |
+| web  | `public.ecr.aws/nginx/nginx:1.19`          |
 
 ## Benchmark
 

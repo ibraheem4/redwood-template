@@ -1,7 +1,7 @@
 # ==
 # Base
 # ==
-FROM node:18-bookworm-slim as base
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim as base
 WORKDIR /app
 COPY package.json yarn.lock redwood.toml graphql.config.js .
 COPY api/package.json api/
@@ -38,7 +38,7 @@ EXPOSE 8910
 CMD ["nginx", "-g", "daemon off;"]
 
 # Runner for the API server
-FROM node:18-bookworm-slim AS api
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim AS api
 WORKDIR /app
 RUN apt-get update && apt-get install -y libssl-dev
 COPY --from=builder /app .
@@ -48,7 +48,7 @@ EXPOSE 8911
 CMD ["/app/entrypoint.local.sh"]
 
 # Storybook stage
-FROM node:18-bookworm-slim as storybook
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim as storybook
 WORKDIR /app
 COPY . .
 RUN yarn install
@@ -56,7 +56,7 @@ ENV IS_STORYBOOK=true
 CMD ["yarn", "rw", "storybook"]
 
 # Prisma Studio
-FROM node:18-bookworm-slim AS prisma-studio
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim AS prisma-studio
 WORKDIR /app
 RUN apt-get update && apt-get install -y openssl libssl-dev
 COPY --from=builder /app .

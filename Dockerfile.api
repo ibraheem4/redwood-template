@@ -1,5 +1,5 @@
 # Base stage for shared dependencies
-FROM node:18-bookworm-slim as base
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim as base
 WORKDIR /app
 COPY package.json yarn.lock redwood.toml graphql.config.js .
 COPY api/package.json api/
@@ -19,7 +19,7 @@ RUN yarn rw build api
 RUN yarn rw prisma generate
 
 # Final stage for API server
-FROM node:18-bookworm-slim AS api
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim AS api
 WORKDIR /app
 RUN apt-get update && apt-get install -y libssl-dev
 COPY --from=builder /app .

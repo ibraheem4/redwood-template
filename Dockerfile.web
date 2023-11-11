@@ -1,5 +1,5 @@
 # Base stage for shared dependencies
-FROM node:18-bookworm-slim as base
+FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim as base
 WORKDIR /app
 COPY package.json yarn.lock redwood.toml graphql.config.js .
 COPY web/package.json web/
