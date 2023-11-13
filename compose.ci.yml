@@ -20,8 +20,10 @@ services:
       POSTGRES_DB: ${POSTGRES_DB_TEST}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-network
     volumes:
-      - test_db_data_ci:/var/lib/postgresql/data
+      - test_db_data_ci/var/lib/postgresql/data
 
 volumes:
   api_data_ci:
