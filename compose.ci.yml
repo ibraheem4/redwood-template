@@ -23,7 +23,7 @@ services:
     networks:
       - app-network
     volumes:
-      - test_db_data_ci/var/lib/postgresql/data
+      - test_db_data_ci:/var/lib/postgresql/data
 
 volumes:
   api_data_ci:
