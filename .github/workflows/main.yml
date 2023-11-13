@@ -131,7 +131,7 @@ jobs:
         run: copilot app init stencil-auth0 || echo "Application already initialized"
 
       - name: Initialize Copilot Environment (if needed)
-        run: copilot env init --name test --profile default --app stencil-auth0 || echo "Environment already initialized"
+        run: copilot env init --name test --app stencil-auth0 || echo "Environment already initialized"
 
       - name: Deploy Web Service to AWS using Copilot
         run: copilot svc deploy --name web --env test
