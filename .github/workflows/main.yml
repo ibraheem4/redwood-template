@@ -71,6 +71,20 @@ jobs:
         with:
           key: docker-${{ runner.os }}-${{ hashFiles('compose.yml') }}
 
+      - name: Check ECR Repository Existence
+        id: check-ecr
+        run: |
+          set +e
+          exists=$(aws ecr describe-repositories --repository-names "stencil-auth0/web" --region ${{ secrets.AWS_REGION }} 2>&1)
+          if [[ $exists == *"RepositoryNotFoundException"* ]]; then
+            echo "::set-output name=repo_exists::false"
+          else
+            echo "::set-output name=repo_exists::true"
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
       - name: Build Docker Images
         if: github.ref == 'refs/heads/auth-auth0'
         run: make build-docker
@@ -80,7 +94,7 @@ jobs:
         run: make tag-docker
 
       - name: Publish Docker Images to ECR
-        if: github.ref == 'refs/heads/auth-auth0'
+        if: steps.check-ecr.outputs.repo_exists == 'true'
         run: make publish-docker
 
       - name: Record build time
