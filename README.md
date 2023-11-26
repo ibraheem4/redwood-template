@@ -55,6 +55,50 @@ Benchmark on running averages
 
 4. Find and replace any instances of `FIXME`, `Stencil Auth0`, `stencil_auth0_`, `stencil-auth0-`, `stencil-auth0`.
 
+## AWS Copilot Deployment
+
+This application is configured to be deployed using AWS Copilot. AWS Copilot simplifies containerized application deployments on AWS ECS (Elastic Container Service).
+
+### Initial Setup
+Before deploying with Copilot for the first time, you'll need to run the following commands:
+
+Initialize the Application:
+```bash
+copilot app init stencil-auth0
+```
+
+Initialize the Environment:
+```bash
+copilot env init --name test --profile default --app stencil-auth0
+```
+
+Deploy the Environment:
+```bash
+copilot env deploy --name test
+```
+
+Initialize Services:
+
+Initialize the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
+
+```bash
+copilot svc init --name web
+copilot svc init --name api
+```
+
+Deploy Services:
+
+Deploy the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
+
+```bash
+copilot svc deploy --name web --env test
+copilot svc deploy --name api --env test
+```
+
+### Subsequent Deployments
+
+Once the initial setup is complete, you can manage subsequent deployments via the GitHub Actions workflow configured in the .github/workflows directory. This workflow will automatically build, tag, and push Docker images, and then deploy them using AWS Copilot.
+
 ## Makefile Commands
 
 This project includes a Makefile for managing various Docker-related tasks and more.
