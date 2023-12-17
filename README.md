@@ -64,7 +64,7 @@ Before deploying with Copilot for the first time, you'll need to run the followi
 
 Initialize the Application:
 ```bash
-copilot app init stencil-auth0
+copilot app init stencil-auth0 --domain appratings.com
 ```
 
 Initialize the Environment:
@@ -98,6 +98,14 @@ copilot svc deploy --name api --env test
 ### Subsequent Deployments
 
 Once the initial setup is complete, you can manage subsequent deployments via the GitHub Actions workflow configured in the .github/workflows directory. This workflow will automatically build, tag, and push Docker images, and then deploy them using AWS Copilot.
+
+### Deleting the Application
+
+To delete the application, run the following commands:
+
+```bash
+copilot app delete stencil-auth0
+```
 
 ## Makefile Commands
 
