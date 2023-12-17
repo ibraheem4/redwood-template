@@ -69,7 +69,7 @@ copilot app init stencil-auth0 --domain appratings.com
 
 Initialize the Environment:
 ```bash
-copilot env init --name test --profile default --app stencil-auth0
+copilot env init --name test --app stencil-auth0
 ```
 
 Deploy the Environment:
