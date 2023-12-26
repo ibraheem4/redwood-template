@@ -120,12 +120,14 @@ jobs:
 
       - name: Install AWS Copilot CLI
         run: |
-          COPILOT_VERSION='1.31.0'
+          COPILOT_LATEST_VERSION=$(curl -s https://api.github.com/repos/aws/copilot-cli/releases/latest | grep 'tag_name' | cut -d '"' -f 4)
+          echo "Latest Copilot Version: $COPILOT_LATEST_VERSION"
           COPILOT_BINARY='copilot-linux'
-          COPILOT_URL="https://github.com/aws/copilot-cli/releases/download/v${COPILOT_VERSION}/${COPILOT_BINARY}-v${COPILOT_VERSION}"
+          COPILOT_URL="https://github.com/aws/copilot-cli/releases/download/$COPILOT_LATEST_VERSION/${COPILOT_BINARY}-$COPILOT_LATEST_VERSION"
           curl -Lo copilot-cli "${COPILOT_URL}"
           chmod +x copilot-cli
           sudo mv copilot-cli /usr/local/bin/copilot
+          copilot --version
 
       - name: Initialize Copilot Application (if needed)
         run: copilot app init stencil-auth0 || echo "Application already initialized"
