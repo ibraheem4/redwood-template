@@ -118,7 +118,7 @@ This project includes a Makefile for managing various Docker-related tasks and m
 - **Clean Up the Environment**:
 
   ```bash
-  make clean
+  make clean && docker system prune -a
   ```
 
 For additional Makefile commands, refer to the Makefile in the repository.
