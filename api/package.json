@@ -5,6 +5,7 @@
   "dependencies": {
     "@redwoodjs/api": "6.6.0",
     "@redwoodjs/auth-auth0-api": "6.6.0",
-    "@redwoodjs/graphql-server": "6.6.0"
+    "@redwoodjs/graphql-server": "6.6.0",
+    "crypto-js": "^4.2.0"
   }
 }
