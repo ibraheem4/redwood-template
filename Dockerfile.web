@@ -15,7 +15,7 @@ FROM base as builder
 COPY web/ /app/web/
 COPY scripts/ /app/scripts/
 RUN yarn global add @redwoodjs/cli
-RUN node /app/node_modules/.bin/rw-vite-build --webDir="/app/web"
+RUN yarn rw build web
 
 # Final stage for Nginx web server
 FROM public.ecr.aws/nginx/nginx:1.19 AS web

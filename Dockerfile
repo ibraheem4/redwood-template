@@ -22,7 +22,7 @@ COPY web/ /app/web/
 COPY scripts/ /app/scripts/
 RUN yarn global add @redwoodjs/cli
 RUN yarn rw build api
-RUN node /app/node_modules/.bin/rw-vite-build --webDir="/app/web"
+RUN yarn rw build web
 RUN yarn rw prisma generate
 
 # ==
