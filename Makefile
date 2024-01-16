@@ -21,8 +21,11 @@ DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 run-local: build-local up-local
 
 # Setup commands
-setup-env:
-	cp .env.example .env
+setup-env-local:
+	cp .env.local.example .env
+
+setup-env-docker:
+	cp .env.docker.example .env
 
 # Dev commands
 build-local:
