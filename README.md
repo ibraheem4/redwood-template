@@ -148,8 +148,8 @@ To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Fo
 
    - **Hostname**: Use the service name for the PostgreSQL container (`db` or `test_db`).
    - **Port**: `5432`
-   - **Username**: The value of `${POSTGRES_USER}` from your `.env` file.
-   - **Password**: The value of `${POSTGRES_PASSWORD}` from your `.env` file.
+   - **Username**: The value of `${POSTGRES_USER}` from your `.env` file (e.g. `postgres`).
+   - **Password**: The value of `${POSTGRES_PASSWORD}` from your `.env` file (e.g. `password`).
 
 Now you should be able to manage your databases using pgAdmin4.
 
