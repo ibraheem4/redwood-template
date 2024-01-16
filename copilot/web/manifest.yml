@@ -40,10 +40,10 @@ variables:
   REDWOOD_API_URL: 'http://api:8911'
 
 secrets:
-  SESSION_SECRET: test/StencilAuth0/SessionSecret
-  AUTH0_DOMAIN: test/StencilAuth0/Auth0Domain
-  AUTH0_REDIRECT_URI: test/StencilAuth0/Auth0RedirectURI
-  AUTH0_AUDIENCE: test/StencilAuth0/Auth0Audience
+  SESSION_SECRET: /test/StencilAuth0/SessionSecret
+  AUTH0_DOMAIN: /test/StencilAuth0/Auth0Domain
+  AUTH0_REDIRECT_URI: /test/StencilAuth0/Auth0RedirectURI
+  AUTH0_AUDIENCE: /test/StencilAuth0/Auth0Audience
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
