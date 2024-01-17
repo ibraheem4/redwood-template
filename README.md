@@ -13,10 +13,10 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 ## Packages
 
-| Name | Runtime                 |
-| ---- | ----------------------- |
+| Name | Runtime                                                    |
+| ---- | ---------------------------------------------------------- |
 | api  | `public.ecr.aws/docker/library/node:18.17.1-bookworm-slim` |
-| web  | `public.ecr.aws/nginx/nginx:1.19`          |
+| web  | `public.ecr.aws/nginx/nginx:1.19`                          |
 
 ## Benchmark
 
@@ -187,19 +187,23 @@ Ensure you're logged into Docker Hub before pushing.
 This application is configured to be deployed using AWS Copilot. AWS Copilot simplifies containerized application deployments on AWS ECS (Elastic Container Service).
 
 ### Initial Setup
+
 Before deploying with Copilot for the first time, you'll need to run the following commands:
 
 Initialize the Application:
+
 ```bash
 copilot app init stencil-auth0 --domain appratings.com
 ```
 
 Initialize the Environment:
+
 ```bash
 copilot env init --name test --app stencil-auth0
 ```
 
 Deploy the Environment:
+
 ```bash
 copilot env deploy --name test
 ```
