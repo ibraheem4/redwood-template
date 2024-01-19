@@ -102,7 +102,9 @@ const seedRegularUser = async () => {
   const email = 'user@user.com'
 
   // Check if the regular user already exists
-  const existingRegularUser = await prisma.user.findUnique({ where: { email } })
+  const existingRegularUser = await prisma.user.findUnique({
+    where: { email },
+  })
 
   if (existingRegularUser) {
     // Update the existing regular user

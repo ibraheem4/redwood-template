@@ -16,18 +16,13 @@
     "@redwoodjs/vite": "6.6.0",
     "husky": "^8.0.2",
     "lint-staged": "^13.2.2",
+    "prettier-plugin-tailwindcss": "0.4.1",
     "prisma": "latest",
     "storybook-tailwind-dark-mode": "1.0.15"
   },
   "eslintConfig": {
-    "extends": [
-      "@redwoodjs/eslint-config",
-      "plugin:prettier/recommended"
-    ],
-    "root": true,
-    "plugins": [
-      "prettier"
-    ]
+    "extends": "@redwoodjs/eslint-config",
+    "root": true
   },
   "engines": {
     "node": "=18.x",

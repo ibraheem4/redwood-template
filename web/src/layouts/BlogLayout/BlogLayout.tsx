@@ -83,7 +83,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
       <header className="dark:bg-neutral-900"></header>
       <main className="flex-grow bg-zinc-100 dark:bg-black">
         <nav
-          className="mx-auto max-w-6xl bg-white px-4 py-2 dark:bg-neutral-900 dark:text-white sm:px-6 lg:px-8"
+          className="mx-auto max-w-6xl bg-white px-4 py-2 sm:px-6 lg:px-8 dark:bg-neutral-900 dark:text-white"
           aria-label="Top"
         >
           <div className="flex h-16 w-full items-center justify-between border-b border-black py-2 dark:border-white">
@@ -119,12 +119,13 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           </div>
         </nav>
         <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-6xl bg-white p-4 dark:bg-neutral-900 sm:px-6 lg:px-8">
+          TEST
+          <div className="mx-auto max-w-6xl bg-white p-4 sm:px-6 lg:px-8 dark:bg-neutral-900">
             {children}
           </div>
         </div>
         <nav
-          className="mx-auto flex max-w-6xl justify-between bg-white px-4 py-2 dark:bg-neutral-900 dark:text-white sm:px-6 lg:px-8"
+          className="mx-auto flex max-w-6xl justify-between bg-white px-4 py-2 sm:px-6 lg:px-8 dark:bg-neutral-900 dark:text-white"
           aria-label="Bottom"
         >
           <LanguageSelect />

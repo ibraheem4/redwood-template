@@ -57,6 +57,9 @@ test-ci:
 lint-ci:
 	$(DC_CI) exec -T api yarn rw lint
 
+lint-ci-fix:
+	$(DC_CI) exec -T api yarn rw lint --fix
+
 install-deps-ci:
 	$(DC_CI) exec -T api yarn install --check-cache
 
