@@ -119,7 +119,6 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
           </div>
         </nav>
         <div className="mx-auto max-w-6xl">
-          TEST
           <div className="mx-auto max-w-6xl bg-white p-4 sm:px-6 lg:px-8 dark:bg-neutral-900">
             {children}
           </div>
