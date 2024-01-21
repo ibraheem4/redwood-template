@@ -186,6 +186,21 @@ Ensure you're logged into Docker Hub before pushing.
 
 This application is configured to be deployed using AWS Copilot. AWS Copilot simplifies containerized application deployments on AWS ECS (Elastic Container Service).
 
+### Adding a Database with AWS Copilot
+
+To add an Aurora Serverless database to your application using AWS Copilot, follow these steps:
+
+1. **Initialize Storage**:
+   - Run `copilot storage init` and select "Aurora Serverless" as the storage type.
+   - Choose a storage resource name (e.g., `api-cluster`).
+   - Specify the initial database name (e.g., `appratings_db`).
+
+2. **Update Environment Variables**:
+   - Modify your service's manifest file to include the `APICLUSTER_SECRET` environment variable. This variable will contain the connection details for your Aurora Serverless database.
+
+3. **Deploy the Database**:
+   - Deploy the database using `copilot deploy --name [service-name]`. Replace `[service-name]` with the name of the service that requires access to the database.
+
 ### Initial Setup
 
 Before deploying with Copilot for the first time, you'll need to run the following commands:
