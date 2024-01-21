@@ -40,7 +40,7 @@ CMD ["nginx", "-g", "daemon off;"]
 # Runner for the API server
 FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim AS api
 WORKDIR /app
-RUN apt-get update && apt-get install -y libssl-dev
+RUN apt-get update && apt-get install -y libssl-dev jq
 COPY --from=builder /app .
 COPY entrypoint.local.sh /app/
 RUN chmod +x /app/entrypoint.local.sh
