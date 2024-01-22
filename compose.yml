@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.web
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       target: api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api
     environment:
       REDWOOD_WEB_URL: ${REDWOOD_WEB_URL}
       DATABASE_URL: ${DATABASE_URL}

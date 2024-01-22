@@ -71,6 +71,23 @@ jobs:
         with:
           key: docker-${{ runner.os }}-${{ hashFiles('compose.yml') }}
 
+      - name: Cleanup
+        run: make clean-ci
+
+  deploy_to_aws:
+    needs: build_test_lint_publish
+    runs-on: ubuntu-latest
+    if: false
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
       - name: Check ECR Repository Existence
         id: check-ecr
         run: |
@@ -96,27 +113,6 @@ jobs:
       - name: Publish Docker Images to ECR
         if: steps.check-ecr.outputs.repo_exists == 'true'
         run: make publish-docker
-
-      - name: Record build time
-        if: github.ref == 'refs/heads/auth-auth0'
-        run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
-
-      - name: Cleanup
-        run: make clean-ci
-
-  deploy_to_aws:
-    needs: build_test_lint_publish
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Install AWS Copilot CLI
         run: |
@@ -144,3 +140,9 @@ jobs:
         run: copilot svc deploy --name api --env test
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+
+      - name: Record deployment time
+        run: |
+          DEPLOY_END_TIME=$(date +%s)
+          DEPLOY_DURATION=$((DEPLOY_END_TIME - $DEPLOY_START_TIME))
+          echo "::notice::Deployment took ${DEPLOY_DURATION} seconds."
