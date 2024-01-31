@@ -74,22 +74,10 @@ This project includes a Makefile for managing various Docker-related tasks and m
   make up
   ```
 
-- **Start the App in Detached Mode**:
-
-  ```bash
-  make up-detached
-  ```
-
 - **Stop the App**:
 
   ```bash
   make down
-  ```
-
-- **Install Dependencies**:
-
-  ```bash
-  make install-deps
   ```
 
 > Storybook is a development environment for UI components. Open it at [http://localhost:7910](http://localhost:7910).
