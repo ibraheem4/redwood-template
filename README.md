@@ -159,17 +159,6 @@ Now you should be able to manage your databases using pgAdmin4.
 
    Open your web browser and go to [http://localhost:5555](http://localhost:5555).
 
-## Publishing Images to Docker Hub
-
-Run the following commands to push images to Docker Hub:
-
-```bash
-make push-web
-make push-api
-```
-
-Ensure you're logged into Docker Hub before pushing.
-
 ## AWS Copilot Deployment
 
 This application is configured to be deployed using AWS Copilot. AWS Copilot simplifies containerized application deployments on AWS ECS (Elastic Container Service).
