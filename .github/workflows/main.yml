@@ -52,32 +52,26 @@ jobs:
         run: yarn install
 
       - name: Build and start containers
-        run: make up-ci
+        run: make up
 
       - name: Install dependencies for API, Web
-        run: make install-deps-ci
+        run: make install-deps
 
       - name: Build RedwoodJS project
-        run: make build-ci
+        run: make build
 
       - name: Lint RedwoodJS project
-        run: make lint-ci
+        run: make lint
 
-      - name: Run tests in parallel
-        run: make test-ci
-
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.3.6
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('compose.yml') }}
+      - name: Run tests
+        run: make test
 
       - name: Cleanup
-        run: make clean-ci
+        run: make clean
 
   deploy_to_aws:
     needs: build_test_lint_publish
     runs-on: ubuntu-latest
-    if: false
     steps:
       - uses: actions/checkout@v3
 
@@ -128,15 +122,15 @@ jobs:
       - name: Initialize Copilot Application (if needed)
         run: copilot app init stencil-auth0 || echo "Application already initialized"
 
-      - name: Initialize Copilot Environment (if needed)
+      - name: Initialize Copilot Test Environment (if needed)
         run: copilot env init --name test --app stencil-auth0 || echo "Environment already initialized"
 
-      - name: Deploy Web Service to AWS using Copilot
+      - name: Deploy Web Service to AWS Test Environment using Copilot
         run: copilot svc deploy --name web --env test
         env:
           DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
 
-      - name: Deploy API Service to AWS using Copilot
+      - name: Deploy API Service to AWS Test Environment using Copilot
         run: copilot svc deploy --name api --env test
         env:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}

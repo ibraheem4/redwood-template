@@ -1,24 +1,18 @@
-.PHONY: up-local up-ci install-deps-api-ci test-ci lint-api-ci install-deps-web-ci lint-web-ci build-local down-local build-ci down-ci clean-local build-docker tag-docker publish-docker setup-env run-local clean-ci lint-ci install-deps-ci
+.PHONY: setup-env build up down clean test lint install-deps build-docker tag-docker publish-docker
 
 # Variables
-DC_CI := docker compose -f compose.yml -f compose.ci.yml
-DC_LOCAL := docker compose -f compose.yml -f compose.local.yml
-DOCKER_TAG_WEB := stencil-auth0-web:latest
-DOCKER_TAG_API := stencil-auth0-api:latest
-DOCKERFILE_PATH_WEB := Dockerfile.web
-DOCKERFILE_PATH_API := Dockerfile.api
+DC := docker compose
+DOCKERFILE_PATH := Dockerfile
+DOCKER_TAG := stencil-auth0:latest
 
 # ECS variables
 AWS_ACCOUNT_ID := 717824651453
 AWS_REGION := us-east-1
 ECR_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
-ECR_WEB_REPOSITORY := stencil-auth0/web
-ECR_API_REPOSITORY := stencil-auth0/api
-DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
-DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
-
+ECR_REPOSITORY := stencil-auth0
+DOCKER_ECS_TAG := $(ECR_REGISTRY)/$(ECR_REPOSITORY):latest
 # Primary make command
-run-local: build-local up-local
+run: build up
 
 # Setup commands
 setup-env-local:
@@ -27,52 +21,38 @@ setup-env-local:
 setup-env-docker:
 	cp .env.docker.example .env
 
-# Dev commands
-build-local:
-	$(DC_LOCAL) build
+# Dev & CI commands
+build:
+	$(DC) build
 
-up-local:
-	$(DC_LOCAL) up
+up:
+	$(DC) up
 
-down-local:
-	$(DC_LOCAL) down
+down:
+	$(DC) down
 
-clean-local: down-local
+clean: down
 
-# CI commands
-build-ci:
-	$(DC_CI) build
+test:
+	$(DC) exec -T api yarn rw test --no-watch
 
-down-ci:
-	$(DC_CI) down
+lint:
+	$(DC) exec -T api yarn rw lint
 
-clean-ci: down-ci
+lint-fix:
+	$(DC) exec -T api yarn rw lint --fix
 
-up-ci:
-	$(DC_CI) up -d
-
-test-ci:
-	$(DC_CI) exec -T api yarn rw test --no-watch
-
-lint-ci:
-	$(DC_CI) exec -T api yarn rw lint
-
-lint-ci-fix:
-	$(DC_CI) exec -T api yarn rw lint --fix
-
-install-deps-ci:
-	$(DC_CI) exec -T api yarn install --check-cache
+install-deps:
+	$(DC) exec -T api yarn install --check-cache
 
 # Docker commands
 build-docker:
-	docker build --target web -t "$(DOCKER_TAG_WEB)" -f $(DOCKERFILE_PATH_WEB) .
-	docker build --target api -t "$(DOCKER_TAG_API)" -f $(DOCKERFILE_PATH_API) .
+	docker build --target web -t "$(DOCKER_TAG)" -f $(DOCKERFILE_PATH) .
+	docker build --target api -t "$(DOCKER_TAG)" -f $(DOCKERFILE_PATH) .
 
 tag-docker:
-	docker tag "$(DOCKER_TAG_WEB)" "$(DOCKER_ECS_TAG_WEB)"
-	docker tag "$(DOCKER_TAG_API)" "$(DOCKER_ECS_TAG_API)"
+	docker tag "$(DOCKER_TAG)" "$(DOCKER_ECS_TAG)"
 
 publish-docker:
-	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(ECR_REGISTRY)
-	docker push "$(DOCKER_ECS_TAG_WEB)"
-	docker push "$(DOCKER_ECS_TAG_API)"
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(ECR_REGISTRY)
+	docker push "$(DOCKER_ECS_TAG)"
