@@ -63,24 +63,11 @@ services:
     volumes:
       - test_db_data_local:/var/lib/postgresql/data
 
-  pgadmin4:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
-      PGADMIN_DEFAULT_PASSWORD: 'admin'
-    ports:
-      - '8080:80'
-    networks:
-      - app-network
-    volumes:
-      - pgadmin_data_local:/var/lib/pgadmin
-
 volumes:
   web_data_local:
   api_data_local:
   db_data_local:
   test_db_data_local:
-  pgadmin_data_local:
 
 networks:
   app-network:
