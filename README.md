@@ -184,8 +184,8 @@ Initialize Services:
 Initialize the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
 
 ```bash
-copilot svc init --name web-service --svc-type "Backend Service" --dockerfile ./Dockerfile --port 8911
-copilot svc init --name api-service --svc-type "Load Balanced Web Service" --dockerfile ./Dockerfile --port 8910
+copilot svc init --name web --svc-type "Backend Service" --dockerfile ./Dockerfile --port 8911
+copilot svc init --name api --svc-type "Load Balanced Web Service" --dockerfile ./Dockerfile --port 8910
 ```
 
 Deploy the Environment:
@@ -199,8 +199,8 @@ Deploy Services:
 Deploy the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
 
 ```bash
-copilot svc deploy --name web-service --env test
-copilot svc deploy --name api-service --env test
+copilot svc deploy --name web --env test
+copilot svc deploy --name api --env test
 ```
 
 ### Adding a Database with AWS Copilot
