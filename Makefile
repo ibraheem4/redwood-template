@@ -1,8 +1,9 @@
-.PHONY: setup-env build up down clean test lint install-deps build-docker tag-docker publish-docker
+.PHONY: setup-env build up down clean test lint lint-fix install-deps build-docker tag-docker publish-docker dev-up dev-down
 
 # Variables
-DC := docker compose
+DC := docker-compose
 DOCKERFILE_PATH := Dockerfile
+DEV_DOCKERFILE_PATH := Dockerfile.dev
 DOCKER_TAG := stencil-auth0:latest
 
 # ECS variables
@@ -11,6 +12,7 @@ AWS_REGION := us-east-1
 ECR_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
 ECR_REPOSITORY := stencil-auth0
 DOCKER_ECS_TAG := $(ECR_REGISTRY)/$(ECR_REPOSITORY):latest
+
 # Primary make command
 run: build up
 
@@ -23,29 +25,29 @@ setup-env-docker:
 
 # Dev & CI commands
 build:
-	$(DC) build
+	$(DC) -f compose.yml build
 
 up:
-	$(DC) up
+	$(DC) -f compose.yml up
 
 down:
-	$(DC) down
+	$(DC) -f compose.yml down
 
 clean: down
 
 test:
-	$(DC) exec -T api yarn rw test --no-watch
+	$(DC) -f compose.yml exec -T api yarn rw test --no-watch
 
 lint:
-	$(DC) exec -T api yarn rw lint
+	$(DC) -f compose.yml exec -T api yarn rw lint
 
 lint-fix:
-	$(DC) exec -T api yarn rw lint --fix
+	$(DC) -f compose.yml exec -T api yarn rw lint --fix
 
 install-deps:
-	$(DC) exec -T api yarn install --check-cache
+	$(DC) -f compose.yml exec -T api yarn install --check-cache
 
-# Docker commands
+# Docker commands for production
 build-docker:
 	docker build --target web -t "$(DOCKER_TAG)" -f $(DOCKERFILE_PATH) .
 	docker build --target api -t "$(DOCKER_TAG)" -f $(DOCKERFILE_PATH) .
@@ -56,3 +58,10 @@ tag-docker:
 publish-docker:
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(ECR_REGISTRY)
 	docker push "$(DOCKER_ECS_TAG)"
+
+# Development commands
+dev-up:
+	$(DC) -f compose.yml -f compose.dev.yml up -d
+
+dev-down:
+	$(DC) -f compose.yml -f compose.dev.yml down
