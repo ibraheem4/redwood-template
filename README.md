@@ -121,7 +121,7 @@ To manage your PostgreSQL databases, this setup includes a pgAdmin4 instance. Fo
    If you haven't already, make sure the Docker containers are running:
 
    ```bash
-   make run-local
+   make run
    ```
 
 2. **Access pgAdmin4 Web Interface**:
@@ -148,7 +148,7 @@ Now you should be able to manage your databases using pgAdmin4.
    If you haven't already, make sure the Docker containers are running:
 
    ```bash
-   make run-local
+   make run
    ```
 
 2. **Access storybook Web Interface**:
@@ -162,6 +162,46 @@ Now you should be able to manage your databases using pgAdmin4.
 ## AWS Copilot Deployment
 
 This application is configured to be deployed using AWS Copilot. AWS Copilot simplifies containerized application deployments on AWS ECS (Elastic Container Service).
+
+### Initial Setup
+
+Before deploying with Copilot for the first time, you'll need to run the following commands:
+
+Initialize the Application:
+
+```bash
+copilot app init stencil-auth0 --domain appratings.com
+```
+
+Initialize the Environment:
+
+```bash
+copilot env init --name test --app stencil-auth0 --profile default --default-config
+```
+
+Initialize Services:
+
+Initialize the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
+
+```bash
+copilot svc init --name web-service --svc-type "Backend Service" --dockerfile ./Dockerfile --port 8911
+copilot svc init --name api-service --svc-type "Load Balanced Web Service" --dockerfile ./Dockerfile --port 8910
+```
+
+Deploy the Environment:
+
+```bash
+copilot env deploy --name test
+```
+
+Deploy Services:
+
+Deploy the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
+
+```bash
+copilot svc deploy --name web-service --env test
+copilot svc deploy --name api-service --env test
+```
 
 ### Adding a Database with AWS Copilot
 
@@ -177,46 +217,6 @@ To add an Aurora Serverless database to your application using AWS Copilot, foll
 
 3. **Deploy the Database**:
    - Deploy the database using `copilot deploy --name [service-name]`. Replace `[service-name]` with the name of the service that requires access to the database.
-
-### Initial Setup
-
-Before deploying with Copilot for the first time, you'll need to run the following commands:
-
-Initialize the Application:
-
-```bash
-copilot app init stencil-auth0 --domain appratings.com
-```
-
-Initialize the Environment:
-
-```bash
-copilot env init --name test --app stencil-auth0
-```
-
-Deploy the Environment:
-
-```bash
-copilot env deploy --name test
-```
-
-Initialize Services:
-
-Initialize the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
-
-```bash
-copilot svc init --name web
-copilot svc init --name api
-```
-
-Deploy Services:
-
-Deploy the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
-
-```bash
-copilot svc deploy --name web --env test
-copilot svc deploy --name api --env test
-```
 
 ### Subsequent Deployments
 
