@@ -65,3 +65,9 @@ dev-up:
 
 dev-down:
 	$(DC) -f compose.yml -f compose.dev.yml down
+
+dev-tools-up:
+	$(DC) -f compose.yml -f compose.dev.yml up -d storybook prisma-studio pgadmin4
+
+dev-run:
+	setup-env-docker dev-up dev-tools-up
