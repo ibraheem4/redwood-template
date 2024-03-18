@@ -25,6 +25,23 @@ RUN yarn rw build api
 RUN yarn rw build web
 RUN yarn rw prisma generate
 
+# Storybook stage
+FROM base as storybook
+COPY . .
+RUN yarn install
+ENV IS_STORYBOOK=true
+EXPOSE 7910
+CMD ["yarn", "rw", "storybook"]
+
+# Prisma Studio stage
+FROM base as prisma-studio
+COPY . .
+RUN yarn install
+EXPOSE 5555
+CMD ["yarn", "rw", "prisma", "studio"]
+
+
+
 # ==
 # Runners
 # ==

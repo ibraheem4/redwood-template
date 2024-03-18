@@ -1,9 +1,8 @@
-.PHONY: setup-env build up down clean test lint lint-fix install-deps build-docker tag-docker publish-docker dev-up dev-down
+.PHONY: setup-env build up down clean test lint lint-fix install-deps build-docker tag-docker publish-docker
 
 # Variables
 DC := docker-compose
 DOCKERFILE_PATH := Dockerfile
-DEV_DOCKERFILE_PATH := Dockerfile.dev
 DOCKER_TAG := stencil-auth0:latest
 
 # ECS variables
@@ -58,16 +57,3 @@ tag-docker:
 publish-docker:
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(ECR_REGISTRY)
 	docker push "$(DOCKER_ECS_TAG)"
-
-# Development commands
-dev-up:
-	$(DC) -f compose.yml -f compose.dev.yml up -d
-
-dev-down:
-	$(DC) -f compose.yml -f compose.dev.yml down
-
-dev-tools-up:
-	$(DC) -f compose.yml -f compose.dev.yml up -d storybook prisma-studio pgadmin4
-
-dev-run:
-	setup-env-docker dev-up dev-tools-up
