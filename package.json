@@ -36,7 +36,7 @@
     "(web|api)/src/**/*.{js,jsx,ts,tsx}": "yarn rw lint --fix"
   },
   "scripts": {
-    "format": "prettier --write '**/*.{js,ts,jsx,tsx,css,md,json}'",
+    "format": "prettier --write '**/*.{html,js,ts,jsx,tsx,css,md,json}'",
     "prepare": "husky install",
     "storybook": "IS_STORYBOOK=true yarn rw storybook"
   },
