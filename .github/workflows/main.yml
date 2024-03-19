@@ -51,23 +51,23 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build and start containers
-        run: make up
+      - name: Build and start containers (in detached mode)
+        run: make up-ci
 
       - name: Install dependencies for API, Web
-        run: make install-deps
+        run: make install-deps-ci
 
       - name: Build RedwoodJS project
-        run: make build
+        run: make build-ci
 
       - name: Lint RedwoodJS project
-        run: make lint
+        run: make lint-ci
 
       - name: Run tests
-        run: make test
+        run: make test-ci
 
       - name: Cleanup
-        run: make clean
+        run: make clean-ci
 
   deploy_to_aws:
     needs: build_test_lint_publish
