@@ -1,4 +1,4 @@
-.PHONY: setup-env build up down clean test lint lint-fix install-deps build-docker tag-docker publish-docker up-ci install-deps-ci build-ci lint-ci test-ci clean-ci
+.PHONY: setup-env build up down clean test lint lint-fix install-deps-ci build-docker tag-docker publish-docker up-detached build-ci lint-ci test-ci clean-ci
 
 # Variables
 DC := docker compose
@@ -46,11 +46,8 @@ lint:
 lint-fix:
 	$(DC) exec -T api yarn rw lint --fix
 
-install-deps:
-	$(DC) exec -T api yarn install --check-cache
-
 # CI-specific commands
-up-ci:
+up-detached:
 	$(DC) up -d
 
 install-deps-ci:
