@@ -11,6 +11,20 @@ on:
 jobs:
   build_test_lint_publish:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB_DEV }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
       REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
       DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
@@ -22,8 +36,8 @@ jobs:
       POSTGRES_DB_TEST: ${{ secrets.POSTGRES_DB_TEST }}
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:5432/${{ secrets.POSTGRES_DB_DEV }}
-      TEST_DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@test_db:5432/${{ secrets.POSTGRES_DB_TEST }}
+      DATABASE_URL: ${{ format('postgresql://{0}:{1}@localhost:5432/{2}', secrets.POSTGRES_USER, secrets.POSTGRES_PASSWORD, secrets.POSTGRES_DB_DEV) }}
+      TEST_DATABASE_URL: ${{ format('postgresql://{0}:{1}@localhost:5432/{2}', secrets.POSTGRES_USER, secrets.POSTGRES_PASSWORD, secrets.POSTGRES_DB_TEST) }}
       COMPOSE_PROJECT_NAME: stencil-auth0
 
     steps:
