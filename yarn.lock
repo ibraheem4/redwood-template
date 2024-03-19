@@ -9225,13 +9225,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.16":
-  version: 10.4.16
-  resolution: "autoprefixer@npm:10.4.16"
+"autoprefixer@npm:^10.4.18":
+  version: 10.4.18
+  resolution: "autoprefixer@npm:10.4.18"
   dependencies:
-    browserslist: ^4.21.10
-    caniuse-lite: ^1.0.30001538
-    fraction.js: ^4.3.6
+    browserslist: ^4.23.0
+    caniuse-lite: ^1.0.30001591
+    fraction.js: ^4.3.7
     normalize-range: ^0.1.2
     picocolors: ^1.0.0
     postcss-value-parser: ^4.2.0
@@ -9239,7 +9239,7 @@ __metadata:
     postcss: ^8.1.0
   bin:
     autoprefixer: bin/autoprefixer
-  checksum: e00256e754d481a026d928bca729b25954074dd142dbec022f0a7db0d3bbc0dc2e2dc7542e94fec22eff81e21fe140e6856448e2d9a002660cb1e2ad434daee0
+  checksum: b6e1c1ba2fc6c09360cdcd75b00ce809c5dbe1ad4c30f0186764609a982aa5563d45965cb9e6a9d195c639a9fb1dcac2594484fc41624050195f626e9add666e
   languageName: node
   linkType: hard
 
@@ -9900,7 +9900,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.14.5, browserslist@npm:^4.21.10, browserslist@npm:^4.22.2":
+"browserslist@npm:^4.0.0, browserslist@npm:^4.14.5, browserslist@npm:^4.22.2":
   version: 4.22.2
   resolution: "browserslist@npm:4.22.2"
   dependencies:
@@ -9911,6 +9911,20 @@ __metadata:
   bin:
     browserslist: cli.js
   checksum: 2a331aab90503130043ca41dd5d281fa1e89d5e076d07a2d75e76bf4d693bd56e73d5abcd8c4f39119da6328d450578c216cf1cd5c99b82d8a90a2ae6271b465
+  languageName: node
+  linkType: hard
+
+"browserslist@npm:^4.23.0":
+  version: 4.23.0
+  resolution: "browserslist@npm:4.23.0"
+  dependencies:
+    caniuse-lite: ^1.0.30001587
+    electron-to-chromium: ^1.4.668
+    node-releases: ^2.0.14
+    update-browserslist-db: ^1.0.13
+  bin:
+    browserslist: cli.js
+  checksum: 8e9cc154529062128d02a7af4d8adeead83ca1df8cd9ee65a88e2161039f3d68a4d40fea7353cab6bae4c16182dec2fdd9a1cf7dc2a2935498cee1af0e998943
   languageName: node
   linkType: hard
 
@@ -10159,10 +10173,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001565":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001565":
   version: 1.0.30001578
   resolution: "caniuse-lite@npm:1.0.30001578"
   checksum: c3bd9c08a945cee4f0cc284a217ebe9c2613e04d5aef4b48f1871a779b1875c34286469eb8d7d94bd028b5a354613e676ad503b6bf8db20a2f154574bd5fde48
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001587, caniuse-lite@npm:^1.0.30001591":
+  version: 1.0.30001599
+  resolution: "caniuse-lite@npm:1.0.30001599"
+  checksum: 8b3b9610b5be88533a3c8d0770d6896f7b1a9fee3dbeb7339e4ee119a514c81e5e07a628a5a289a6541ca291ac78a9402f5a99cf6012139e91f379083488a8eb
   languageName: node
   linkType: hard
 
@@ -11096,7 +11117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^8.0.0, cosmiconfig@npm:^8.3.5":
+"cosmiconfig@npm:^8.0.0":
   version: 8.3.6
   resolution: "cosmiconfig@npm:8.3.6"
   dependencies:
@@ -11110,6 +11131,23 @@ __metadata:
     typescript:
       optional: true
   checksum: 0382a9ed13208f8bfc22ca2f62b364855207dffdb73dc26e150ade78c3093f1cf56172df2dd460c8caf2afa91c0ed4ec8a88c62f8f9cd1cf423d26506aa8797a
+  languageName: node
+  linkType: hard
+
+"cosmiconfig@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "cosmiconfig@npm:9.0.0"
+  dependencies:
+    env-paths: ^2.2.1
+    import-fresh: ^3.3.0
+    js-yaml: ^4.1.0
+    parse-json: ^5.2.0
+  peerDependencies:
+    typescript: ">=4.9.5"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 1c1703be4f02a250b1d6ca3267e408ce16abfe8364193891afc94c2d5c060b69611fdc8d97af74b7e6d5d1aac0ab2fb94d6b079573146bc2d756c2484ce5f0ee
   languageName: node
   linkType: hard
 
@@ -12291,6 +12329,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-to-chromium@npm:^1.4.668":
+  version: 1.4.710
+  resolution: "electron-to-chromium@npm:1.4.710"
+  checksum: 3e8b7b8053e4ba68489e7c804076bb10aac8619ec8abea492c1a4b8703376658be24fce9a8a090459334dc6ea0b71a9f73ca1ad88a76dbb5fe0a8a30422cf087
+  languageName: node
+  linkType: hard
+
 "elliptic@npm:^6.5.3, elliptic@npm:^6.5.4":
   version: 6.5.4
   resolution: "elliptic@npm:6.5.4"
@@ -12415,7 +12460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"env-paths@npm:^2.2.0":
+"env-paths@npm:^2.2.0, env-paths@npm:^2.2.1":
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 285325677bf00e30845e330eec32894f5105529db97496ee3f598478e50f008c5352a41a30e5e72ec9de8a542b5a570b85699cd63bd2bc646dbcb9f311d83bc4
@@ -13960,7 +14005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fraction.js@npm:^4.3.6":
+"fraction.js@npm:^4.3.7":
   version: 4.3.7
   resolution: "fraction.js@npm:4.3.7"
   checksum: df291391beea9ab4c263487ffd9d17fed162dbb736982dee1379b2a8cc94e4e24e46ed508c6d278aded9080ba51872f1bc5f3a5fd8d7c74e5f105b508ac28711
@@ -19811,17 +19856,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-loader@npm:^7.3.3":
-  version: 7.3.4
-  resolution: "postcss-loader@npm:7.3.4"
+"postcss-loader@npm:^8.1.1":
+  version: 8.1.1
+  resolution: "postcss-loader@npm:8.1.1"
   dependencies:
-    cosmiconfig: ^8.3.5
+    cosmiconfig: ^9.0.0
     jiti: ^1.20.0
     semver: ^7.5.4
   peerDependencies:
+    "@rspack/core": 0.x || 1.x
     postcss: ^7.0.0 || ^8.0.1
     webpack: ^5.0.0
-  checksum: 1bf7614aeea9ad1f8ee6be3a5451576c059391688ea67f825aedc2674056369597faeae4e4a81fe10843884c9904a71403d9a54197e1f560e8fbb9e61f2a2680
+  peerDependenciesMeta:
+    "@rspack/core":
+      optional: true
+    webpack:
+      optional: true
+  checksum: 86cde94cd4c7c39892ef9bd4bf09342f422a21789654038694cf2b23c37c0ed9550c73608f656426a6631f0ade1eca82022781831e93d5362afe2f191388b85e
   languageName: node
   linkType: hard
 
@@ -20135,6 +20186,17 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
   checksum: 16eda83458fcd8a91bece287b5920c7f57164c3ea293e6c80d0ea71ce7843007bcd8592260a5160b9a7f02693e6ac93e2495b02d8c7596d3f3f72c1447e3ba79
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.4.36":
+  version: 8.4.36
+  resolution: "postcss@npm:8.4.36"
+  dependencies:
+    nanoid: ^3.3.7
+    picocolors: ^1.0.0
+    source-map-js: ^1.1.0
+  checksum: e7c834e31d8f4e8dfd0a427df36fdc7bdc58a16e373551618e2c3ac172019eb816b24f1b4709311ebcade8d3ba31b2d75522d28ef45ecbbeb11eb01f265579fb
   languageName: node
   linkType: hard
 
@@ -22252,6 +22314,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"source-map-js@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "source-map-js@npm:1.1.0"
+  checksum: d1f016efe4fcf67fd92e36da0670f2889b13a36cc453329758336450e811c61164376eb451b453b4dd4e89a760f841b0a014942d54f240af31a791829bc0e336
+  languageName: node
+  linkType: hard
+
 "source-map-resolve@npm:^0.5.0":
   version: 0.5.3
   resolution: "source-map-resolve@npm:0.5.3"
@@ -22979,7 +23048,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.3":
+"tailwindcss@npm:^3.4.1":
   version: 3.4.1
   resolution: "tailwindcss@npm:3.4.1"
   dependencies:
@@ -24574,18 +24643,18 @@ __metadata:
     "@redwoodjs/router": 6.6.2
     "@redwoodjs/vite": 6.6.2
     "@redwoodjs/web": 6.6.2
-    autoprefixer: ^10.4.16
+    autoprefixer: ^10.4.18
     humanize-string: 2.1.0
     i18n: ^0.15.1
     i18next: ^22.4.8
     i18next-browser-languagedetector: ^7.0.1
-    postcss: ^8.4.31
-    postcss-loader: ^7.3.3
+    postcss: ^8.4.36
+    postcss-loader: ^8.1.1
     prop-types: 15.8.1
     react: 18.2.0
     react-dom: 18.2.0
     react-i18next: ^12.1.4
-    tailwindcss: ^3.3.3
+    tailwindcss: ^3.4.1
   languageName: unknown
   linkType: soft
 
