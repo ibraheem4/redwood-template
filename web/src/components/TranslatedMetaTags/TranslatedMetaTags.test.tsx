@@ -2,7 +2,7 @@ import React from 'react'
 
 import { render, waitFor } from '@testing-library/react'
 
-import '@testing-library/jest-dom/extend-expect'
+import '@testing-library/jest-dom'
 import { MetaTags as RedwoodMetaTags } from '@redwoodjs/web'
 
 import { useLanguageDirection } from 'src/utils/translations'
