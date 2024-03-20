@@ -13,9 +13,11 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 ## Packages
 
+> [ECR Public Gallery](https://gallery.ecr.aws)
+
 | Name | Runtime                                                    |
 | ---- | ---------------------------------------------------------- |
-| api  | `public.ecr.aws/docker/library/node:18.17.1-bookworm-slim` |
+| api  | `public.ecr.aws/docker/library/node:20-bookworm-slim` |
 | web  | `public.ecr.aws/nginx/nginx:1.19`                          |
 
 ## Benchmark
@@ -84,13 +86,13 @@ This project includes a Makefile for managing various Docker-related tasks and m
 
 ### Database and Testing Commands
 
-- **Run Prisma Studio**:
+- **Run Redwood Studio**:
 
   ```bash
-  make prisma-studio
+  make redwood-studio
   ```
 
-  > Prisma Studio is a visual editor for your database schema. Open it at [http://localhost:5555](http://localhost:5555).
+  > Redwood Studio is a debugging tool. Open it at [http://localhost:4318](http://localhost:4318).
 
 - **Run Tests**:
 

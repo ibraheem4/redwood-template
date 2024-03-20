@@ -1,7 +1,7 @@
 # ==
 # Base
 # ==
-FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim as base
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim as base
 
 WORKDIR /app
 
@@ -20,8 +20,8 @@ ENV DISABLE_SIGNUP=true \
     POSTGRES_DB_DEV=stencil_auth0_local \
     POSTGRES_DB_TEST=stencil_auth0_test \
     POSTGRES_USER=postgres \
-    DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB_DEV} \
-    TEST_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@test_db:5432/${POSTGRES_DB_TEST} \
+    DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB_DEV} \
+    TEST_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB_TEST} \
     AUTH0_DOMAIN=dev-yckirnadid5fdbrg.us.auth0.com \
     AUTH0_CLIENT_ID=BmFLgyxWH4Xy3MTdMnxI8DIDrIEljVAE \
     AUTH0_REDIRECT_URI=http://localhost:8910 \
@@ -63,8 +63,6 @@ RUN yarn install
 EXPOSE 5555
 CMD ["yarn", "rw", "prisma", "studio"]
 
-
-
 # ==
 # Runners
 # ==
@@ -78,7 +76,7 @@ EXPOSE 8910
 CMD ["nginx", "-g", "daemon off;"]
 
 # Runner for the API server
-FROM public.ecr.aws/docker/library/node:18.17.1-bookworm-slim AS api
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS api
 WORKDIR /app
 RUN apt-get update && apt-get install -y libssl-dev jq
 COPY --from=builder /app .

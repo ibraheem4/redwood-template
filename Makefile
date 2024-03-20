@@ -1,4 +1,4 @@
-.PHONY: setup-env build up down clean test lint lint-fix install-deps-ci build-docker tag-docker publish-docker up-detached build-ci lint-ci test-ci clean-ci
+.PHONY: setup-env build up down clean test lint lint-fix redwood-studio install-deps-ci build-docker tag-docker publish-docker up-detached build-ci lint-ci test-ci clean-ci
 
 # Variables
 DC := docker compose
@@ -45,6 +45,9 @@ lint:
 
 lint-fix:
 	$(DC) exec -T api yarn rw lint --fix
+
+redwood-studio:
+	yarn rw studio
 
 # CI-specific commands
 up-detached:
