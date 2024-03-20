@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "@redwoodjs/vite": "7.1.3",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
     "autoprefixer": "^10.4.18",
     "postcss": "^8.4.36",
     "postcss-loader": "^8.1.1",
