@@ -75,7 +75,7 @@ jobs:
         run: make build-ci
 
       - name: Lint RedwoodJS project
-        run: make lint-ci
+        run: make lint
 
       - name: Run tests
         run: make test-ci

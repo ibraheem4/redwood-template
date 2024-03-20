@@ -1,4 +1,4 @@
-.PHONY: setup-env build up down clean test lint lint-fix redwood-studio install-deps-ci build-docker tag-docker publish-docker up-detached build-ci lint-ci test-ci clean-ci
+.PHONY: setup-env build up down clean test lint lint-fix redwood-studio install-deps-ci build-docker tag-docker publish-docker up-detached build-ci test-ci clean-ci
 
 # Variables
 DC := docker compose
@@ -38,7 +38,7 @@ down:
 clean: down
 
 test:
-	$(DC) exec -T api yarn rw test --no-watch
+	$(DC) exec -T api yarn rw test
 
 lint:
 	$(DC) exec -T api yarn rw lint
@@ -58,9 +58,6 @@ install-deps-ci:
 
 build-ci:
 	$(DC) exec -T api yarn rw build
-
-lint-ci:
-	$(DC) exec -T api yarn rw lint
 
 test-ci:
 	$(DC) exec -T api yarn rw test --no-watch
