@@ -52,8 +52,7 @@ Benchmark on running averages
 3. Duplicate the .env.example file and create a new file named .env to customize your actual configuration details with:
 
    ```bash
-   make setup-env-local
-   make setup-env-docker
+   make setup-env
    ```
 
 4. Find and replace any instances of `FIXME`, `Stencil Auth0`, `stencil_auth0_`, `stencil-auth0-`, `stencil-auth0`.

@@ -1,4 +1,4 @@
-.PHONY: setup-env build up down clean test lint lint-fix redwood-studio install-ci build-docker tag-docker publish-docker up-ci build-ci test-ci clean-ci
+.PHONY: setup-env build up down clean test lint lint-fix redwood-studio up-ci install-ci build-ci test-ci clean-ci build-docker tag-docker publish-docker
 
 # Variables
 DC := docker compose
@@ -19,11 +19,8 @@ export COMPOSE_FILE := compose.yml
 run: build up
 
 # Setup commands
-setup-env-local:
-	cp .env.local.example .env
-
-setup-env-docker:
-	cp .env.docker.example .env
+setup-env:
+	cp .env.docker .env
 
 # Dev & CI commands
 build:
