@@ -66,10 +66,10 @@ jobs:
         run: yarn install
 
       - name: Build and start containers (in detached mode)
-        run: make up-detached
+        run: make up-ci
 
       - name: Install dependencies for API, Web
-        run: make install-deps-ci
+        run: make install-ci
 
       - name: Build RedwoodJS project
         run: make build-ci
