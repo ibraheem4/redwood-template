@@ -17,7 +17,7 @@ http:
 # Configuration for your containers and service.
 image:
   # Docker build arguments. For additional overrides: https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#image-build
-  build: Dockerfile
+  build: Dockerfile.web
   # Port exposed through your container to route traffic to it.
   port: 8910
 
@@ -38,6 +38,12 @@ network:
 #  LOG_LEVEL: info
 variables:
   REDWOOD_API_URL: 'http://api:8911'
+# secrets:
+#   SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
+#   AUTH0_DOMAIN: /copilot/applications/stencil-auth0/environments/test/Auth0Domain
+#   AUTH0_CLIENT_ID: /copilot/applications/stencil-auth0/environments/test/Auth0ClientId
+#   AUTH0_REDIRECT_URI: /copilot/applications/stencil-auth0/environments/test/Auth0RedirectURI
+#   AUTH0_AUDIENCE: /copilot/applications/stencil-auth0/environments/test/Auth0Audience
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 

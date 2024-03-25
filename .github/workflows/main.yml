@@ -11,20 +11,6 @@ on:
 jobs:
   build_test_lint_publish:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB_DEV }}
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     env:
       REDWOOD_WEB_URL: ${{ secrets.REDWOOD_WEB_URL }}
       DISABLE_SIGNUP: ${{ secrets.DISABLE_SIGNUP }}
@@ -65,36 +51,25 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build and start containers (in detached mode)
+      - name: Build and start containers
         run: make up-ci
 
       - name: Install dependencies for API, Web
-        run: make install-ci
+        run: make install-deps-ci
 
       - name: Build RedwoodJS project
         run: make build-ci
 
       - name: Lint RedwoodJS project
-        run: make lint
+        run: make lint-ci
 
-      - name: Run tests
+      - name: Run tests in parallel
         run: make test-ci
 
-      - name: Cleanup
-        run: make clean-ci
-
-  deploy_to_aws:
-    needs: build_test_lint_publish
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.3.6
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          key: docker-${{ runner.os }}-${{ hashFiles('compose.yml') }}
 
       - name: Check ECR Repository Existence
         id: check-ecr
@@ -121,6 +96,27 @@ jobs:
       - name: Publish Docker Images to ECR
         if: steps.check-ecr.outputs.repo_exists == 'true'
         run: make publish-docker
+
+      - name: Record build time
+        if: github.ref == 'refs/heads/auth-auth0'
+        run: echo "::warning file=build.log,line=2,col=5::Build took $(($(date +%s) - $BUILD_START_TIME)) seconds."
+
+      - name: Cleanup
+        run: make clean-ci
+
+  deploy_to_aws:
+    needs: build_test_lint_publish
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/auth-auth0' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Install AWS Copilot CLI
         run: |

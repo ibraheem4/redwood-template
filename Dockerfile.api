@@ -1,0 +1,29 @@
+# Base stage for shared dependencies
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim as base
+WORKDIR /app
+COPY package.json yarn.lock redwood.toml graphql.config.js .
+COPY api/package.json api/
+ENV HUSKY=0
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev && \
+    yarn install --immutable --immutable-cache --parallel && \
+    yarn cache clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Build stage for API
+FROM base as builder
+COPY api/ /app/api/
+COPY scripts/ /app/scripts/
+RUN yarn global add @redwoodjs/cli
+RUN yarn rw build api
+RUN yarn rw prisma generate
+
+# Final stage for API server
+FROM base AS api
+WORKDIR /app
+RUN apt-get update && apt-get install -y libssl-dev
+COPY --from=builder /app .
+COPY entrypoint.local.sh /app/
+RUN chmod +x /app/entrypoint.local.sh
+EXPOSE 8911
+CMD ["/app/entrypoint.local.sh"]

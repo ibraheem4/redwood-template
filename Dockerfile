@@ -50,6 +50,7 @@ RUN yarn rw prisma generate
 
 # Storybook stage
 FROM base as storybook
+WORKDIR /app
 COPY . .
 RUN yarn install
 ENV IS_STORYBOOK=true
@@ -58,8 +59,9 @@ CMD ["yarn", "rw", "storybook"]
 
 # Prisma Studio stage
 FROM base as prisma-studio
-COPY . .
-RUN yarn install
+WORKDIR /app
+RUN apt-get update && apt-get install -y openssl libssl-dev
+COPY --from=builder /app .
 EXPOSE 5555
 CMD ["yarn", "rw", "prisma", "studio"]
 
@@ -76,7 +78,7 @@ EXPOSE 8910
 CMD ["nginx", "-g", "daemon off;"]
 
 # Runner for the API server
-FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS api
+FROM base AS api
 WORKDIR /app
 RUN apt-get update && apt-get install -y libssl-dev jq
 COPY --from=builder /app .

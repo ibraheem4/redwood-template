@@ -185,8 +185,8 @@ Initialize Services:
 Initialize the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
 
 ```bash
-copilot svc init --name api --svc-type "Backend Service" --dockerfile ./Dockerfile --port 8911
-copilot svc init --name web --svc-type "Load Balanced Web Service" --dockerfile ./Dockerfile --port 8910
+copilot svc init --name api --svc-type "Backend Service" --dockerfile ./Dockerfile.api --port 8911
+copilot svc init --name web --svc-type "Load Balanced Web Service" --dockerfile ./Dockerfile.web --port 8910
 ```
 
 Deploy the Environment:
@@ -212,10 +212,10 @@ To add an Aurora Serverless database to your application using AWS Copilot, foll
 
   - Run `copilot storage init` and select "Aurora Serverless" as the storage type.
   - Choose a storage resource name (e.g., `api-cluster`).
-  - Specify the initial database name (e.g., `appratings_db`).
+  - Specify the initial database name (e.g., `appratings_test_db`).
 
 ```bash
-copilot storage init --type "Aurora Serverless" --name api-cluster --initial-db appratings_db
+copilot storage init --name api-cluster --workload api --lifecycle environment --storage-type Aurora --initial-db testdb --engine PostgreSQL
 ```
 
 2. **Update Environment Variables**:
