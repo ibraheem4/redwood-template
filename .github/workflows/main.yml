@@ -67,7 +67,7 @@ jobs:
         run: make test-ci
 
       - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.3.6
+        uses: ScribeMD/docker-cache@0.4.0
         with:
           key: docker-${{ runner.os }}-${{ hashFiles('compose.yml') }}
 
