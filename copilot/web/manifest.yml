@@ -37,7 +37,7 @@ network:
 #variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
 variables:
-  REDWOOD_API_URL: 'https://api.test.stencil-auth0.appratings.com'
+  REDWOOD_API_URL: 'http://api:8911'
 
 secrets:
   SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
