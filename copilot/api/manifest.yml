@@ -34,16 +34,16 @@ network:
 #  LOG_LEVEL: info
 variables:
   SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
-  AUTH0_DOMAIN: /copilot/applications/stencil-auth0/environments/test/Auth0Domain
-  AUTH0_CLIENT_ID: /copilot/applications/stencil-auth0/environments/test/Auth0ClientId
-  AUTH0_REDIRECT_URI: /copilot/applications/stencil-auth0/environments/test/Auth0RedirectURI
-  AUTH0_AUDIENCE: /copilot/applications/stencil-auth0/environments/test/Auth0Audience
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
 secrets:
   DB_SECRET:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-apiclusterAuroraSecret
+  AUTH0_DOMAIN: /copilot/applications/stencil-auth0/environments/test/Auth0Domain
+  AUTH0_CLIENT_ID: /copilot/applications/stencil-auth0/environments/test/Auth0ClientId
+  AUTH0_REDIRECT_URI: /copilot/applications/stencil-auth0/environments/test/Auth0RedirectURI
+  AUTH0_AUDIENCE: /copilot/applications/stencil-auth0/environments/test/Auth0Audience
 # You can override any of the values defined above by environment.
 #environments:
 #  test:
