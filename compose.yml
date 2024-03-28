@@ -32,8 +32,6 @@ services:
       NODE_ENV: ${NODE_ENV}
       ENVIRONMENT: ${ENVIRONMENT}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-      AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
-      AUTH0_REDIRECT_URI: ${AUTH0_REDIRECT_URI}
       AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
     image: stencil-auth0-api-local:latest
     ports:
