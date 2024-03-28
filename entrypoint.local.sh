@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Set DATABASE_URL from APICLUSTER_SECRET if available
-if [ -n "$APICLUSTER_SECRET" ]; then
-  echo "Using APICLUSTER_SECRET to set DATABASE_URL..."
-  export DATABASE_URL=$(echo $APICLUSTER_SECRET | jq -r '"postgresql://" + .username + ":" + .password + "@" + .host + ":" + .port + "/" + .dbname')
+# Set DATABASE_URL from DB_SECRET if available
+if [ -n "$DB_SECRET" ]; then
+  echo "Using DB_SECRET to set DATABASE_URL..."
+  export DATABASE_URL=$(echo $DB_SECRET | jq -r '"postgresql://" + .username + ":" + .password + "@" + .host + ":" + .port + "/" + .dbname')
 fi
 
 # Your existing script content
@@ -14,7 +14,7 @@ echo "Running Prisma migrations..."
 yarn rw prisma migrate dev
 
 # Seed the database
-if [ "$ENVIRONMENT" = "development" ]; then
+if [ "$COPILOT_ENVIRONMENT_NAME" = "development" ]; then
   echo "Environment is development. Seeding the database..."
   yarn rw prisma db seed
 else
