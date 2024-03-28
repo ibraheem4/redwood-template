@@ -43,10 +43,10 @@ FROM base as builder
 COPY api/ /app/api/
 COPY web/ /app/web/
 COPY scripts/ /app/scripts/
-RUN yarn global add @redwoodjs/cli
-RUN yarn rw build api
-RUN yarn rw build web
-RUN yarn rw prisma generate
+RUN yarn global add @redwoodjs/cli && \
+    yarn rw build api && \
+    yarn rw build web && \
+    yarn rw prisma generate
 
 # Storybook stage
 FROM base as storybook
