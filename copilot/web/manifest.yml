@@ -44,7 +44,6 @@ variables:
 #  LOG_LEVEL: info
 
 secrets:
-  SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
   AUTH0_DOMAIN: /copilot/applications/stencil-auth0/environments/test/Auth0Domain
   AUTH0_CLIENT_ID: /copilot/applications/stencil-auth0/environments/test/Auth0ClientId
   AUTH0_REDIRECT_URI: /copilot/applications/stencil-auth0/environments/test/Auth0RedirectURI
