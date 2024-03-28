@@ -30,6 +30,10 @@ network:
 
 # Optional fields for more advanced use-cases.
 #
+variables:
+  REDWOOD_WEB_URL: https://web.test.stencil-auth0.appratings.com
+  NODE_ENV: development
+  ENVIRONMENT: development
 #variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
 
@@ -45,6 +49,10 @@ secrets:
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
 # You can override any of the values defined above by environment.
+environments:
+  test:
+    variables:
+      REDWOOD_WEB_URL: https://web.test.stencil-auth0.appratings.com
 #environments:
 #  test:
 #    count: 2               # Number of tasks to run for the "test" environment.

@@ -220,7 +220,7 @@ copilot storage init --name api-cluster --workload api --lifecycle environment -
 
 2. **Update Environment Variables**:
 
-   - Modify your service's manifest file to include the `APICLUSTER_SECRET` environment variable. This variable will contain the connection details for your Aurora Serverless database.
+   - Modify your service's manifest file to include the `DB_SECRET` environment variable. This variable will contain the connection details for your Aurora Serverless database.
 
 3. **Deploy the Database**:
    - Deploy the database using `copilot deploy --name [service-name]`. Replace `[service-name]` with the name of the service that requires access to the database.

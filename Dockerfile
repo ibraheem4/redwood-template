@@ -8,7 +8,7 @@ WORKDIR /app
 # Define ARGs for sensitive information
 ARG SESSION_SECRET
 ARG POSTGRES_PASSWORD
-ARG APICLUSTER_SECRET
+ARG DB_SECRET
 
 # Use ARGs to set ENVs for other variables that can derive from sensitive ones
 ENV DISABLE_SIGNUP=true \

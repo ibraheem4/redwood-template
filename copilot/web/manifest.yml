@@ -33,11 +33,11 @@ network:
 # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
 
 # Optional fields for more advanced use-cases.
+variables:
+  REDWOOD_API_URL: http://api.test.stencil-auth0.local:8911
 #
 #variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-variables:
-  REDWOOD_API_URL: 'http://api.test'
 
 secrets:
   SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
