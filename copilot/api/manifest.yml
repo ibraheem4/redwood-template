@@ -32,8 +32,6 @@ network:
 #
 #variables:                    # Pass environment variables as key value pairs.
 #  LOG_LEVEL: info
-#secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
-#  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
 secrets:
   SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
@@ -43,6 +41,9 @@ secrets:
   AUTH0_AUDIENCE: /copilot/applications/stencil-auth0/environments/test/Auth0Audience
   DB_SECRET:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-apiclusterAuroraSecret
+#secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
+#  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
+
 # You can override any of the values defined above by environment.
 #environments:
 #  test:
