@@ -1,0 +1,23 @@
+# Base image
+FROM node:20-slim AS base
+
+WORKDIR /app
+
+# Install dependencies (openssl and libssl-dev are required for Prisma)
+RUN apt-get update && apt-get install -y openssl libssl-dev && rm -rf /var/lib/apt/lists/*
+
+# Copy package.json, yarn.lock, and other necessary project files
+COPY package.json yarn.lock ./
+COPY api/package.json api/
+
+# Install JavaScript dependencies
+RUN yarn install
+
+# Copy the Prisma schema files from your project's api/db directory
+COPY api/db ./db
+
+# Expose the port Prisma Studio will run on
+EXPOSE 5555
+
+# Start Prisma Studio
+CMD ["yarn", "rw", "prisma", "studio"]

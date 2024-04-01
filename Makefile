@@ -1,6 +1,7 @@
-.PHONY: setup-env build up down run clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker
+.PHONY: setup-env build-local up-local down-local run-local clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-services-run
 
-# Variables
+# Variables for basic app
+DC := docker compose
 DC_CI := docker compose -f compose.yml -f compose.ci.yml
 DC_LOCAL := docker compose -f compose.yml -f compose.local.yml
 DOCKER_TAG_WEB := stencil-auth0-web:latest
@@ -20,24 +21,46 @@ DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 # Set COMPOSE_FILE environment variable for docker compose
 export COMPOSE_FILE := compose.yml
 
-# Primary make command
 run: build up
+
+run-local: build-local up-local
 
 # Setup commands
 setup-env:
 	cp .env.example .env
 
-# Dev commands
+# Basic App commands
 build:
-	$(DC_LOCAL) build
+	$(DC) build
 
 up:
-	$(DC_LOCAL) up
+	$(DC) up
 
 down:
+	$(DC) down
+
+build-local:
+	$(DC_LOCAL) build
+
+up-local:
+	$(DC_LOCAL) up
+
+down-local:
 	$(DC_LOCAL) down
 
 clean: down
+
+# Development Services commands
+dev-services-build:
+	$(DC_LOCAL) build storybook prisma-studio
+
+dev-services-up:
+	$(DC_LOCAL) up storybook prisma-studio
+
+dev-services-down:
+	$(DC_LOCAL) down
+
+dev-services-run: dev-services-build dev-services-up
 
 # CI commands
 build-ci:
@@ -66,7 +89,7 @@ redwood-studio:
 install-deps-ci:
 	$(DC_CI) exec -T api yarn install --check-cache
 
-# Docker commands
+# Docker commands for production deployment
 build-docker:
 	docker build --target web -t "$(DOCKER_TAG_WEB)" -f $(DOCKERFILE_PATH_WEB) .
 	docker build --target api -t "$(DOCKER_TAG_API)" -f $(DOCKERFILE_PATH_API) .

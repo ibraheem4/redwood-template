@@ -26,8 +26,7 @@ services:
   storybook:
     build:
       context: .
-      target: storybook
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.storybook
     image: stencil-auth0-storybook-local:latest
     ports:
       - '7910:7910'
@@ -42,8 +41,7 @@ services:
   prisma-studio:
     build:
       context: .
-      target: prisma-studio
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prisma-studio
     image: stencil-auth0-prisma-studio-local:latest
     environment:
       DATABASE_URL: ${DATABASE_URL}

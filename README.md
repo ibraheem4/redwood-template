@@ -237,6 +237,14 @@ To delete the application, run the following commands:
 copilot app delete stencil-auth0
 ```
 
+### Cleaning up Docker
+
+Run this command to cleanup space on Docker
+
+```bash
+make clean && docker system prune -af --volumes && docker builder prune -f && docker system prune -f && docker container prune -f && docker image prune -f && docker context prune -f
+```
+
 ## Installation and Setup (Non-Containerized)
 
 This section provides instructions for running the application in a traditional, non-Docker setup.

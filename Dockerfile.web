@@ -1,6 +1,29 @@
 # Base stage for shared dependencies
 FROM public.ecr.aws/docker/library/node:20-bookworm-slim as base
 WORKDIR /app
+
+# Define ARGs for sensitive information
+ARG SESSION_SECRET
+ARG POSTGRES_PASSWORD
+ARG DB_SECRET
+
+# Use ARGs to set ENVs for other variables that can derive from sensitive ones
+ENV DISABLE_SIGNUP=true \
+    REDWOOD_WEB_URL=http://localhost:8910 \
+    REDWOOD_API_URL=http://localhost:8911 \
+    ENVIRONMENT=development \
+    NODE_ENV=development \
+    COMPOSE_PROJECT_NAME=stencil-auth0 \
+    POSTGRES_DB_DEV=stencil_auth0_local \
+    POSTGRES_DB_TEST=stencil_auth0_test \
+    POSTGRES_USER=postgres \
+    DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB_DEV} \
+    TEST_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB_TEST} \
+    AUTH0_DOMAIN=dev-yckirnadid5fdbrg.us.auth0.com \
+    AUTH0_CLIENT_ID=BmFLgyxWH4Xy3MTdMnxI8DIDrIEljVAE \
+    AUTH0_REDIRECT_URI=http://localhost:8910 \
+    AUTH0_AUDIENCE=https://test.api.appratings.com
+
 COPY package.json yarn.lock redwood.toml graphql.config.js ./
 COPY web/package.json web/
 COPY api/package.json api/

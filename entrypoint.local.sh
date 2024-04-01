@@ -10,19 +10,17 @@ else
   echo "DB_SECRET not found"
 fi
 
-# Your existing script content
-yarn rw build web
-
 # Run Prisma migrations
 echo "Running Prisma migrations..."
 yarn rw prisma migrate dev
 
 # Seed the database
-if [[ "$COPILOT_ENVIRONMENT_NAME" == "development" || "$COPILOT_ENVIRONMENT_NAME" == "test" ]]; then
-  echo "Environment is $COPILOT_ENVIRONMENT_NAME. Seeding the database..."
+if [ "$ENVIRONMENT" = "development" ]; then
+  # Seed the database
+  echo "Environment is development. Seeding the database..."
   yarn rw prisma db seed
 else
-  echo "Environment is not set to development or test. Skipping database seeding."
+  echo "Environment is not set to development. Skipping database seeding."
 fi
 
 # Start the Redwood API server

@@ -3,15 +3,13 @@ services:
   web:
     build:
       context: .
-      target: web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.web
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
       AUTH0_REDIRECT_URI: ${AUTH0_REDIRECT_URI}
       AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
-    image: stencil-auth0-web-nginx-local:latest
     ports:
       - '8910:8910'
     networks:
@@ -22,8 +20,7 @@ services:
   api:
     build:
       context: .
-      target: api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api
     environment:
       REDWOOD_WEB_URL: ${REDWOOD_WEB_URL}
       DATABASE_URL: ${DATABASE_URL}
@@ -33,7 +30,6 @@ services:
       ENVIRONMENT: ${ENVIRONMENT}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
-    image: stencil-auth0-api-local:latest
     ports:
       - '8911:8911'
     depends_on:

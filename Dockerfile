@@ -1,7 +1,5 @@
-# ==
-# Base
-# ==
-FROM public.ecr.aws/docker/library/node:20-bookworm-slim as base
+# Base Stage
+FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS base
 
 WORKDIR /app
 
@@ -36,10 +34,9 @@ RUN apt-get update && \
     yarn install --immutable --immutable-cache --parallel && \
     yarn cache clean && \
     rm -rf /var/lib/apt/lists/*
-# ==
-# Build
-# ==
-FROM base as builder
+
+# Build Stage
+FROM base AS builder
 COPY api/ /app/api/
 COPY web/ /app/web/
 COPY scripts/ /app/scripts/
@@ -48,26 +45,6 @@ RUN yarn global add @redwoodjs/cli && \
     yarn rw build web && \
     yarn rw prisma generate
 
-# Storybook stage
-FROM base as storybook
-WORKDIR /app
-COPY . .
-RUN yarn install
-ENV IS_STORYBOOK=true
-EXPOSE 7910
-CMD ["yarn", "rw", "storybook"]
-
-# Prisma Studio stage
-FROM base as prisma-studio
-WORKDIR /app
-RUN apt-get update && apt-get install -y openssl libssl-dev
-COPY --from=builder /app .
-EXPOSE 5555
-CMD ["yarn", "rw", "prisma", "studio"]
-
-# ==
-# Runners
-# ==
 # Runner for the Nginx web server
 FROM public.ecr.aws/nginx/nginx:1.19 AS web
 WORKDIR /usr/share/nginx/html
