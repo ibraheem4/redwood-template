@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.web
+    env_file: .env
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -21,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
+    env_file: .env
     environment:
       REDWOOD_WEB_URL: ${REDWOOD_WEB_URL}
       DATABASE_URL: ${DATABASE_URL}
@@ -41,6 +43,7 @@ services:
 
   db:
     image: postgres:15
+    env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

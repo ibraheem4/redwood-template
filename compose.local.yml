@@ -2,6 +2,7 @@ version: '3.8'
 services:
   test_db:
     image: postgres:15
+    env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -13,6 +14,7 @@ services:
 
   pgadmin4:
     image: dpage/pgadmin4
+    env_file: .env
     environment:
       PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
       PGADMIN_DEFAULT_PASSWORD: 'admin'
@@ -27,6 +29,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.storybook
+    env_file: .env
     image: stencil-auth0-storybook-local:latest
     ports:
       - '7910:7910'
@@ -42,6 +45,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prisma-studio
+    env_file: .env
     image: stencil-auth0-prisma-studio-local:latest
     environment:
       DATABASE_URL: ${DATABASE_URL}
