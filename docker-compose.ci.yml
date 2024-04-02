@@ -4,7 +4,6 @@ services:
     build:
       context: .
       target: api
-      dockerfile: Dockerfile.api
     environment:
       REDWOOD_API_URL: ${REDWOOD_API_URL}
       DATABASE_URL: ${DATABASE_URL}

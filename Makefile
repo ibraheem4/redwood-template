@@ -1,4 +1,4 @@
-.PHONY: setup-env build-local up-local down-local run-local clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-services-run docker-clean cleanup
+.PHONY: setup-env build-local up-local down-local run-local clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-tools-run docker-clean cleanup
 
 # Variables for basic app
 DC := docker compose
@@ -50,22 +50,26 @@ down-local:
 
 clean: down
 
+clean-local: down-local
+
 docker-clean:
 	docker system prune -af --volumes && docker builder prune -f && docker system prune -f && docker container prune -f && docker image prune -f
 
 cleanup: clean docker-clean
 
+cleanup-local: clean-local docker-clean
+
 # Development Services commands
-dev-services-build:
+dev-tools-build:
 	$(DC_LOCAL) build storybook prisma-studio
 
-dev-services-up:
+dev-tools-up:
 	$(DC_LOCAL) up storybook prisma-studio
 
-dev-services-down:
+dev-tools-down:
 	$(DC_LOCAL) down
 
-dev-services-run: dev-services-build dev-services-up
+dev-tools-run: dev-tools-build dev-tools-up
 
 # CI commands
 build-ci:
