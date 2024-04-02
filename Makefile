@@ -2,8 +2,8 @@
 
 # Variables for basic app
 DC := docker compose
-DC_CI := docker compose -f compose.yml -f compose.ci.yml
-DC_LOCAL := docker compose -f compose.yml -f compose.local.yml
+DC_CI := docker compose -f docker-compose.yml -f docker-compose.ci.yml
+DC_LOCAL := docker compose -f docker-compose.yml -f docker-compose.dev.yml
 DOCKER_TAG_WEB := stencil-auth0-web:latest
 DOCKER_TAG_API := stencil-auth0-api:latest
 DOCKERFILE_PATH_WEB := Dockerfile.web
@@ -19,7 +19,7 @@ DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
 DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 
 # Set COMPOSE_FILE environment variable for docker compose
-export COMPOSE_FILE := compose.yml
+export COMPOSE_FILE := docker-compose.yml
 
 run: build up
 
