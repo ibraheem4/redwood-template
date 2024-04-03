@@ -1,9 +1,9 @@
-.PHONY: setup-env build-local up-local down-local run-local clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-tools-run docker-clean cleanup
+.PHONY: setup-env build-dev up-dev down-dev run-dev clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-tools-run docker-clean cleanup
 
 # Variables for basic app
 DC := docker compose
 DC_CI := docker compose -f docker-compose.yml -f docker-compose.ci.yml
-DC_LOCAL := docker compose -f docker-compose.yml -f docker-compose.dev.yml
+DC_DEV := docker compose -f docker-compose.yml -f docker-compose.dev.yml
 DOCKER_TAG_WEB := stencil-auth0-web:latest
 DOCKER_TAG_API := stencil-auth0-api:latest
 DOCKERFILE_PATH_WEB := Dockerfile.web
@@ -23,7 +23,7 @@ export COMPOSE_FILE := docker-compose.yml
 
 run: build up
 
-run-local: build-local up-local
+run-dev: build-dev up-dev
 
 # Setup commands
 setup-env:
@@ -39,35 +39,35 @@ up:
 down:
 	$(DC) down
 
-build-local:
-	$(DC_LOCAL) build
+build-dev:
+	$(DC_DEV) build
 
-up-local:
-	$(DC_LOCAL) up
+up-dev:
+	$(DC_DEV) up
 
-down-local:
-	$(DC_LOCAL) down
+down-dev:
+	$(DC_DEV) down
 
 clean: down
 
-clean-local: down-local
+clean-dev: down-dev
 
 docker-clean:
 	docker system prune -af --volumes && docker builder prune -f && docker system prune -f && docker container prune -f && docker image prune -f
 
 cleanup: clean docker-clean
 
-cleanup-local: clean-local docker-clean
+cleanup-dev: clean-dev docker-clean
 
 # Development Services commands
 dev-tools-build:
-	$(DC_LOCAL) build storybook prisma-studio
+	$(DC_DEV) build storybook prisma-studio
 
 dev-tools-up:
-	$(DC_LOCAL) up storybook prisma-studio
+	$(DC_DEV) up storybook prisma-studio
 
 dev-tools-down:
-	$(DC_LOCAL) down
+	$(DC_DEV) down
 
 dev-tools-run: dev-tools-build dev-tools-up
 
