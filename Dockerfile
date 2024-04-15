@@ -1,5 +1,7 @@
 # Base Stage
-FROM public.ecr.aws/docker/library/node:20-bookworm-slim AS base
+FROM node:20-bookworm-slim AS base
+
+RUN corepack enable
 
 WORKDIR /app
 

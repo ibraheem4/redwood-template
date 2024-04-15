@@ -1,5 +1,8 @@
 # Base stage for shared dependencies
-FROM public.ecr.aws/docker/library/node:20-bookworm-slim as base
+FROM node:20-bookworm-slim as base
+
+RUN corepack enable
+
 WORKDIR /app
 
 # Define ARGs for sensitive information

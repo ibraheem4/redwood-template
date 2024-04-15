@@ -1,6 +1,8 @@
 # Base image
 FROM node:20-slim AS base
 
+RUN corepack enable
+
 WORKDIR /app
 
 # Install dependencies (openssl and libssl-dev are required for Prisma)
