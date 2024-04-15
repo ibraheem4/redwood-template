@@ -1,4 +1,4 @@
-.PHONY: setup-env build-dev up-dev down-dev run-dev clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-tools-run docker-clean cleanup
+.PHONY: setup-env build-dev up-dev down-dev down-remove-orphans run-dev clean build-ci up-ci down-ci clean-ci lint-ci install-deps-ci test-ci install-deps-ci build-docker tag-docker publish-docker run dev-tools-run docker-clean cleanup
 
 # Variables for basic app
 DC := docker compose
@@ -39,14 +39,17 @@ up:
 down:
 	$(DC) down
 
+down-remove-orphans:
+	$(DC) down --remove-orphans
+
+down-dev:
+	$(DC_DEV) down
+
 build-dev:
 	$(DC_DEV) build
 
 up-dev:
 	$(DC_DEV) up
-
-down-dev:
-	$(DC_DEV) down
 
 clean: down
 
