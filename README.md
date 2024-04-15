@@ -6,9 +6,9 @@ This is a RedwoodJS application with full-stack capabilities, including a fronte
 
 |             |                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------- |
-| Name        | `stencil-auth0`                                                                                     |
+| Name        | `appratings-com`                                                                                     |
 | Description | RedwoodJS application that provides web and API services.                                           |
-| Workflow    | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-docker/actions/workflows/main.yml/badge.svg) |
+| Workflow    | ![CI/CD Pipeline](https://github.com/ibraheem4/redwood-stencil/actions/workflows/main.yml/badge.svg) |
 | Maintainer  | [Ibraheem Abdul-Malik](https://github.com/ibraheme4)                                                |
 
 ## Packages
@@ -55,7 +55,7 @@ Benchmark on running averages
    make setup-env
    ```
 
-4. Find and replace any instances of `FIXME`, `Stencil Auth0`, `stencil_auth0_`, `stencil-auth0-`, `stencil-auth0`.
+4. Find and replace any instances of `FIXME`, `Stencil Auth0`, `stencil_auth0_`, `appratings-com-`, `appratings-com`.
 
 ## Makefile Commands
 
@@ -171,13 +171,13 @@ Before deploying with Copilot for the first time, you'll need to run the followi
 Initialize the Application:
 
 ```bash
-copilot app init stencil-auth0 --domain appratings.com
+copilot app init appratings-com --domain appratings.com
 ```
 
 Initialize the Environment:
 
 ```bash
-copilot env init --name test --app stencil-auth0 --profile default --default-config
+copilot env init --name dev --app appratings-com --profile default --default-config
 ```
 
 Initialize Services:
@@ -192,7 +192,7 @@ copilot svc init --name web --svc-type "Load Balanced Web Service" --dockerfile 
 Deploy the Environment:
 
 ```bash
-copilot env deploy --name test
+copilot env deploy --name dev
 ```
 
 Deploy Services:
@@ -200,8 +200,8 @@ Deploy Services:
 Deploy the web and api services using the Copilot CLI. This will use the configurations from the Copilot manifest files.
 
 ```bash
-copilot svc deploy --name web --env test
-copilot svc deploy --name api --env test
+copilot svc deploy --name web --env dev
+copilot svc deploy --name api --env dev
 ```
 
 ### Adding a Database with AWS Copilot
@@ -234,7 +234,7 @@ Once the initial setup is complete, you can manage subsequent deployments via th
 To delete the application, run the following commands:
 
 ```bash
-copilot app delete stencil-auth0
+copilot app delete appratings-com
 ```
 
 ### Cleaning up Docker
@@ -266,7 +266,7 @@ This section provides instructions for running the application in a traditional,
 2. **Navigate to Project Directory**:
 
    ```bash
-   cd stencil-auth0
+   cd appratings-com
    ```
 
 3. **Set Up Environment Variables**:
@@ -277,7 +277,7 @@ This section provides instructions for running the application in a traditional,
    cp .env.example .env
    ```
 
-   Then, find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_auth0_`, `stencil-auth0-`, `stencil-auth0`.
+   Then, find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_auth0_`, `appratings-com-`, `appratings-com`.
 
 4. **Install Dependencies**:
 

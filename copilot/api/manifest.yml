@@ -31,7 +31,7 @@ network:
 # Optional fields for more advanced use-cases.
 #
 variables:
-  REDWOOD_WEB_URL: https://web.test.stencil-auth0.appratings.com
+  REDWOOD_WEB_URL: https://web.test.appratings-com.appratings.com
   NODE_ENV: development
   ENVIRONMENT: development
   DISABLE_SIGNUP: true
@@ -40,9 +40,9 @@ variables:
 #  LOG_LEVEL: info
 
 secrets:
-  SESSION_SECRET: /copilot/applications/stencil-auth0/environments/test/SessionSecret
-  AUTH0_DOMAIN: /copilot/applications/stencil-auth0/environments/test/Auth0Domain
-  AUTH0_AUDIENCE: /copilot/applications/stencil-auth0/environments/test/Auth0Audience
+  SESSION_SECRET: /copilot/applications/appratings-com/environments/test/SessionSecret
+  AUTH0_DOMAIN: /copilot/applications/appratings-com/environments/test/Auth0Domain
+  AUTH0_AUDIENCE: /copilot/applications/appratings-com/environments/test/Auth0Audience
   DB_SECRET:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-apiclusterAuroraSecret
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
@@ -52,7 +52,7 @@ secrets:
 environments:
   test:
     variables:
-      REDWOOD_WEB_URL: https://web.test.stencil-auth0.appratings.com
+      REDWOOD_WEB_URL: https://web.test.appratings-com.appratings.com
 #environments:
 #  test:
 #    count: 2               # Number of tasks to run for the "test" environment.

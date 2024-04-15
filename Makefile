@@ -4,8 +4,8 @@
 DC := docker compose
 DC_CI := docker compose -f docker-compose.yml -f docker-compose.ci.yml
 DC_DEV := docker compose -f docker-compose.yml -f docker-compose.dev.yml
-DOCKER_TAG_WEB := stencil-auth0-web:latest
-DOCKER_TAG_API := stencil-auth0-api:latest
+DOCKER_TAG_WEB := appratings-com-web:latest
+DOCKER_TAG_API := appratings-com-api:latest
 DOCKERFILE_PATH_WEB := Dockerfile.web
 DOCKERFILE_PATH_API := Dockerfile.api
 
@@ -13,8 +13,8 @@ DOCKERFILE_PATH_API := Dockerfile.api
 AWS_ACCOUNT_ID := 717824651453
 AWS_REGION := us-east-1
 ECR_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
-ECR_WEB_REPOSITORY := stencil-auth0/web
-ECR_API_REPOSITORY := stencil-auth0/api
+ECR_WEB_REPOSITORY := appratings-com/web
+ECR_API_REPOSITORY := appratings-com/api
 DOCKER_ECS_TAG_WEB := $(ECR_REGISTRY)/$(ECR_WEB_REPOSITORY):latest
 DOCKER_ECS_TAG_API := $(ECR_REGISTRY)/$(ECR_API_REPOSITORY):latest
 

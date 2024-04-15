@@ -24,7 +24,7 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:5432/${{ secrets.POSTGRES_DB }}
       TEST_DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@test_db:5432/${{ secrets.POSTGRES_DB_TEST }}
-      COMPOSE_PROJECT_NAME: stencil-auth0
+      COMPOSE_PROJECT_NAME: appratings-com
 
     steps:
       - name: Capture start time
@@ -75,7 +75,7 @@ jobs:
         id: check-ecr
         run: |
           set +e
-          exists=$(aws ecr describe-repositories --repository-names "stencil-auth0/web" --region ${{ secrets.AWS_REGION }} 2>&1)
+          exists=$(aws ecr describe-repositories --repository-names "appratings-com/web" --region ${{ secrets.AWS_REGION }} 2>&1)
           if [[ $exists == *"RepositoryNotFoundException"* ]]; then
             echo "::set-output name=repo_exists::false"
           else
@@ -130,10 +130,10 @@ jobs:
           copilot --version
 
       - name: Initialize Copilot Application (if needed)
-        run: copilot app init stencil-auth0 || echo "Application already initialized"
+        run: copilot app init appratings-com || echo "Application already initialized"
 
       - name: Initialize Copilot Test Environment (if needed)
-        run: copilot env init --name test --app stencil-auth0 || echo "Environment already initialized"
+        run: copilot env init --name test --app appratings-com || echo "Environment already initialized"
 
       - name: Deploy Web Service to AWS Test Environment using Copilot
         run: copilot svc deploy --name web --env test

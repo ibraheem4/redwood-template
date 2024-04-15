@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: Dockerfile.storybook
     env_file: .env
-    image: stencil-auth0-storybook-local:latest
+    image: appratings-com-storybook-local:latest
     ports:
       - '7910:7910'
     environment:
@@ -46,7 +46,7 @@ services:
       context: .
       dockerfile: Dockerfile.prisma-studio
     env_file: .env
-    image: stencil-auth0-prisma-studio-local:latest
+    image: appratings-com-prisma-studio-local:latest
     environment:
       DATABASE_URL: ${DATABASE_URL}
     ports:

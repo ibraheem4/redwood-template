@@ -34,7 +34,7 @@ network:
 
 # Optional fields for more advanced use-cases.
 variables:
-  REDWOOD_API_URL: http://api.test.stencil-auth0.local:8911
+  REDWOOD_API_URL: http://api.test.appratings-com.local:8911
   NODE_ENV: development
   ENVIRONMENT: development
   DISABLE_SIGNUP: true
@@ -44,10 +44,10 @@ variables:
 #  LOG_LEVEL: info
 
 secrets:
-  AUTH0_DOMAIN: /copilot/applications/stencil-auth0/environments/test/Auth0Domain
-  AUTH0_CLIENT_ID: /copilot/applications/stencil-auth0/environments/test/Auth0ClientId
-  AUTH0_REDIRECT_URI: /copilot/applications/stencil-auth0/environments/test/Auth0RedirectURI
-  AUTH0_AUDIENCE: /copilot/applications/stencil-auth0/environments/test/Auth0Audience
+  AUTH0_DOMAIN: /copilot/applications/appratings-com/environments/test/Auth0Domain
+  AUTH0_CLIENT_ID: /copilot/applications/appratings-com/environments/test/Auth0ClientId
+  AUTH0_REDIRECT_URI: /copilot/applications/appratings-com/environments/test/Auth0RedirectURI
+  AUTH0_AUDIENCE: /copilot/applications/appratings-com/environments/test/Auth0Audience
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 #  GITHUB_TOKEN: GITHUB_TOKEN  # The key is the name of the environment variable, the value is the name of the SSM parameter.
 
