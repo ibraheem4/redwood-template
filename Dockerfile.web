@@ -3,6 +3,11 @@ FROM node:20-bookworm-slim as base
 
 RUN corepack enable
 
+# Install necessary system packages as root
+RUN apt-get update && \
+    apt-get install -y openssl libssl-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Define ARGs for sensitive information
@@ -17,8 +22,8 @@ ENV DISABLE_SIGNUP=true \
     ENVIRONMENT=development \
     NODE_ENV=development \
     COMPOSE_PROJECT_NAME=appratings-com \
-    POSTGRES_DB=stencil_auth0_local \
-    POSTGRES_DB_TEST=stencil_auth0_test \
+    POSTGRES_DB=appratings_com_local \
+    POSTGRES_DB_TEST=appratings_com_test \
     POSTGRES_USER=postgres \
     DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB} \
     TEST_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB_TEST} \
@@ -31,17 +36,21 @@ COPY package.json yarn.lock redwood.toml graphql.config.js ./
 COPY web/package.json web/
 COPY api/package.json api/
 ENV HUSKY=0
-RUN apt-get update && \
-    apt-get install -y openssl libssl-dev && \
-    yarn install --immutable --immutable-cache --parallel && \
-    yarn cache clean && \
-    rm -rf /var/lib/apt/lists/*
+
+# Change ownership of all files and directories to 'node'
+RUN chown -R node:node /app
+
+# Switch to 'node' user before installing Node.js dependencies
+USER node
+RUN yarn install --immutable --immutable-cache --parallel
+RUN yarn cache clean
 
 # Build stage for web assets
 FROM base as builder
-COPY web/ /app/web/
-COPY scripts/ /app/scripts/
-COPY api/ /app/api/
+USER node
+COPY --chown=node:node web/ /app/web/
+COPY --chown=node:node scripts/ /app/scripts/
+COPY --chown=node:node api/ /app/api/
 RUN yarn global add @redwoodjs/cli
 RUN yarn rw build web
 

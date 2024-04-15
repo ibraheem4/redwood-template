@@ -1,4 +1,4 @@
-# Stencil Auth0 App README
+# AppRatings.com README
 
 This is a RedwoodJS application with full-stack capabilities, including a frontend, backend, and database, containerized using Docker.
 
@@ -55,7 +55,7 @@ Benchmark on running averages
    make setup-env
    ```
 
-4. Find and replace any instances of `FIXME`, `Stencil Auth0`, `stencil_auth0_`, `appratings-com-`, `appratings-com`.
+4. Find and replace any instances of `FIXME`, `AppRatings`, `appratings_com_`, `appratings-com-`, `appratings-com`.
 
 ## Makefile Commands
 
@@ -277,7 +277,7 @@ This section provides instructions for running the application in a traditional,
    cp .env.example .env
    ```
 
-   Then, find and replace any instances of `FIXME`, `Stencil DB Auth`, `stencil_auth0_`, `appratings-com-`, `appratings-com`.
+   Then, find and replace any instances of `FIXME`, `AppRatings`, `appratings_com_`, `appratings-com-`, `appratings-com`.
 
 4. **Install Dependencies**:
 

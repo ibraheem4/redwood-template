@@ -7,7 +7,7 @@
 
 [web]
   host = "0.0.0.0"
-  title = "Stencil Auth0"
+  title = "AppRatings.com"
   port = "8910"
   apiUrl = "${REDWOOD_API_URL}"
   includeEnvironmentVariables = [

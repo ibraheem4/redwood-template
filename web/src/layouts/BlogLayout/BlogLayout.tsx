@@ -92,7 +92,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
                 className="text-2xl font-bold uppercase text-black dark:text-white"
                 to={appendLangToRoute(routes.home())}
               >
-                Stencil Auth0
+                AppRatings
               </Link>
             </div>
             <div className="ml-10 space-x-4">
@@ -129,7 +129,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
         >
           <LanguageSelect />
           <small className="text-center text-xs rtl:text-left rtl:text-sm dark:text-white">
-            Copyright © 2023 Stencil Auth0
+            Copyright © 2023 AppRatings
           </small>
         </nav>
       </main>

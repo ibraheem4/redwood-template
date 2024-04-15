@@ -2,26 +2,15 @@
 FROM node:20-slim AS base
 
 RUN corepack enable
-
+RUN apt-get update && apt-get install -y openssl libssl-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
+USER node
 
-# Install dependencies (openssl and libssl-dev are required for Prisma)
-RUN apt-get update && \
-    apt-get install -y openssl libssl-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy necessary files for RedwoodJS and Prisma to run
-COPY package.json yarn.lock redwood.toml ./
-COPY api/package.json api/
-
-# Ensure the entire Prisma schema directory is copied
-COPY api/db ./api/db
-
-# Install JavaScript dependencies
+COPY --chown=node:node package.json yarn.lock redwood.toml ./
+COPY --chown=node:node api/package.json api/
+COPY --chown=node:node api/db ./api/db
 RUN yarn install
 
-# Expose the port Prisma Studio will run on
 EXPOSE 5555
-
-# Start Prisma Studio
 CMD ["yarn", "rw", "prisma", "studio"]
