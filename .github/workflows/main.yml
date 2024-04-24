@@ -66,6 +66,11 @@ jobs:
       - name: Run tests in parallel
         run: make test-ci
 
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.5.0
+        with:
+          key: docker-${{ runner.os }}-${{ hashFiles('docker-compose.yml') }}
+
       - name: Check ECR Repository Existence
         id: check-ecr
         run: |
